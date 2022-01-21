@@ -1,6 +1,0 @@
-spring:
-  datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://4idiot.ddns.net:24444/cnb
-    username: root
-    password: 4idiot
