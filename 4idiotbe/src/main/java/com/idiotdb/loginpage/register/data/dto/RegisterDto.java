@@ -13,13 +13,34 @@ public class RegisterDto {
     private String userPhone;
     private String userID;
     private String userPW;
+    private String userNickname;
+    private String userName;
+    private String userBirthday;
+    private Boolean userGender;
+    private String userEmail;
+    private Long userAbility;
+    private Long userArea;
+    private Long userTime;
+    private Long userInterest;
+    private String userIntroduce;
+
 
     public RegisterEntity toregisterEntity() {
         return RegisterEntity.builder()
                 .id(ID)
-                .user_phone(userPhone)
-                .user_id(userID)
-                .user_pw(userPW)
+                .userPhone(userPhone)
+                .userID(userID)
+                .userPW(userPW)
+                .userNickname(userNickname)
+                .userName(userName)
+                .userBirthday(userBirthday)
+                .userGender(userGender)
+                .userEmail(userEmail)
+                .userAbility(userAbility)
+                .userArea(userArea)
+                .userTime(userTime)
+                .userInterest(userInterest)
+                .userIntroduce(userIntroduce)
                 .build();
     }
 }

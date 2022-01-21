@@ -9,3 +9,5 @@ RegisterImpl.java 파일 완료
 RegisterService.java 파일 완료
 RegisterController.java 파일 완료 (/user/register) - 회원가입
 변수 30% 완성, postman 통신 완료, DB에 생성 확인
+# 22.01.21
+REgisterDto, RegisterEntity 파일 완료
