@@ -11,3 +11,7 @@ RegisterController.java 파일 완료 (/user/register) - 회원가입
 변수 30% 완성, postman 통신 완료, DB에 생성 확인
 # 22.01.21
 REgisterDto, RegisterEntity 파일 완료
+# 22.01.23
+Possibly consider using a shorter maxLifetime value 오류 발생
+idleTimeout, connection-timeout, validation-timeout, maxLifetime 설정
+화요일에 합칠때 *application.yml 주의*
