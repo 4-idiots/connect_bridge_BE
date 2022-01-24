@@ -15,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/user")
+@CrossOrigin(origins = "http://localhost:8080")
 public class RegisterController {
 
     private final RegisterImpl registerService;
@@ -28,7 +29,8 @@ public class RegisterController {
     @PostMapping("/register")
     public ResponseEntity<String> postRegister(@RequestBody RegisterDto registerDto) throws Exception {
         registerService.postRegister(registerDto);
-        return new ResponseEntity<String>("message : ok", HttpStatus.OK);
+
+        return new ResponseEntity<>("message : ok", HttpStatus.OK);
     }
 
 
