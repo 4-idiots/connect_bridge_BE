@@ -41,16 +41,16 @@ public class RegisterEntity {
     private String userEmail;
 
     @Column(name = "user_ability")
-    private Long userAbility;
+    private String userAbility;
 
     @Column(name = "user_area")
-    private Long userArea;
+    private String userArea;
 
     @Column(name = "user_time")
-    private Long userTime;
+    private String userTime;
 
     @Column(name = "user_interest")
-    private Long userInterest;
+    private String userInterest;
 
     @Column(name = "user_introduce")
     private String userIntroduce;

@@ -18,10 +18,10 @@ public class RegisterDto {
     private String userBirthday;
     private Boolean userGender;
     private String userEmail;
-    private Long userAbility;
-    private Long userArea;
-    private Long userTime;
-    private Long userInterest;
+    private String userAbility;
+    private String userArea;
+    private String userTime;
+    private String userInterest;
     private String userIntroduce;
 
 
