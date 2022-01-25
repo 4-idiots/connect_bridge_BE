@@ -1,6 +1,6 @@
-package com.connectbridge.connect_bridge_BE.config;
+package com.connectbridge.connect_bridge_BE.loginpage.login.config;
 
-import com.connectbridge.connect_bridge_BE.service.MemberService;
+import com.connectbridge.connect_bridge_BE.loginpage.login.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,7 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     //HttpSecurity 객체를 이용하여 요청을 intercept함. URL인증, login, logout처리를 한다.
     protected void configure(HttpSecurity http) throws  Exception{
         http.authorizeRequests()
-                .antMatchers("/login","/register","/LoginPage/FindID","/LoginPage/FindPW").permitAll()
+                .antMatchers("/user","/user/register","/login","/register","/LoginPage/FindID","/LoginPage/FindPW").permitAll()
                 .antMatchers("/").hasRole("USER") //URL요청에 대한 접근 여부 설정
                 .anyRequest().authenticated()
                 .and()
@@ -34,6 +34,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout() // 로그아웃 설정
                 .logoutSuccessUrl("/login") // 로그아웃 성공시 연결 주소
                 .invalidateHttpSession(true) //로그아웃 성공시 저장된 세션 날림.
+                .and()
+                .csrf().disable()
                 ;
         ;
     }

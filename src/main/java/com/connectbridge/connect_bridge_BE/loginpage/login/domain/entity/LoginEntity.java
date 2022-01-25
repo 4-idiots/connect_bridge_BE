@@ -1,4 +1,4 @@
-package com.connectbridge.connect_bridge_BE.domain.entity;
+package com.connectbridge.connect_bridge_BE.loginpage.login.domain.entity;
 
 
 import javax.persistence.*;

@@ -1,7 +1,7 @@
-package com.connectbridge.connect_bridge_BE.config;
+package com.connectbridge.connect_bridge_BE.loginpage.login.config;
 
 
-import com.connectbridge.connect_bridge_BE.domain.entity.MemberEntity;
+import com.connectbridge.connect_bridge_BE.loginpage.login.domain.entity.MemberEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

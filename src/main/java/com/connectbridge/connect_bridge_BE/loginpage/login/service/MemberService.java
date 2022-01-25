@@ -1,20 +1,15 @@
-package com.connectbridge.connect_bridge_BE.service;
+package com.connectbridge.connect_bridge_BE.loginpage.login.service;
 
-import com.connectbridge.connect_bridge_BE.config.CustomUserDetail;
-import com.connectbridge.connect_bridge_BE.domain.entity.MemberEntity;
-import com.connectbridge.connect_bridge_BE.domain.repository.MemberRepository;
+import com.connectbridge.connect_bridge_BE.loginpage.login.config.CustomUserDetail;
+import com.connectbridge.connect_bridge_BE.loginpage.login.domain.entity.MemberEntity;
+import com.connectbridge.connect_bridge_BE.loginpage.login.domain.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 //Logging이 필요하지 않을까? 뭐 하나 볼때마다 필요한게 5개씩 나오냐.
 

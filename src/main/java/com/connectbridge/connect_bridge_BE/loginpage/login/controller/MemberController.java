@@ -1,8 +1,8 @@
-package com.connectbridge.connect_bridge_BE.controller;
+package com.connectbridge.connect_bridge_BE.loginpage.login.controller;
 
-import com.connectbridge.connect_bridge_BE.config.CustomUserDetail;
-import com.connectbridge.connect_bridge_BE.domain.entity.MemberEntity;
-import com.connectbridge.connect_bridge_BE.service.MemberService;
+import com.connectbridge.connect_bridge_BE.loginpage.login.config.CustomUserDetail;
+import com.connectbridge.connect_bridge_BE.loginpage.login.domain.entity.MemberEntity;
+import com.connectbridge.connect_bridge_BE.loginpage.login.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;

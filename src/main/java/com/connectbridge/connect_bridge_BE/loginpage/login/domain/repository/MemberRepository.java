@@ -1,6 +1,6 @@
-package com.connectbridge.connect_bridge_BE.domain.repository;
+package com.connectbridge.connect_bridge_BE.loginpage.login.domain.repository;
 
-import com.connectbridge.connect_bridge_BE.domain.entity.MemberEntity;
+import com.connectbridge.connect_bridge_BE.loginpage.login.domain.entity.MemberEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
