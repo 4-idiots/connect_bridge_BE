@@ -15,7 +15,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/user")
-@CrossOrigin(origins = "http://localhost:8080")
 public class RegisterController {
 
     private final RegisterImpl registerService;
