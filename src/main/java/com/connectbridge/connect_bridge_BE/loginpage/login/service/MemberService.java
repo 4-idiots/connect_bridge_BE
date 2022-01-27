@@ -1,6 +1,6 @@
 package com.connectbridge.connect_bridge_BE.loginpage.login.service;
 
-import com.connectbridge.connect_bridge_BE.loginpage.login.config.CustomUserDetail;
+import com.connectbridge.connect_bridge_BE.security.config.CustomUserDetail;
 import com.connectbridge.connect_bridge_BE.loginpage.login.domain.entity.MemberEntity;
 import com.connectbridge.connect_bridge_BE.loginpage.login.domain.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +33,11 @@ public class MemberService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         MemberEntity memberEntity = memberRepository.findUserByUserID(username);
+
+        if(memberEntity == null){
+            throw new UsernameNotFoundException("UsernameNotFoundException");
+        }
+
         return new CustomUserDetail(memberEntity);
     }
 }

@@ -1,4 +1,4 @@
-package com.connectbridge.connect_bridge_BE.loginpage.login.config;
+package com.connectbridge.connect_bridge_BE.security.config;
 
 import com.connectbridge.connect_bridge_BE.loginpage.login.service.MemberService;
 import lombok.RequiredArgsConstructor;

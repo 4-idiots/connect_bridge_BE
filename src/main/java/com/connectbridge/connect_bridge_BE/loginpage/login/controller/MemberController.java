@@ -1,6 +1,6 @@
 package com.connectbridge.connect_bridge_BE.loginpage.login.controller;
 
-import com.connectbridge.connect_bridge_BE.loginpage.login.config.CustomUserDetail;
+import com.connectbridge.connect_bridge_BE.security.config.CustomUserDetail;
 import com.connectbridge.connect_bridge_BE.loginpage.login.domain.entity.MemberEntity;
 import com.connectbridge.connect_bridge_BE.loginpage.login.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class MemberController {
     private final MemberService memberService;
 
     //회원가입 폼
-    @GetMapping("/signUp")
+    @GetMapping("/signUp")//우리꺼 주소로 변경
     public String signUpForm(){
         return "signup";
     }
