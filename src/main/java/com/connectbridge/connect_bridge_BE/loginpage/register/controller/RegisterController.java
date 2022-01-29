@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -26,11 +27,10 @@ public class RegisterController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> postRegister(@RequestBody RegisterDto registerDto) throws Exception {
+    public ResponseEntity<String> postRegister(@Valid @RequestBody RegisterDto registerDto, Error error) throws Exception {
         registerService.postRegister(registerDto);
+
 
         return new ResponseEntity<>("message : ok", HttpStatus.OK);
     }
-
-
 }

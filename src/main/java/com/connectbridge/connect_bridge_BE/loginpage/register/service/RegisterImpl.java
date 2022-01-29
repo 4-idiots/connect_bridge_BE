@@ -31,7 +31,4 @@ public class RegisterImpl implements RegisterService{
     public Long postRegister(RegisterDto registerDto) throws Exception {
         return repository.save(registerDto.toregisterEntity()).getId();
     }
-
-
-
 }
