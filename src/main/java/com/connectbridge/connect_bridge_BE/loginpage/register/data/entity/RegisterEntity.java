@@ -11,6 +11,8 @@ import javax.persistence.*;
 @Builder
 @Table(name = "users")
 
+
+
 public class RegisterEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,6 +56,7 @@ public class RegisterEntity {
 
     @Column(name = "user_introduce")
     private String userIntroduce;
+
 
     public RegisterDto toregisterDto() {
         return RegisterDto.builder()

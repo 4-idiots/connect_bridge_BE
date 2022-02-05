@@ -17,15 +17,16 @@ import javax.validation.constraints.Pattern;
 
 public class RegisterDto {
     private Long ID;
-    @NotBlank(message="휴대폰 번호는 필수 입력 값입니다.")
+    @Pattern(regexp="^[\\d]{11}",
+            message="휴대폰 번호는 필수 입력 값입니다.")
     private String userPhone;
-    @NotBlank(message="아이디는 필수 입력 값입니다.")
+    @Pattern(regexp="^[A-Za-z\\d]{5,20}",
+            message="아이디는 필수 입력 값입니다.")
     private String userID;
     @NotBlank(message="비밀번호는 필수 입력 값입니다.")
-    @Pattern(regexp="^(?=.*[A-Za-z])(?=.*\\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\\d~!@#$%^&*()+|=]{8,16}",
-            message = "비밀번호는 영문, 숫자, 특수기호가 적어도 1개 이상씩 포함된 8자 ~ 20자의 비밀번호여야 합니다.")
+    @Pattern(regexp="^[A-Za-z\\d~!@#$%^&*()+|=]{8,20}",
+            message = "비밀번호는 영문, 숫자, 특수기호가 1개 이상씩 포함된 8자 ~ 15자의 비밀번호여야 합니다.")
     private String userPW;
-
     @NotBlank(message="닉네임은 필수 입력 값입니다.")
     private String userNickname;
     @NotBlank(message="이름은 필수 입력 값입니다.")
