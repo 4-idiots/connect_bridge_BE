@@ -51,6 +51,4 @@ public class RegisterController {
                 .build();
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
-
-
 }

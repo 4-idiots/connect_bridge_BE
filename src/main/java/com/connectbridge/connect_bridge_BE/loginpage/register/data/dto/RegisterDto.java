@@ -17,7 +17,7 @@ import javax.validation.constraints.Pattern;
 
 public class RegisterDto {
     private Long ID;
-    @Pattern(regexp="^[\\d]{11}",
+    @Pattern(regexp="^[\\d]{10,11}",
             message="휴대폰 번호는 필수 입력 값입니다.")
     private String userPhone;
     @Pattern(regexp="^[A-Za-z\\d]{5,20}",
