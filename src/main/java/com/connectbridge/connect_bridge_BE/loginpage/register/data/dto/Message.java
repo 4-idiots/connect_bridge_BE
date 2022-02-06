@@ -8,9 +8,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Message {
     private String message;
+    private Boolean value;
 
     @Builder
-    public Message(String message){
+    public Message(String message, Boolean value){
         this.message = message;
+        this.value = value;
     }
 }

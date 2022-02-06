@@ -17,7 +17,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception{
         web.ignoring().antMatchers("/vss/**","/script/**","/js/**","/html/**");
-
     }
 
     //HttpSecurity 객체를 이용하여 요청을 intercept함. URL인증, login, logout처리를 한다.

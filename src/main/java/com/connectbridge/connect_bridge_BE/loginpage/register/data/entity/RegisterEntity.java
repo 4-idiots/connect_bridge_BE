@@ -33,8 +33,12 @@ public class RegisterEntity {
     @Column(name = "user_name")
     private String userName;
 
-    @Column(name = "user_birthday")
-    private String userBirthday;
+    @Column(name = "user_birthday1")
+    private String userBirthdayY;
+    @Column(name = "user_birthday2")
+    private String userBirthdayM;
+    @Column(name = "user_birthday3")
+    private String userBirthdayD;
 
     @Column(name = "user_gender")
     private Boolean userGender;
@@ -66,7 +70,9 @@ public class RegisterEntity {
                 .userPW(userPW)
                 .userNickname(userNickname)
                 .userName(userName)
-                .userBirthday(userBirthday)
+                .userBirthdayY(userBirthdayY)
+                .userBirthdayM(userBirthdayM)
+                .userBirthdayD(userBirthdayD)
                 .userGender(userGender)
                 .userEmail(userEmail)
                 .userAbility(userAbility)

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class RegisterImpl implements RegisterService{
 
     @Override
     @Transactional
-    public Long postRegister(RegisterDto registerDto) throws Exception {
+    public Long postRegister(RegisterDto registerDto) throws Exception{
         return registerRepository.save(registerDto.toregisterEntity()).getId();
     }
 }

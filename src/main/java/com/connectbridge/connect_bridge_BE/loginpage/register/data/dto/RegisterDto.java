@@ -31,7 +31,9 @@ public class RegisterDto {
     private String userNickname;
     @NotBlank(message="이름은 필수 입력 값입니다.")
     private String userName;
-    private String userBirthday;
+    private String userBirthdayY;
+    private String userBirthdayM;
+    private String userBirthdayD;
     private Boolean userGender;
 
     @NotBlank(message="이메일은 필수 입력 값입니다.")
@@ -52,7 +54,9 @@ public class RegisterDto {
                 .userPW(userPW)
                 .userNickname(userNickname)
                 .userName(userName)
-                .userBirthday(userBirthday)
+                .userBirthdayY(userBirthdayY)
+                .userBirthdayM(userBirthdayM)
+                .userBirthdayD(userBirthdayD)
                 .userGender(userGender)
                 .userEmail(userEmail)
                 .userAbility(userAbility)
