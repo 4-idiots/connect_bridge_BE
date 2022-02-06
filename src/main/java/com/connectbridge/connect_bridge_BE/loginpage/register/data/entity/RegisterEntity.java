@@ -4,6 +4,7 @@ import com.connectbridge.connect_bridge_BE.loginpage.register.data.dto.RegisterD
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import javax.persistence.*;
+
 @Entity
 @Getter
 @NoArgsConstructor
