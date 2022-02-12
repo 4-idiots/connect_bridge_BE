@@ -1,6 +1,7 @@
 package com.connectbridge.connect_bridge_BE.loginpage.login.data.entity;
 
 
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
@@ -28,15 +29,20 @@ public class User {
     @Column(name = "user_Name")
     private String userName;
 
+    @Column(name = "user_Phone")
+    private String userPhone;
+
     @Column(name = "user_Email")
     private String userEmail;
-    //테스트 용 추가
 
-    public User(Long id,String userID,String userPW, String userName){
+    @Builder
+    public User(Long id,String userID,String userPW, String userName, String userPhone){
         this.id = id;
         this.userID = userID;
         this.userPW = userPW;
         this.userName = userName;
+        this.userPhone = userPhone;
+
     }
 
 }
