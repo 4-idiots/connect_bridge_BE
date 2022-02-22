@@ -3,6 +3,7 @@ package com.connectbridge.connect_bridge_BE.loginpage.register.controller;
 
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.dto.Message;
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.dto.RegisterDto;
+import com.connectbridge.connect_bridge_BE.loginpage.register.data.dto.TeamProfileDto;
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.entity.RegisterEntity;
 import com.connectbridge.connect_bridge_BE.loginpage.register.service.RegisterImpl;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.connectbridge.connect_bridge_BE.teampage.TeamInfoDto;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -24,9 +26,8 @@ public class RegisterController {
     private final RegisterImpl registerService;
 
     @GetMapping(produces = MediaType.APPLICATION_PROBLEM_JSON_VALUE)
-    public ResponseEntity<?> getRegisters() throws Exception {
-        List<RegisterDto> dtoList = registerService.getRegisters();
-        return ResponseEntity.ok(dtoList);
+    public ResponseEntity<String> getRegister() throws Exception{
+        return new ResponseEntity<>("ok", HttpStatus.OK);
     }
 
     @GetMapping("/check/userNickname")
@@ -66,4 +67,5 @@ public class RegisterController {
                 .build();
         return new ResponseEntity<>(message, HttpStatus.OK);
         }
+
 }

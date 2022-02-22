@@ -11,8 +11,6 @@ import javax.persistence.*;
 @Builder
 @Table(name = "users")
 
-
-
 public class RegisterEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -82,4 +80,14 @@ public class RegisterEntity {
                 .userIntroduce(userIntroduce)
                 .build();
     }
+    public RegisterEntity(String userNickname, String userName, String userAbility, String userArea, String userTime, String userInterest,String userIntroduce){
+        this.userNickname= userNickname;
+        this.userName = userName;
+        this.userAbility = userAbility;
+        this.userArea = userArea;
+        this.userTime = userTime;
+        this.userInterest = userInterest;
+        this.userIntroduce = userIntroduce;
+    }
+
 }

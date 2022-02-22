@@ -22,13 +22,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     //HttpSecurity 객체를 이용하여 요청을 intercept함. URL인증, login, logout처리를 한다.
     protected void configure(HttpSecurity http) throws  Exception{
         http.authorizeRequests()
-                .antMatchers("/user","/user/register", "/user/check/userNickname","/user/check/userID","/user/check/userEmail", "/login","/register","/LoginPage/FindID","/LoginPage/FindPW").permitAll()
+                .antMatchers("/user","/user/register", "/user/check/userNickname","/team/info/{id}","/team", "/user/check/userID","/user/check/userEmail", "/login","/register","/LoginPage/FindID","/LoginPage/FindPW").permitAll()
                 .antMatchers("/").hasRole("USER") //URL요청에 대한 접근 여부 설정
                 .anyRequest().authenticated()
-                .and()
-                .formLogin() // 로그인 설정
-                .loginPage("/login") // 로그인 페이지 링크
-                .defaultSuccessUrl("/") // 로그인 성공시 연결되는 주소
                 .and()
                 .logout() // 로그아웃 설정
                 .logoutSuccessUrl("/login") // 로그아웃 성공시 연결 주소
