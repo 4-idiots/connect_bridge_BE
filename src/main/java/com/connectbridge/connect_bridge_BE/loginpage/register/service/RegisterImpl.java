@@ -53,6 +53,8 @@ public class RegisterImpl implements RegisterService{
                         .userAbility(registerEntity.getUserAbility())
                         .userInterest(registerEntity.getUserInterest())
                         .userIntroduce(registerEntity.getUserIntroduce())
+                        .userArea(registerEntity.getUserArea())
+                        .userTime(registerEntity.getUserTime())
                         .build());
         return teamProfileDto;
     }
