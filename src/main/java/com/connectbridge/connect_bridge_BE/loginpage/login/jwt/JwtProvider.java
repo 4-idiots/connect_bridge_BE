@@ -15,47 +15,57 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Component
 public class JwtProvider {
-
     private final String secretKey = "secret";
+        public String createAccessToken(Long id, String uID, String uName){
 
-    public String createToken(Long id, String uID, String uName){
+            Map<String,Object> header = new HashMap<>();
+            header.put("typ","JWT");
+            header.put("alg","HS256");
+            header.put("token_type","access token");
 
-        Map<String,Object> header = new HashMap<>();
-        header.put("typ","JWT");
-        header.put("alg","HS256");
+            Map<String,Object> payloads = new HashMap<>();
+            payloads.put("id",id);
+            payloads.put("userID",uID);
+            payloads.put("userName",uName);
 
-        Map<String,Object> payloads = new HashMap<>();
-        payloads.put("id",id);
-        payloads.put("userID",uID);
-        payloads.put("userName",uName);
-        payloads.put("message","ok");
+            Long expiredTime = 1000 * 10L; // valiedTime(2h)
 
-        Long expiredTime = 1000 * 60L * 60L * 2L; // valiedTime(2h)
+            Date now = new Date();
 
-        Date ext = new Date(); // 토큰 만료 시간
-        ext.setTime(ext.getTime() + expiredTime);
+            return Jwts.builder()
+                    .setHeader(header)
+                    .setClaims(payloads)
+                    .setIssuedAt(now)
+                    .setExpiration(new Date(now.getTime() + expiredTime)) // 토큰 만료 시간
+                    .signWith(SignatureAlgorithm.HS256,secretKey.getBytes()) // HS256과 key로 Sign
+                    .compact();
+        }
 
-        String jwt = Jwts.builder()
-                .setHeader(header)
-                .setClaims(payloads)
-                .setSubject("user")
-                .setExpiration(ext)
-                .signWith(SignatureAlgorithm.HS256,secretKey.getBytes()) // HS256과 key로 Sign
-                .compact();// 토큰 생성성
+        public String createRefreshToken(){
+            Long expiredTime = 1000 * 40L ;
 
-        return jwt;
-    }
+            Date now = new Date();
+
+            return Jwts.builder()
+                    .setIssuedAt(now)
+                    .setExpiration(new Date(now.getTime() + expiredTime))
+                    .signWith(SignatureAlgorithm.HS256,secretKey.getBytes()) // HS256과 key로 Sign
+                    .compact();
+        }
+
 
     public Map<String,Object> verifyJWT(String jwt) throws UnsupportedEncodingException{
         Map<String,Object> claimMap = null;
         try{
-            Claims claims =Jwts.parser()
+
+            claimMap = Jwts.parser()
                     .setSigningKey(secretKey.getBytes("UTF-8"))
                     .parseClaimsJws(jwt) // 파싱 검증
                     .getBody();
 
-            claimMap = claims;
         } catch (ExpiredJwtException e){
+            System.out.println(e);
+        } catch (Exception e){
             System.out.println(e);
         }
 

@@ -1,21 +1,21 @@
 package com.connectbridge.connect_bridge_BE.loginpage.login.data.entity;
 
 
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import lombok.Getter;
-
 import javax.persistence.*;
 
 @Getter
 @Entity
-@NoArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "users")
+@DynamicUpdate
 public class User {
     @Id
     private Long id;
@@ -35,15 +35,22 @@ public class User {
     @Column(name = "user_Email")
     private String userEmail;
 
-    @Builder
-    public User(Long id,String userID,String userPW, String userName, String userPhone){
-        this.id = id;
-        this.userID = userID;
-        this.userPW = userPW;
-        this.userName = userName;
-        this.userPhone = userPhone;
+    @Column(name = "refresh_token")
+    private String refreshToken;
 
+    //토큰 갱신
+    public void updateToken(String refreshToken){
+        this.refreshToken = refreshToken;
+    }
+
+    // 토큰 반환
+    public void destroyRefreshToken(){
+        this.refreshToken =null;
+    }
+
+    // 임시 비밀번호 설정.
+    public void updateImplPw(String implPw){
+        this.userPW = implPw;
     }
 
 }
-

@@ -1,15 +1,17 @@
 package com.connectbridge.connect_bridge_BE.loginpage.login.data.dto;
 
-
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class LoginReqDto {
+public class MailDto {
+
+    private String title;
+    private String message;
+    private String userEmail;
     private String userID;
-    private String userPW;
+
+    private String implPw;
 
 }

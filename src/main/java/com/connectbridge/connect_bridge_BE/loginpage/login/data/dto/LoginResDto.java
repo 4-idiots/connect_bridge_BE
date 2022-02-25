@@ -9,19 +9,19 @@ import lombok.Setter;
 @Setter
 public class LoginResDto {
 
-    Long id;
-    String userID;
-    String userName;
-
-    String userMessage;
+    String accessToken;
+    String refreshToken;
 
     //String userEmail;
 
     @Builder
-    public LoginResDto(Long id, String userID, String userName){
-        this.id = id;
-        this.userID = userID;
-        this.userName = userName;
+    public LoginResDto(String accessToken, String refreshToken){
+        this.accessToken =accessToken;
+        this.refreshToken = refreshToken;
+    }
+
+    public void updateToken(String refreshToken){
+        this.refreshToken = refreshToken;
     }
 
 }
