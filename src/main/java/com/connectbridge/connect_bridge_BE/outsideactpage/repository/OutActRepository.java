@@ -1,6 +1,7 @@
 package com.connectbridge.connect_bridge_BE.outsideactpage.repository;
 
 import com.connectbridge.connect_bridge_BE.outsideactpage.data.entity.OutAct;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
@@ -12,12 +13,12 @@ import lombok.Setter;
 public class PostCreateDto {
 
     String outActName;
-    String outActImg;
+    MultipartFile outActImg;
     String outActLink;
 
 
     @Builder
-    public PostCreateDto(String outActName, String outActImg, String outActLink) {
+    public PostCreateDto(String outActName,MultipartFile outActImg, String outActLink) {
         this.outActName = outActName;
         this.outActImg = outActImg;
         this.outActLink = outActLink;

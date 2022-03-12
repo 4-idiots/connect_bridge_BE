@@ -24,7 +24,7 @@ public class UserController {
 
     @PostMapping("user/login")
     public ResponseEntity<LoginResDto> login(@RequestBody LoginReqDto reqDto) {
-
+        log.info("inputid : {} , inputpw : {} ", reqDto.getUserID(), reqDto.getUserPW());
         try {
             LoginResDto loginResDto = userService.login(reqDto);
             System.out.println("controller-login 동작성공.");
@@ -35,7 +35,7 @@ public class UserController {
             System.out.println("controller-login 동작실패.");
             System.out.println(e);
 
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 

@@ -25,6 +25,7 @@ public class UserService {
 
     public LoginResDto login(LoginReqDto reqDto){
         User user = userRepository.findByUserID(reqDto.getUserID());
+        log.info("userID : {}, userPW : {} ", user.getUserID(),user.getUserPW());
         //String pw; 암호화된 비밀번호;
 
         if(user.getUserPW().equals(reqDto.getUserPW())){

@@ -1,5 +1,6 @@
 package com.connectbridge.connect_bridge_BE.outsideactpage.data.entity;
 
+import com.connectbridge.connect_bridge_BE.outsideactpage.data.dto.OutActDto;
 import com.connectbridge.connect_bridge_BE.outsideactpage.data.dto.PostCreateDto;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -7,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -29,6 +31,7 @@ public class OutAct extends BaseTimeEntity{
 
     @Column(name = "url")
     private String outActLink; // 대외 활동 사이트 주소
+
     @Column(name = "view")
     private int outActView;// 게시글 조회수
 

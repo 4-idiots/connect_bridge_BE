@@ -53,7 +53,25 @@ public class JwtProvider {
                     .compact();
         }
 
+        public boolean validateToken(String token){
+            try{
+                Claims claims = Jwts.parser()
+                        .setSigningKey(secretKey.getBytes())
+                        .parseClaimsJws(token)
+                        .getBody();
 
+                return true;
+
+            }catch (ExpiredJwtException e){
+                System.out.println("만료된 JWT 토큰 입니다.");
+
+            }catch (Exception e){
+                System.out.println(e);
+            }
+                return false;
+        }
+
+/*
     public Map<String,Object> verifyJWT(String jwt) throws UnsupportedEncodingException{
         Map<String,Object> claimMap = null;
         try{
@@ -71,5 +89,5 @@ public class JwtProvider {
 
         return claimMap;
     }
-
+*/
 }
