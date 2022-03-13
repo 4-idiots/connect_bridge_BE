@@ -6,6 +6,7 @@ import com.connectbridge.connect_bridge_BE.loginpage.register.data.dto.RegisterD
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.dto.TeamProfileDto;
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.entity.RegisterEntity;
 import com.connectbridge.connect_bridge_BE.loginpage.register.service.RegisterImpl;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,7 +21,7 @@ import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class RegisterController {
 
     private final RegisterImpl registerService;
@@ -50,6 +51,7 @@ public class RegisterController {
     }
     @GetMapping("/check/userEmail")
     public ResponseEntity<Boolean> checkEmailDuplicate(@RequestParam String userEmail) throws Exception{
+
         Boolean checkEmail = registerService.checkEmailDuplicate(userEmail);
         Message message = Message.builder()
                 .value(checkEmail)

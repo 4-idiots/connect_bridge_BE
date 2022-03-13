@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +19,8 @@ import java.util.List;
 public class RegisterImpl implements RegisterService{
 
     private final RegisterRepository registerRepository;
+
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public Boolean checkNicknameDuplicate(String userNickname) throws Exception{
@@ -38,6 +42,8 @@ public class RegisterImpl implements RegisterService{
     @Override
     @Transactional
     public Long postRegister(RegisterDto registerDto) throws Exception{
+        String encodePassword = passwordEncoder.encode(registerDto.getUserPW());
+        registerDto.setUserPW(encodePassword);
         return registerRepository.save(registerDto.toregisterEntity()).getId();
     }
     @Override
