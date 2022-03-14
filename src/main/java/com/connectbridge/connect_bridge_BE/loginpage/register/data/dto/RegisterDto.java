@@ -45,6 +45,19 @@ public class RegisterDto {
     private String userInterest;
     private String userIntroduce;
 
+    @Builder
+    public RegisterDto(Long ID, String userName, String userNickname, String userAbility, String userInterest, String userIntroduce, String userArea, String userTime){
+        this.ID = ID;
+        this.userName = userName;
+        this.userNickname = userNickname;
+        this.userAbility = userAbility;
+        this.userInterest = userInterest;
+        this.userIntroduce =userIntroduce;
+        this.userArea = userArea;
+        this.userTime = userTime;
+    }
+
+
 
     public RegisterEntity toregisterEntity() {
         return RegisterEntity.builder()

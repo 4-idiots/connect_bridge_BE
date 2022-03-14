@@ -3,20 +3,14 @@ package com.connectbridge.connect_bridge_BE.loginpage.register.controller;
 
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.dto.Message;
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.dto.RegisterDto;
-import com.connectbridge.connect_bridge_BE.loginpage.register.data.dto.TeamProfileDto;
-import com.connectbridge.connect_bridge_BE.loginpage.register.data.entity.RegisterEntity;
 import com.connectbridge.connect_bridge_BE.loginpage.register.service.RegisterImpl;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.connectbridge.connect_bridge_BE.teampage.TeamInfoDto;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.NoSuchElementException;
 
 
 @RequiredArgsConstructor

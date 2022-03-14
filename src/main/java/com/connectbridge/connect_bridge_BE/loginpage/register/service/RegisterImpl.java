@@ -1,16 +1,18 @@
 package com.connectbridge.connect_bridge_BE.loginpage.register.service;
 
-import com.connectbridge.connect_bridge_BE.loginpage.register.data.dto.TeamProfileDto;
+import com.connectbridge.connect_bridge_BE.loginpage.register.data.entity.RegisterEntity;
 import com.connectbridge.connect_bridge_BE.loginpage.register.repository.RegisterRepository;
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.dto.RegisterDto;
-import com.connectbridge.connect_bridge_BE.loginpage.register.data.entity.RegisterEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import java.util.ArrayList;
+
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -38,7 +40,6 @@ public class RegisterImpl implements RegisterService{
         return checkEmail;
     }
 
-
     @Override
     @Transactional
     public Long postRegister(RegisterDto registerDto) throws Exception{
@@ -46,32 +47,6 @@ public class RegisterImpl implements RegisterService{
         registerDto.setUserPW(encodePassword);
         return registerRepository.save(registerDto.toregisterEntity()).getId();
     }
-    @Override
-    @Transactional
-    public TeamProfileDto getTeamProfile(Long id) throws Exception{
-        TeamProfileDto teamProfileDto = new TeamProfileDto();
 
-        RegisterEntity registerEntity = registerRepository.getById(id);
-        teamProfileDto.setRegisterDto(RegisterDto.builder()
-                        .ID(registerEntity.getId())
-                        .userName(registerEntity.getUserName())
-                        .userNickname(registerEntity.getUserNickname())
-                        .userAbility(registerEntity.getUserAbility())
-                        .userInterest(registerEntity.getUserInterest())
-                        .userIntroduce(registerEntity.getUserIntroduce())
-                        .userArea(registerEntity.getUserArea())
-                        .userTime(registerEntity.getUserTime())
-                        .build());
-        return teamProfileDto;
-    }
-    @Override
-    public List<RegisterDto> getRegisters() throws Exception {
-        List<RegisterEntity> entityList = registerRepository.findAll();
-        List<RegisterDto> dtoList = new ArrayList<>();
-        for (RegisterEntity entity : entityList){
-            dtoList.add(entity.toregisterDto());
-        }
-        return dtoList;
-    }
 
 }
