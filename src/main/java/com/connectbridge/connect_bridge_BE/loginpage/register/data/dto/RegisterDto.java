@@ -16,7 +16,7 @@ import javax.validation.constraints.Pattern;
 @Setter
 
 public class RegisterDto {
-    private Long ID;
+    private Long id;
     @Pattern(regexp="^[\\d]{10,11}",
             message="휴대폰 번호는 필수 입력 값입니다.")
     private String userPhone;
@@ -46,8 +46,8 @@ public class RegisterDto {
     private String userIntroduce;
 
     @Builder
-    public RegisterDto(Long ID, String userName, String userNickname, String userAbility, String userInterest, String userIntroduce, String userArea, String userTime){
-        this.ID = ID;
+    public RegisterDto(Long id, String userName, String userNickname, String userAbility, String userInterest, String userIntroduce, String userArea, String userTime){
+        this.id = id;
         this.userName = userName;
         this.userNickname = userNickname;
         this.userAbility = userAbility;
@@ -61,7 +61,7 @@ public class RegisterDto {
 
     public RegisterEntity toregisterEntity() {
         return RegisterEntity.builder()
-                .id(ID)
+                .id(id)
                 .userPhone(userPhone)
                 .userID(userID)
                 .userPW(userPW)

@@ -31,17 +31,17 @@ public class TeamController {
         return ResponseEntity.ok(getteampage);
     }
 
-    /*@GetMapping("/team/{page}")
-    public ResponseEntity<List<RegisterDto>> getPageList(@PathVariable("page") int page, Pageable pageable) {
-        List<RegisterDto> list = teamService.getList(pageable, page);
+    @GetMapping("/team/{page}")
+    public ResponseEntity<List<TeamProfileDto>> getPageList(@PathVariable("page") int page, Pageable pageable) {
+        List<TeamProfileDto> list = teamService.getList(pageable, page);
         if(list.isEmpty()){
             return new ResponseEntity<>(list,HttpStatus.OK);
         }
         return ResponseEntity.ok(list);
-    }*/
-    @GetMapping("/team/{page}")
+    }
+    /*@GetMapping("/team/{page}")
     public Page<RegisterEntity> getTeam(Pageable pageable, @PathVariable("page") int reqPage){
         pageable = PageRequest.of(reqPage,2, Sort.by(Sort.Direction.DESC,"id"));
         return registerRepository.findAll(pageable);
-    }
+    }*/
 }

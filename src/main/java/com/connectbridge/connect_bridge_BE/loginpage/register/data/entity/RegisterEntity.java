@@ -63,7 +63,7 @@ public class RegisterEntity {
 
     public RegisterDto toregisterDto() {
         return RegisterDto.builder()
-                .ID(id)
+                .id(id)
                 .userPhone(userPhone)
                 .userID(userID)
                 .userPW(userPW)
