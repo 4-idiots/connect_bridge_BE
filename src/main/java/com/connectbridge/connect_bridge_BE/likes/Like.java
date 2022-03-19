@@ -12,8 +12,8 @@ import javax.persistence.*;
 @Table(
         uniqueConstraints = {
                 @UniqueConstraint(
-                        name="subscribe_uk",
-                        columnNames = {"from_user_id", "to_user_id"}
+                        name="Likepost",
+                        columnNames = {"from_user_id", "to_post"}
                 )
         }
 )
@@ -28,13 +28,13 @@ public class Like {
     @ManyToOne
     private RegisterEntity fromUser;
 
-    @JoinColumn(name = "to_user_id")
+    @JoinColumn(name = "to_post")
     @ManyToOne
-    private RegisterEntity toUser;
+    private RegisterEntity toPost;
 
     @Builder
-    public Like(RegisterEntity fromUser, RegisterEntity toUser) {
+    public Like(RegisterEntity fromUser, RegisterEntity toPost) {
         this.fromUser = fromUser;
-        this.toUser = toUser;
+        this.toPost = toPost;
     }
 }
