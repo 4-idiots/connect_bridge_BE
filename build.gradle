@@ -21,27 +21,15 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-
-
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-validation:2.6.2' //유효성 검사 추가
-
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
-<<<<<<< HEAD
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-
-=======
-<<<<<<< HEAD
-	implementation 'org.springframework.boot:spring-boot-starter-security'
 	//implementation 'com.amazonaws:aws-java-sdk-bom:1.11.1000'
 	//implementation 'com.amazonaws:aws-java-sdk-s3'
 
 	//compileOnly 'org.springframework.cloud:spring-cloud-starter-aws:2.0.1.RELEASE'
-=======
->>>>>>> main
->>>>>>> 9d417ca32f871b56333594aa539a8c73693ae796
->>>>>>> main
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 	annotationProcessor 'org.projectlombok:lombok'
