@@ -20,6 +20,7 @@ public class RegisterController {
 
     private final RegisterImpl registerService;
 
+
     @GetMapping(produces = MediaType.APPLICATION_PROBLEM_JSON_VALUE)
     public ResponseEntity<String> getRegister() throws Exception{
         return new ResponseEntity<>("ok", HttpStatus.OK);

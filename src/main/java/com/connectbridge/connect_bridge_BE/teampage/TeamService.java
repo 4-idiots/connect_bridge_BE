@@ -43,13 +43,13 @@ public class TeamService {
     public List<TeamProfileDto> getList(Pageable pageable, int reqPage){
 
         // Pageable 설정
-        pageable = PageRequest.of(reqPage,2, Sort.by(Sort.Direction.DESC,"id"));
+        pageable = PageRequest.of(reqPage,3, Sort.by(Sort.Direction.DESC,"id"));
 
         Page<RegisterEntity> page = teamRepository.findAll(pageable); // DB값 불러옴.
 
         List<TeamProfileDto> pageDto = page.map(TeamProfileDto::new).getContent(); // List로 받게 바꿔봄 ㅋ
 
-        System.out.println("Service getList 동작 됨");
+        System.out.println("Service getList 동작 됨" + page);
 
         return pageDto;
     }
