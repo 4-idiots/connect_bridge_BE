@@ -32,8 +32,12 @@ public class RegisterEntity {
     @Column(name = "user_name")
     private String userName;
 
-    @Column(name = "user_birthday")
-    private String userBirthday;
+    @Column(name = "user_birthday1")
+    private String userBirthdayY;
+    @Column(name = "user_birthday2")
+    private String userBirthdayM;
+    @Column(name = "user_birthday3")
+    private String userBirthdayD;
 
     @Column(name = "user_gender")
     private Boolean userGender;
@@ -56,6 +60,7 @@ public class RegisterEntity {
     @Column(name = "user_introduce")
     private String userIntroduce;
 
+
     public RegisterDto toregisterDto() {
         return RegisterDto.builder()
                 .ID(id)
@@ -64,7 +69,9 @@ public class RegisterEntity {
                 .userPW(userPW)
                 .userNickname(userNickname)
                 .userName(userName)
-                .userBirthday(userBirthday)
+                .userBirthdayY(userBirthdayY)
+                .userBirthdayM(userBirthdayM)
+                .userBirthdayD(userBirthdayD)
                 .userGender(userGender)
                 .userEmail(userEmail)
                 .userAbility(userAbility)
@@ -74,4 +81,14 @@ public class RegisterEntity {
                 .userIntroduce(userIntroduce)
                 .build();
     }
+    public RegisterEntity(String userNickname, String userName, String userAbility, String userArea, String userTime, String userInterest,String userIntroduce){
+        this.userNickname= userNickname;
+        this.userName = userName;
+        this.userAbility = userAbility;
+        this.userArea = userArea;
+        this.userTime = userTime;
+        this.userInterest = userInterest;
+        this.userIntroduce = userIntroduce;
+    }
+
 }
