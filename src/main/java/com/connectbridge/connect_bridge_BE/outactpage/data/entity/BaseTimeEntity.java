@@ -1,8 +1,7 @@
-package com.connectbridge.connect_bridge_BE.outsideactpage.data.entity;
+package com.connectbridge.connect_bridge_BE.outactpage.data.entity;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.EntityListeners;

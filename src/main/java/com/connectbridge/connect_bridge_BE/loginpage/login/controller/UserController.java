@@ -15,27 +15,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserController {
     private final UserService userService;
-    private final SendEmailService sendEmailService;
 
     public UserController(UserService userService, JwtProvider jwtProvider, SendEmailService sendEmailService) {
         this.userService = userService;
-        this.sendEmailService = sendEmailService;
     }
 
     @PostMapping("user/login")
-    public ResponseEntity<LoginResDto> login(@RequestBody LoginReqDto reqDto) {
-
+    public ResponseEntity<TokenResDto> login(@RequestBody LoginReqDto reqDto) {
         try {
-            LoginResDto loginResDto = userService.login(reqDto);
+            TokenResDto loginResDto = userService.login(reqDto);
             System.out.println("controller-login 동작성공.");
 
-            return new ResponseEntity<LoginResDto>(loginResDto, HttpStatus.OK);
+            return new ResponseEntity<TokenResDto>(loginResDto, HttpStatus.OK);
 
         } catch (Exception e) {
-            System.out.println("controller-login 동작실패.");
-            System.out.println(e);
+            System.out.println("controller-login 동작실패: " + e);
 
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 

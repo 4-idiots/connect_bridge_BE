@@ -6,6 +6,7 @@ import com.connectbridge.connect_bridge_BE.loginpage.login.jwt.JwtProvider;
 import com.connectbridge.connect_bridge_BE.loginpage.login.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -15,19 +16,23 @@ public class UserService {
     private final UserRepository userRepository;
     private final JwtProvider jwtProvider;
     private final SendEmailService sendEmailService;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, JwtProvider jwtProvider, SendEmailService sendEmailService){
+    public UserService(UserRepository userRepository, JwtProvider jwtProvider, SendEmailService sendEmailService, PasswordEncoder passwordEncoder){
         this.userRepository= userRepository;
         this.jwtProvider = jwtProvider;
         this.sendEmailService = sendEmailService;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    public LoginResDto login(LoginReqDto reqDto){
+    // 로그인
+    public TokenResDto login(LoginReqDto reqDto){
         User user = userRepository.findByUserID(reqDto.getUserID());
-        //String pw; 암호화된 비밀번호;
-
-        if(user.getUserPW().equals(reqDto.getUserPW())){
+        log.info("userID : {}, userPW : {} ", user.getUserID(),user.getUserPW());
+       String pw = user.getUserPW();
+       // user.getUserPW().equals(reqDto.getUserPW())
+        if(passwordEncoder.matches(reqDto.getUserPW(),pw)){
             Long id = user.getId();
             String uID = user.getUserID();
             String uName = user.getUserName();
@@ -39,13 +44,15 @@ public class UserService {
             userRepository.save(user); // refresh 토큰 db 저장.
 
             System.out.println("비밀번호 확인 완료! jwt 발급");
-            return new LoginResDto(accessToken,refreshToken);
+            return new TokenResDto(accessToken);
         }
-        return new LoginResDto(null,null);
+        return new TokenResDto(null);
     }
 
+    // 아이디 찾기
     public FindIdRes findID(FindIdReq findIdReq){
         User user = userRepository.findByUserEmail(findIdReq.getUserEmail());
+
         String message="no",userID = "no";
         if(user.getUserPhone().equals(findIdReq.getUserPhone()) &&
                 user.getUserName().equals(findIdReq.getUserName())){
@@ -66,7 +73,7 @@ public class UserService {
             MailDto dto = sendEmailService.createMailAndChangePassword(user.getUserName()
                     , user.getUserEmail());
 
-            user.updateImplPw(dto.getImplPw()); // 임시번호 저장
+            user.updateImplPw(passwordEncoder.encode(dto.getImplPw())); // 임시번호 저장
             userRepository.save(user);
 
             sendEmailService.mailSend(dto); // 메일 전송

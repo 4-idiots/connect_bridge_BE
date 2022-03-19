@@ -5,6 +5,7 @@ import com.connectbridge.connect_bridge_BE.loginpage.login.repository.UserReposi
 import lombok.AllArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 public class SendEmailService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     private JavaMailSender mailSender;
 

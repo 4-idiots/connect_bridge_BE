@@ -1,4 +1,4 @@
-package com.connectbridge.connect_bridge_BE.outsideactpage.data.dto;
+package com.connectbridge.connect_bridge_BE.outactpage.data.dto;
 
 import lombok.Builder;
 import lombok.Getter;
