@@ -1,6 +1,6 @@
-package com.connectbridge.connect_bridge_BE.outsideactpage.data.dto;
+package com.connectbridge.connect_bridge_BE.outactpage.data.dto;
 
-import com.connectbridge.connect_bridge_BE.outsideactpage.data.entity.OutAct;
+import com.connectbridge.connect_bridge_BE.outactpage.data.entity.OutAct;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

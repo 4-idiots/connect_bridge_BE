@@ -1,32 +1,32 @@
-package com.connectbridge.connect_bridge_BE.outsideactpage.service;
+package com.connectbridge.connect_bridge_BE.outactpage.service;
 
-import com.connectbridge.connect_bridge_BE.outsideactpage.data.dto.ModifyResDto;
-import com.connectbridge.connect_bridge_BE.outsideactpage.data.dto.OutActDto;
-import com.connectbridge.connect_bridge_BE.outsideactpage.data.dto.PostCreateDto;
-import com.connectbridge.connect_bridge_BE.outsideactpage.data.dto.UpdateReqDto;
-import com.connectbridge.connect_bridge_BE.outsideactpage.data.entity.OutAct;
-import com.connectbridge.connect_bridge_BE.outsideactpage.repository.OutActRepository;
+import com.connectbridge.connect_bridge_BE.loginpage.login.jwt.JwtProvider;
+import com.connectbridge.connect_bridge_BE.outactpage.data.dto.ModifyResDto;
+import com.connectbridge.connect_bridge_BE.outactpage.data.dto.OutActDto;
+import com.connectbridge.connect_bridge_BE.outactpage.data.dto.PostCreateDto;
+import com.connectbridge.connect_bridge_BE.outactpage.data.dto.UpdateReqDto;
+import com.connectbridge.connect_bridge_BE.outactpage.data.entity.OutAct;
+import com.connectbridge.connect_bridge_BE.outactpage.repository.OutActRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 
 @Slf4j
 @Service
 public class OutActService {
 
+    private final JwtProvider jwtProvider;
     private final OutActRepository outActRepository;
 
-    public OutActService(OutActRepository outActRepository) {
+    public OutActService(JwtProvider jwtProvider, OutActRepository outActRepository) {
+        this.jwtProvider = jwtProvider;
         this.outActRepository = outActRepository;
     }
 
@@ -70,14 +70,13 @@ public class OutActService {
     // 생성
     public boolean createPost(PostCreateDto request) throws IOException {
 
-        // file 원본 이름
-        String originName = request.getOutActImg().getOriginalFilename();
-
-        String filePath = uploadFile(originName);
-        request.getOutActImg().transferTo(new File(filePath));
-
-
         try {
+            // file 원본 이름
+            String originName = request.getOutActImg().getOriginalFilename();
+            //assert originName != null;
+            String filePath = uploadFile(originName);
+            request.getOutActImg().transferTo(new File(filePath));
+
             OutAct outAct = new OutAct();
             outAct.createPost(request.getOutActName(),filePath, request.getOutActLink());
             outActRepository.save(outAct);
@@ -90,6 +89,7 @@ public class OutActService {
             return false;
         }
     }
+
 
     // 개별 정보 조회
     public ModifyResDto modifyInfo(Long id){

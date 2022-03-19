@@ -9,7 +9,7 @@ public class Message {
     private final String message;
 
     @Builder
-    public Message(String message, Boolean value) {
+    public Message(String message) {
         this.message = message;
     }
 }

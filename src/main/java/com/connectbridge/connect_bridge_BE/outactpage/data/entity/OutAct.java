@@ -1,14 +1,9 @@
-package com.connectbridge.connect_bridge_BE.outsideactpage.data.entity;
+package com.connectbridge.connect_bridge_BE.outactpage.data.entity;
 
-import com.connectbridge.connect_bridge_BE.outsideactpage.data.dto.OutActDto;
-import com.connectbridge.connect_bridge_BE.outsideactpage.data.dto.PostCreateDto;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -55,15 +50,4 @@ public class OutAct extends BaseTimeEntity{
     }
 
 }
-
-    //=== 내용 수정 ====//
-    /*
-    public void updateTitle(String outActName){
-        this.outActName = outActName;
-    }
-
-    public void updateUrl(String outActLink){
-        this.outActLink = outActLink;
-    }
-     */
 
