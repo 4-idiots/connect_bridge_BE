@@ -11,12 +11,12 @@ public class UpdateReqDto {
 
     private String outActName;
 
-    private MultipartFile outActImg;
+    private String outActImg;
 
     private String outActLink;
 
     @Builder
-    public UpdateReqDto(Long outActID, String outActName, MultipartFile outActImg, String outActLink) {
+    public UpdateReqDto(Long outActID, String outActName, String outActImg, String outActLink) {
         this.outActID = outActID;
         this.outActName = outActName;
         this.outActImg = outActImg;

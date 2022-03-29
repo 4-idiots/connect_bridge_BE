@@ -41,7 +41,7 @@ public class JwtProvider {
 
         // 2h
         //long ACCESS_TOKEN_VALID_TIME = 10 * 60 * 60 * 1000L;
-        long ACCESS_TOKEN_VALID_TIME = 1000L*20;
+        long ACCESS_TOKEN_VALID_TIME = 1000L*2000;
 
         JwtBuilder builder = Jwts.builder()
                 .setHeader(header)

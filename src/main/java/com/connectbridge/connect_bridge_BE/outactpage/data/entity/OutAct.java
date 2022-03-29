@@ -16,26 +16,26 @@ public class OutAct extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name ="post_id")
     private Long id; // primary key
 
-    @Column(name = "title")
+    @Column(name = "post_name")
     private String outActName; // 게시글 제목
 
-    @Column(name = "image")
+    @Column(name = "post_image")
     private String outActImg; // 사진주소?
 
-    @Column(name = "url")
+    @Column(name = "post_link")
     private String outActLink; // 대외 활동 사이트 주소
 
-    @Column(name = "view")
+    @Column(name = "post_view")
     private int outActView;// 게시글 조회수
 
-    @Column(name ="likes")
+    @Column(name ="post_likes")
     private int outActLike; // 게시글 추천수
 
-    @Column(name = "sub")
+    @Column(name = "post_sub")
     private Boolean outActSub; //  추천 눌렀는지 확인
-
 
     public void createPost(String outActName,String outActImg,String outActLink){
         this.outActName = outActName;
