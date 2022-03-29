@@ -2,7 +2,9 @@
 package com.connectbridge.connect_bridge_BE.projectpage.data.entity;
 
 import com.connectbridge.connect_bridge_BE.outactpage.data.entity.BaseTimeEntity;
+import com.connectbridge.connect_bridge_BE.projectpage.data.dto.UpdateReqDto;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -11,6 +13,7 @@ import javax.persistence.*;
 @Table(name = "project")
 @DynamicUpdate
 @NoArgsConstructor
+@Getter
 @Entity
 public class Project extends BaseTimeEntity {
 
@@ -58,13 +61,29 @@ public class Project extends BaseTimeEntity {
     @Column(name = "project_skill")
     private String projectSkill; // 프로젝트 언어
 
+    @Column(name = "project_state")
+    private boolean projectState;
+
+    @Column(name = "project_sub")
+    private boolean projectSub;
+
+    @Column(name ="project_like")
+    private int projectLike;
+
+    @Column(name = "project_view")
+    private int projectView;
+
     @Column(name = "user_id")
     private Long userID; // user table의 user_id(pk)를 fk로 사용
 
     // 생성
     @Builder
-    public Project(Long projectID, String projectName, boolean projectMotive, String projectImg, String projectContent, String projectField, String projectOnOff, String projectArea, String projectTotal, String projectReference, String projectStart, String projectEnd, String projectPlatform, String projectSkill, Long userID) {
-        this.projectID=projectID;
+    public Project(Long projectID,int projectView,int projectLike, boolean projectSub, boolean projectState, String projectName, boolean projectMotive, String projectImg, String projectContent, String projectField, String projectOnOff, String projectArea, String projectTotal, String projectReference, String projectStart, String projectEnd, String projectPlatform, String projectSkill, Long userID) {
+        this.projectID = projectID;
+        this.projectLike = projectLike;
+        this.projectView = projectView;
+        this.projectSub = projectSub;
+        this.projectState = projectState;
         this.projectName = projectName;
         this.projectMotive = projectMotive;
         this.projectImg = projectImg;
@@ -80,20 +99,21 @@ public class Project extends BaseTimeEntity {
         this.projectSkill = projectSkill;
         this.userID = userID;
     }
-    // 수정정보
-    @Builder
-    public Project(String projectName, boolean projectMotive, String projectImg, String projectContent, String projectField, String projectOnOff, String projectArea, String projectTotal, String projectReference, String projectStart, String projectEnd){
-        this.projectName = projectName;
-        this.projectMotive = projectMotive;
-        this.projectImg = projectImg;
-        this.projectContent = projectContent;
-        this.projectField = projectField;
-        this.projectOnOff = projectOnOff;
-        this.projectArea = projectArea;
-        this.projectTotal = projectTotal;
-        this.projectReference = projectReference;
-        this.projectStart = projectStart;
-        this.projectEnd = projectEnd;
+
+    public void update(UpdateReqDto updateDto){
+        this.projectMotive = updateDto.isProjectMotive();
+        this.projectName = updateDto.getProjectName();
+        this.projectImg = updateDto.getProjectImg();
+        this.projectContent = updateDto.getProjectContent();
+        this.projectField = updateDto.getProjectField();
+        this.projectOnOff = updateDto.getProjectOnOff();
+        this.projectArea = updateDto.getProjectArea();
+        this.projectReference = updateDto.getProjectReference();
+        this.projectStart = updateDto.getProjectStart();
+        this.projectEnd = updateDto.getProjectEnd();
+        this.projectSkill = updateDto.getProjectSkill();
+        this.projectPlatform = updateDto.getProjectPlatform();
+        this.projectTotal = updateDto.getProjectTotal();
     }
-}
+ }
 

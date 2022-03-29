@@ -1,22 +1,21 @@
 
 package com.connectbridge.connect_bridge_BE.projectpage.data.dto;
 
-import com.connectbridge.connect_bridge_BE.loginpage.login.data.entity.User;
 import com.connectbridge.connect_bridge_BE.projectpage.data.entity.Project;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 
+// 3.26 수정된 api로 변경됨.
 @Getter
 @Setter
 public class CreateReqDto {
 
-    private Long projectID;
-
-    private String projectName;
+    private Long userID;
 
     private boolean projectMotive;
+
+    private String projectName;
 
     private String projectImg;
 
@@ -28,11 +27,7 @@ public class CreateReqDto {
 
     private String projectArea;
 
-    private String projectTotal;
-
     private String projectReference;
-
-    private String projectPlatform;
 
     private String projectSkill;
 
@@ -40,11 +35,12 @@ public class CreateReqDto {
 
     private String projectEnd;
 
-    private Long userID;
+    private String projectTotal; // List
+    private String projectPlatform; // List
 
-    public Project CreateReqDto() {
+    public Project Create() {
         return Project.builder()
-                .projectID(projectID)
+                .userID(userID)
                 .projectName(projectName)
                 .projectMotive(projectMotive)
                 .projectImg(projectImg)
@@ -54,11 +50,10 @@ public class CreateReqDto {
                 .projectArea(projectArea)
                 .projectTotal(projectTotal)
                 .projectReference(projectReference)
-                .projectPlatform(projectPlatform)
-                .projectSkill(projectSkill)
                 .projectStart(projectStart)
                 .projectEnd(projectEnd)
-                .userID(userID)
+                .projectPlatform(projectPlatform)
+                .projectSkill(projectSkill)
                 .build();
     }
 }
