@@ -1,35 +1,31 @@
 package com.connectbridge.connect_bridge_BE.projectpage.data.dto;
 
-import com.connectbridge.connect_bridge_BE.projectpage.data.entity.Project;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Getter
 @Setter
-@NoArgsConstructor
-public class ProjectDto {
-    private Long projectID;
+@Getter
+public class DetailedDto {
     private Long userID;
     private String projectName;
-    private String projectImg;
     private int projectView;
     private int projectLike;
+    private boolean projectState;
+    private boolean projectMotive;
     private boolean projectSub;
+    private String projectTotal; // List로 변경
+    private String projectPlatform; // List로 변경
+    private LocalDateTime createDate;
+    private String projectImg;
     private String projectField;
     private String projectArea;
-    private boolean projectState;
     private String projectStart;
     private String projectEnd;
-    private boolean projectMotive;
     private String projectContent;
     private String projectOnOff;
-    private String projectTotal; // List로 변경
     private String projectReference;
-    private String projectPlatform; // List로 변경
     private String projectSkill;
-    private LocalDateTime createDate;
 }

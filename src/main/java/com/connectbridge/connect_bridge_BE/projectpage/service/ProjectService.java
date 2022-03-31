@@ -1,6 +1,7 @@
 package com.connectbridge.connect_bridge_BE.projectpage.service;
 
 import com.connectbridge.connect_bridge_BE.projectpage.data.dto.CreateReqDto;
+import com.connectbridge.connect_bridge_BE.projectpage.data.dto.DetailedDto;
 import com.connectbridge.connect_bridge_BE.projectpage.data.dto.ProjectDto;
 import com.connectbridge.connect_bridge_BE.projectpage.data.dto.UpdateReqDto;
 import com.connectbridge.connect_bridge_BE.projectpage.data.entity.Project;
@@ -11,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -26,17 +26,21 @@ public class ProjectService {
     public ProjectService(ProjectRepository projectRepository) {
         this.projectRepository = projectRepository;
     }
-/*
+
     public List<ProjectDto> providePage(){
-        List<Project> page = projectRepository.findAll();
-        List<ProjectDto> pageList = page.stream().map(post -> modelMapper.map(page,ProjectDto.class)).collect(Collectors.toList());
+        List<Project> list = projectRepository.findAll();
+        List<ProjectDto> dtoList = list.stream().map(l-> modelMapper.map(l,ProjectDto.class)).collect(Collectors.toList());
+        System.out.println(dtoList);
         //Failed to instantiate instance of destination
-        return pageList;
+        return dtoList;
     }
-*/
-    /*
-    Json type으로 배열을 저장하기도 한다고 한다. 알아보자.
-     */
+
+    // 상세 조회.
+    public DetailedDto inquiryProject(Long projectID){
+        Project project = projectRepository.findByProjectID(projectID);
+        DetailedDto detailedDto = modelMapper.map(project,DetailedDto.class);
+        return detailedDto;
+    }
 
     // 생성.
     public void createProject(CreateReqDto createDto) {
@@ -47,7 +51,7 @@ public class ProjectService {
     public void deleteProject(Long projectID) {
         projectRepository.deleteById(projectID);
     }
-
+/*
     // 업데이트
     public void updateProject(UpdateReqDto updateDto) {
         Project project = projectRepository.findByProjectID(updateDto.getProjectID());
@@ -56,4 +60,6 @@ public class ProjectService {
 
         // modelMapper.map(project.get(), UpdateReqDto.class);
     }
+
+ */
 }

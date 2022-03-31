@@ -5,6 +5,9 @@ import com.connectbridge.connect_bridge_BE.projectpage.data.entity.Project;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+import java.util.Map;
+
 
 // 3.26 수정된 api로 변경됨.
 @Getter
@@ -37,6 +40,8 @@ public class CreateReqDto {
 
     private String projectTotal; // List
     private String projectPlatform; // List
+
+
 
     public Project Create() {
         return Project.builder()

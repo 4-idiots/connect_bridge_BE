@@ -2,7 +2,6 @@
 package com.connectbridge.connect_bridge_BE.projectpage.data.entity;
 
 import com.connectbridge.connect_bridge_BE.outactpage.data.entity.BaseTimeEntity;
-import com.connectbridge.connect_bridge_BE.projectpage.data.dto.UpdateReqDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -78,7 +77,7 @@ public class Project extends BaseTimeEntity {
 
     // 생성
     @Builder
-    public Project(Long projectID,int projectView,int projectLike, boolean projectSub, boolean projectState, String projectName, boolean projectMotive, String projectImg, String projectContent, String projectField, String projectOnOff, String projectArea, String projectTotal, String projectReference, String projectStart, String projectEnd, String projectPlatform, String projectSkill, Long userID) {
+    public Project(Long projectID,int projectView,int projectLike, boolean projectSub, boolean projectState, String projectName, boolean projectMotive, String projectImg, String projectContent, String projectField, String projectOnOff, String projectArea, String projectTotal, String projectReference, String projectStart, String projectEnd,String projectPlatform, String projectSkill, Long userID) {
         this.projectID = projectID;
         this.projectLike = projectLike;
         this.projectView = projectView;
@@ -99,7 +98,7 @@ public class Project extends BaseTimeEntity {
         this.projectSkill = projectSkill;
         this.userID = userID;
     }
-
+/*
     public void update(UpdateReqDto updateDto){
         this.projectMotive = updateDto.isProjectMotive();
         this.projectName = updateDto.getProjectName();
@@ -115,5 +114,7 @@ public class Project extends BaseTimeEntity {
         this.projectPlatform = updateDto.getProjectPlatform();
         this.projectTotal = updateDto.getProjectTotal();
     }
+
+ */
  }
 
