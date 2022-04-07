@@ -2,17 +2,17 @@
 package com.connectbridge.connect_bridge_BE.projectpage.data.dto;
 
 import com.connectbridge.connect_bridge_BE.projectpage.data.entity.Project;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-
 
 // 3.26 수정된 api로 변경됨.
 @Getter
 @Setter
-public class CreateReqDto {
+public class CreateDto {
 
     private Long userID;
 
@@ -22,7 +22,7 @@ public class CreateReqDto {
 
     private String projectImg;
 
-    private String projectContent;
+    private List<String> projectContent;
 
     private String projectField;
 
@@ -39,17 +39,17 @@ public class CreateReqDto {
     private String projectEnd;
 
     private String projectTotal; // List
-    private String projectPlatform; // List
 
+    private List<String> projectPlatform; // List
 
-
+    @Builder
     public Project Create() {
         return Project.builder()
                 .userID(userID)
                 .projectName(projectName)
                 .projectMotive(projectMotive)
                 .projectImg(projectImg)
-                .projectContent(projectContent)
+                .projectContent(String.valueOf(projectContent))
                 .projectField(projectField)
                 .projectOnOff(projectOnOff)
                 .projectArea(projectArea)
@@ -57,8 +57,14 @@ public class CreateReqDto {
                 .projectReference(projectReference)
                 .projectStart(projectStart)
                 .projectEnd(projectEnd)
-                .projectPlatform(projectPlatform)
+                .projectPlatform(listToStr(projectPlatform))
                 .projectSkill(projectSkill)
                 .build();
+    }
+
+    public String listToStr(List<String> test) {
+        String str = String.join(",", test);
+        System.out.println(str);
+        return str;
     }
 }

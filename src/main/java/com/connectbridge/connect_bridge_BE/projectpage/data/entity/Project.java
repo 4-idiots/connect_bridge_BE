@@ -2,17 +2,24 @@
 package com.connectbridge.connect_bridge_BE.projectpage.data.entity;
 
 import com.connectbridge.connect_bridge_BE.outactpage.data.entity.BaseTimeEntity;
+import com.connectbridge.connect_bridge_BE.projectpage.data.dto.CreateDto;
+import com.connectbridge.connect_bridge_BE.projectpage.data.dto.ProjectDto;
+import com.connectbridge.connect_bridge_BE.projectpage.data.dto.UpdateReqDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.util.Arrays;
+import java.util.List;
 
 @Table(name = "project")
 @DynamicUpdate
 @NoArgsConstructor
 @Getter
+@Setter
 @Entity
 public class Project extends BaseTimeEntity {
 
@@ -75,9 +82,9 @@ public class Project extends BaseTimeEntity {
     @Column(name = "user_id")
     private Long userID; // user table의 user_id(pk)를 fk로 사용
 
-    // 생성
+
     @Builder
-    public Project(Long projectID,int projectView,int projectLike, boolean projectSub, boolean projectState, String projectName, boolean projectMotive, String projectImg, String projectContent, String projectField, String projectOnOff, String projectArea, String projectTotal, String projectReference, String projectStart, String projectEnd,String projectPlatform, String projectSkill, Long userID) {
+    public Project(Long projectID,int projectView,int projectLike, boolean projectSub, boolean projectState, String projectName, boolean projectMotive, String projectImg, String projectContent, String projectField, String projectOnOff, String projectArea,String projectTotal, String projectReference, String projectStart, String projectEnd,String projectPlatform, String projectSkill, Long userID) {
         this.projectID = projectID;
         this.projectLike = projectLike;
         this.projectView = projectView;
@@ -98,7 +105,45 @@ public class Project extends BaseTimeEntity {
         this.projectSkill = projectSkill;
         this.userID = userID;
     }
-/*
+
+    // List to String
+    public String listToStr(List<String> test) {
+        String str = String.join(",", test);
+        System.out.println(str);
+        return str;
+    }
+
+    // String to List
+    public List<String> strToList(String str){
+        return Arrays.asList((str.split(",")));
+    }
+
+    // 페이지
+    public ProjectDto toProjectDto(){
+        ProjectDto dto = new ProjectDto();
+        dto.setProjectID(projectID);
+        dto.setProjectName(projectName);
+        dto.setProjectView(projectView);
+        dto.setProjectImg(projectImg);
+        dto.setProjectLike(projectLike);
+        dto.setProjectSub(projectSub);
+        dto.setProjectField(projectField);
+        dto.setProjectArea(projectArea);
+        dto.setProjectState(projectState);
+        dto.setProjectStart(projectStart);
+        dto.setProjectEnd(projectEnd);
+        dto.setProjectMotive(projectMotive);
+        dto.setProjectContent(projectContent);
+        dto.setProjectOnOff(projectOnOff);
+        dto.setProjectTotal(projectTotal);
+        dto.setProjectReference(projectReference);
+        dto.setProjectPlatform(strToList(projectPlatform));
+        dto.setProjectSkill(projectSkill);
+        dto.setCreateDate(createDate);
+        return dto;
+    }
+
+    // 업데이트
     public void update(UpdateReqDto updateDto){
         this.projectMotive = updateDto.isProjectMotive();
         this.projectName = updateDto.getProjectName();
@@ -111,10 +156,10 @@ public class Project extends BaseTimeEntity {
         this.projectStart = updateDto.getProjectStart();
         this.projectEnd = updateDto.getProjectEnd();
         this.projectSkill = updateDto.getProjectSkill();
-        this.projectPlatform = updateDto.getProjectPlatform();
+        this.projectPlatform = listToStr(updateDto.getProjectPlatform());
         this.projectTotal = updateDto.getProjectTotal();
     }
 
- */
+
  }
 

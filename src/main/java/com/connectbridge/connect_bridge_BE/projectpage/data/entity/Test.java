@@ -4,15 +4,12 @@ import javax.persistence.*;
 
 @Entity
 @Table(name ="total")
-public class Total {
+public class Test {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "total_id")
     private Long totalID;
-
-    @Column(name = "project_id")
-    private Long projectID;
 
     @Column(name = "total_main")
     private String totalMain;
@@ -21,6 +18,6 @@ public class Total {
     private String totalSub;
 
     @Column(name = "total_need")
-    private String totalNeed;
+    private int totalNeed;
 
 }

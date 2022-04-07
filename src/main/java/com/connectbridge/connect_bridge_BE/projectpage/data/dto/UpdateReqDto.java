@@ -26,6 +26,6 @@ public class UpdateReqDto{
     private String projectStart;
     private String projectEnd;
     private String projectSkill;
-    private String projectPlatform; // List
+    private List<String> projectPlatform; // List
     private String projectTotal; // List
 }

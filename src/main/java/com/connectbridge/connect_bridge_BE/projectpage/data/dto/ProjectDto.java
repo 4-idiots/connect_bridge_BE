@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 @Getter
@@ -29,7 +30,8 @@ public class ProjectDto {
     private String projectOnOff;
     private String projectTotal; // List로 변경
     private String projectReference;
-    private String projectPlatform; // List로 변경
+    private List<String> projectPlatform; // List로 변경
     private String projectSkill;
     private LocalDateTime createDate;
+
 }

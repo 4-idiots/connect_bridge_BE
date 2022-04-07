@@ -1,9 +1,6 @@
 package com.connectbridge.connect_bridge_BE.projectpage.service;
 
-import com.connectbridge.connect_bridge_BE.projectpage.data.dto.CreateReqDto;
-import com.connectbridge.connect_bridge_BE.projectpage.data.dto.DetailedDto;
-import com.connectbridge.connect_bridge_BE.projectpage.data.dto.ProjectDto;
-import com.connectbridge.connect_bridge_BE.projectpage.data.dto.UpdateReqDto;
+import com.connectbridge.connect_bridge_BE.projectpage.data.dto.*;
 import com.connectbridge.connect_bridge_BE.projectpage.data.entity.Project;
 import com.connectbridge.connect_bridge_BE.projectpage.repository.ProjectRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -27,39 +24,34 @@ public class ProjectService {
         this.projectRepository = projectRepository;
     }
 
-    public List<ProjectDto> providePage(){
+    // 페이징
+    public List<ProjectDto> pageProject() {
         List<Project> list = projectRepository.findAll();
-        List<ProjectDto> dtoList = list.stream().map(l-> modelMapper.map(l,ProjectDto.class)).collect(Collectors.toList());
-        System.out.println(dtoList);
-        //Failed to instantiate instance of destination
-        return dtoList;
+        return list.stream().map(Project::toProjectDto).collect(Collectors.toList());
     }
 
-    // 상세 조회.
-    public DetailedDto inquiryProject(Long projectID){
+    // 상세 페이지
+    public DetailedDto inquiryProject(Long projectID) {
         Project project = projectRepository.findByProjectID(projectID);
-        DetailedDto detailedDto = modelMapper.map(project,DetailedDto.class);
-        return detailedDto;
+
+        //DetailedDto dto = modelMapper.map(project,DetailedDto.class);
+        return new DetailedDto(project);
     }
 
-    // 생성.
-    public void createProject(CreateReqDto createDto) {
-        projectRepository.save(createDto.Create());
+    // 생성
+    public void createProject(CreateDto createReqDto) {
+        projectRepository.save(createReqDto.Create());
     }
 
     // 삭제
     public void deleteProject(Long projectID) {
         projectRepository.deleteById(projectID);
     }
-/*
+
     // 업데이트
     public void updateProject(UpdateReqDto updateDto) {
         Project project = projectRepository.findByProjectID(updateDto.getProjectID());
         project.update(updateDto);
         projectRepository.save(project);
-
-        // modelMapper.map(project.get(), UpdateReqDto.class);
     }
-
- */
 }
