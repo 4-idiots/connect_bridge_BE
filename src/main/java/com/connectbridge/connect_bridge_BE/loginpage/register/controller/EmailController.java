@@ -19,7 +19,6 @@ import java.util.Map;
 public class EmailController {
 
     private final EmailService emailService;
-    private final EmailCodeRepository emailCodeRepository;
 
     @PostMapping("/users/check/Email") // 이메일 인증 코드 보내기
     public ResponseEntity<String> emailAuth(@RequestBody Map<String, String> emailCodeDto) throws Exception {
@@ -32,10 +31,13 @@ public class EmailController {
         return new ResponseEntity(message, HttpStatus.OK);
     }
 
-    @PostMapping("/verifyCode") // 이메일 인증 코드 검증
-    public ResponseEntity<?> verifyCode(@RequestBody Map<String, String> code) {
-
-        if(emailService.checkCode(code.get("code"))) {
+    @PostMapping("/verifycode") // 이메일 인증 코드 검증
+    public ResponseEntity<?> verifyCode(@RequestBody EmailCodeDto emailCodeDto) throws Exception{
+        String getcode = emailCodeDto.getCode();
+        log.info("{getcode : }",getcode);
+        String getemail = emailCodeDto.getUserEmail();
+        log.info("{getemail : }",getemail);
+        if(emailService.checkCode(getcode, getemail)){
             Message message = Message.builder()
                     .message("ok")
                     .build();

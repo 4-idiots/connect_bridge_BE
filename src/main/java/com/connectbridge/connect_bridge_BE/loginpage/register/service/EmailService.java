@@ -2,6 +2,7 @@ package com.connectbridge.connect_bridge_BE.loginpage.register.service;
 
 
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.dto.*;
+import com.connectbridge.connect_bridge_BE.loginpage.register.data.entity.EmailCode;
 import com.connectbridge.connect_bridge_BE.loginpage.register.repository.EmailCodeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,10 +26,17 @@ public class EmailService {
     private MimeMessage createMessage(String to)throws Exception{ //2
         String ePw = createKey();
         EmailCodeDto emailCodeDto = new EmailCodeDto();
+        EmailCode emailCode = emailCodeRepository.findByuserEmail(to);
         emailCodeDto.setUserEmail(to);
         emailCodeDto.setCode(ePw);
         log.info("to {}", emailCodeDto);
-        emailCodeRepository.save(emailCodeDto.togetEmailCode());
+        boolean checkingEmail =  emailCodeRepository.existsByuserEmail(to);
+        if(!checkingEmail){
+            emailCodeRepository.save(emailCodeDto.togetEmailCode());
+        }else{
+            emailCode.updateEmail(to, ePw);
+            emailCodeRepository.save(emailCode);
+        }
         MimeMessage  message = emailSender.createMimeMessage();
 
         String code = ePw;
@@ -69,14 +77,16 @@ public class EmailService {
             throw new IllegalArgumentException();
         }
     }
-    public boolean checkCode(String code) {
-        boolean checking = emailCodeRepository.existsByCode(code);
-        if (checking){
-            emailCodeRepository.deleteByCode(code);
+    public boolean checkCode(String getcode, String getemail) {
+        EmailCode checking = emailCodeRepository.findByuserEmailAndCode(getemail, getcode);
+        System.out.println("checking 값 : " + checking);
+        if(checking == null){
+            return false;
+        }
+        else {
+            emailCodeRepository.deleteByCode(getcode);
             return true;
         }
-        else
-            return false;
-    }
 
+    }
 }

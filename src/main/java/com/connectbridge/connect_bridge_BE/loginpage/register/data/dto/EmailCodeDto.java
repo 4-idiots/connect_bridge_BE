@@ -20,4 +20,5 @@ public class EmailCodeDto {
                 .code(code)
                 .build();
     }
+
 }

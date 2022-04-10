@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface TeamRepository extends JpaRepository<RegisterEntity, Long> {
+
     RegisterEntity findByid(Long id);
 
 }

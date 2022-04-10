@@ -3,13 +3,18 @@ package com.connectbridge.connect_bridge_BE.loginpage.register.data.entity;
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.dto.RegisterDto;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "users")
 
 public class RegisterEntity {
@@ -59,28 +64,11 @@ public class RegisterEntity {
 
     @Column(name = "user_introduce")
     private String userIntroduce;
+    @Column(name = "createdate")
+    @CreatedDate
+    private LocalDateTime createDate;
 
 
-    public RegisterDto toregisterDto() {
-        return RegisterDto.builder()
-                .id(id)
-                .userPhone(userPhone)
-                .userID(userID)
-                .userPW(userPW)
-                .userNickname(userNickname)
-                .userName(userName)
-                .userBirthdayY(userBirthdayY)
-                .userBirthdayM(userBirthdayM)
-                .userBirthdayD(userBirthdayD)
-                .userGender(userGender)
-                .userEmail(userEmail)
-                .userAbility(userAbility)
-                .userArea(userArea)
-                .userTime(userTime)
-                .userInterest(userInterest)
-                .userIntroduce(userIntroduce)
-                .build();
-    }
     public RegisterEntity(String userNickname, String userName, String userAbility, String userArea, String userTime, String userInterest,String userIntroduce){
         this.userNickname= userNickname;
         this.userName = userName;
@@ -90,5 +78,4 @@ public class RegisterEntity {
         this.userInterest = userInterest;
         this.userIntroduce = userIntroduce;
     }
-
 }

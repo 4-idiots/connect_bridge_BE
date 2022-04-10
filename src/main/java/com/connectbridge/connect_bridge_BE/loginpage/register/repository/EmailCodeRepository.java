@@ -5,8 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface EmailCodeRepository extends JpaRepository<EmailCode, Long> {
-
-    Boolean existsByCode(String code);
+    EmailCode findByuserEmail(String userEmail);
+    EmailCode findByuserEmailAndCode(String userEmail, String Code);
+    boolean existsByuserEmail(String userEmail);
     @Transactional
     void deleteByCode(String code);
 }

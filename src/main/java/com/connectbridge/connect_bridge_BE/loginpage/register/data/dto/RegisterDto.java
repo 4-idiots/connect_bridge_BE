@@ -6,6 +6,7 @@ import lombok.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -45,6 +46,8 @@ public class RegisterDto {
     private String userInterest;
     private String userIntroduce;
 
+    private LocalDateTime registerDate;
+
 
     public RegisterEntity toregisterEntity() {
         return RegisterEntity.builder()
@@ -64,6 +67,7 @@ public class RegisterDto {
                 .userTime(userTime)
                 .userInterest(userInterest)
                 .userIntroduce(userIntroduce)
+                .createDate(registerDate)
                 .build();
     }
 }

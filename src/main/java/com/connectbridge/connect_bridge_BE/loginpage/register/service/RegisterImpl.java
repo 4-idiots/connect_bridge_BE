@@ -45,6 +45,7 @@ public class RegisterImpl implements RegisterService{
     public Long postRegister(RegisterDto registerDto) throws Exception{
         String encodePassword = passwordEncoder.encode(registerDto.getUserPW());
         registerDto.setUserPW(encodePassword);
+
         return registerRepository.save(registerDto.toregisterEntity()).getId();
     }
 

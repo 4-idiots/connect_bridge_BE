@@ -1,6 +1,8 @@
 package com.connectbridge.connect_bridge_BE.outactpage.controller;
 
-import com.connectbridge.connect_bridge_BE.amazonS3.S3Service;
+import com.connectbridge.connect_bridge_BE.loginpage.login.controller.TokenController;
+import com.connectbridge.connect_bridge_BE.loginpage.login.jwt.JwtProvider;
+import com.connectbridge.connect_bridge_BE.loginpage.login.repository.UserRepository;
 import com.connectbridge.connect_bridge_BE.outactpage.data.dto.*;
 import com.connectbridge.connect_bridge_BE.outactpage.service.OutActService;
 import lombok.extern.slf4j.Slf4j;
@@ -18,11 +20,15 @@ import java.util.List;
 public class OutActController {
 
     private final OutActService outActService;
-    private final S3Service s3Service;
+    private final TokenController tController;
+    private final UserRepository userRepository;
+    private final JwtProvider jwtProvider;
 
-    public OutActController(OutActService outActService, S3Service s3Service) {
+    public OutActController(OutActService outActService, JwtProvider jwtProvider, TokenController tController, UserRepository userRepository, JwtProvider jwtProvider1) {
         this.outActService = outActService;
-        this.s3Service = s3Service;
+        this.tController = tController;
+        this.userRepository = userRepository;
+        this.jwtProvider = jwtProvider1;
     }
 
     @GetMapping("/outdoor/{page}")
@@ -41,7 +47,7 @@ public class OutActController {
 
     }
 
-    // 생성 클리어!
+    // 생성
     @PostMapping(value = "/outdoor/post")
     public ResponseEntity<Message> postActPage(
             @RequestParam("outActImg") MultipartFile img,
@@ -50,11 +56,8 @@ public class OutActController {
             ) throws IOException {
 
         try {
-
-            String url = s3Service.upload(img,"outactpost");
-
             PostCreateDto request = PostCreateDto.builder()
-                    .outActImg(url)
+                    .outActImg(img)
                     .outActLink(link)
                     .outActName(title)
                     .build();
@@ -77,7 +80,7 @@ public class OutActController {
         }
         }
 
-    // 수정 조회 클리어!
+    // 수정 조회
     @GetMapping("/outdoor/post/{outActID}")
     public ResponseEntity<ModifyResDto> selectModify(@PathVariable("outActID") Long id){
         try{
@@ -96,28 +99,25 @@ public class OutActController {
 
     // 수정
     @PatchMapping("outdoor/post")
-    public ResponseEntity<Message> postUpdate(@RequestParam(value="outActID",required = false) Long id,
-                                     @RequestParam(value = "outActName",required = false) String title,
-                                     @RequestParam(value = "outActLink",required = false) String link,
-                                     @RequestParam(value = "outActImg",required = false) MultipartFile img
+    public ResponseEntity postUpdate(@RequestParam("outActID") Long id,
+                                     @RequestParam("outActName") String title,
+                                     @RequestParam("outActLink") String link,
+                                     @RequestParam("outActImg") MultipartFile img
                                      ){
         try{
-            String url = s3Service.upload(img,"outactpost");
-
             UpdateReqDto requestDto = UpdateReqDto.builder()
                     .outActID(id)
                     .outActName(title)
                     .outActLink(link)
-                    .outActImg(url)
+                    .outActImg(img)
                     .build();
 
             outActService.updatePost(requestDto);
-
             Message message = Message.builder()
                     .message("ok")
                     .build();
 
-            return new ResponseEntity<Message>(message,HttpStatus.OK);
+            return new ResponseEntity(message,HttpStatus.OK);
         }catch (Exception e){
             System.out.println(e);
 
@@ -125,7 +125,7 @@ public class OutActController {
                     .message("no")
                     .build();
 
-            return new ResponseEntity<Message>(message,HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(message,HttpStatus.BAD_REQUEST);
 
         }
     }

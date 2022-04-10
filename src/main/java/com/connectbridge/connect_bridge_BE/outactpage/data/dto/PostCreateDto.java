@@ -12,13 +12,12 @@ import org.springframework.web.multipart.MultipartFile;
 public class PostCreateDto {
 
     String outActName;
-    //MultipartFile outActImg;
-    String outActImg;
+    MultipartFile outActImg;
     String outActLink;
 
 
     @Builder
-    public PostCreateDto(String outActName,String outActImg, String outActLink) {
+    public PostCreateDto(String outActName,MultipartFile outActImg, String outActLink) {
         this.outActName = outActName;
         this.outActImg = outActImg;
         this.outActLink = outActLink;
