@@ -3,18 +3,25 @@ package com.connectbridge.connect_bridge_BE.community;
 import com.connectbridge.connect_bridge_BE.community.like.CommunityLikeRepository;
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.entity.RegisterEntity;
 import com.connectbridge.connect_bridge_BE.loginpage.register.repository.RegisterRepository;
-import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 
-@RequiredArgsConstructor
+
 @Service
+@Slf4j
 public class CommunityService {
     private final CommunityRepository communityRepository;
     private final RegisterRepository registerRepository;
     private final CommunityLikeRepository communityLikeRepository;
+
+    public CommunityService(CommunityRepository communityRepository, RegisterRepository registerRepository, CommunityLikeRepository communityLikeRepository){
+        this.communityRepository = communityRepository;
+        this.registerRepository = registerRepository;
+        this.communityLikeRepository = communityLikeRepository;
+    }
 
 
     @Transactional
@@ -22,6 +29,9 @@ public class CommunityService {
         RegisterEntity id = registerRepository.findById(communityDto.getFromUserId()).get();
         String nickname = id.getUserNickname();
         communityDto.setUserNickname(nickname);
+        communityDto.setViewCount(0);
+        communityDto.setLikeCount(0);
+        communityDto.setCommentCount(0);
         communityRepository.save(communityDto.communityEntity()).getId();
     }
 
@@ -37,6 +47,14 @@ public class CommunityService {
 
         return pageDto;
     }
+    public void postcountup(long communityID){
+        CommunityEntity community = communityRepository.findByid(communityID);
+        long viewCount = community.getViewCount();
+        viewCount += 1;
+        community.postcountup(communityID, viewCount);
+        communityRepository.save(community);
+    }
+
     @Transactional
     public CommunityDto getCommunityPage(long fromUserId, long communityID){
         CommunityDto communityDto = new CommunityDto();
@@ -62,6 +80,13 @@ public class CommunityService {
         }
 
         return communityDto;
+    }
+
+    public void updateCommunity(CommunityDto communityDto) throws Exception{
+        CommunityEntity community = communityRepository.findByid(communityDto.getPostID());
+        community.updateCommunity(communityDto.getPostID(), communityDto.getTitle(),
+                communityDto.getContents(), communityDto.convertStr(communityDto.getHashtag()));
+        communityRepository.save(community);
     }
 
 }

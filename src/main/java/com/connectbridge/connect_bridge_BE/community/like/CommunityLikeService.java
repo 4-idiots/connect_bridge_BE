@@ -34,4 +34,11 @@ public class CommunityLikeService {
                         .toPost(topost)
                         .build());
     }
+    @Transactional
+    public void likecounting(long toPostId) {
+        CommunityEntity communityEntity = communityRepository.getById(toPostId);
+        int likecount = communityLikeRepository.findCommunityLikeCountById(toPostId);
+        communityEntity.likecountup(toPostId, likecount);
+        communityRepository.save(communityEntity);
+    }
 }

@@ -30,14 +30,14 @@ public class CommunityDto {
     private String color;
 
 
-    public String convertStr(List<String> hashtag) {
+    public String convertStr(List<String> hashtag) { //DB에 저장
         String str = String.join(",", hashtag);
         System.out.println(str);
         return str;
     }
     public List<String> convertList(String str){
         return Arrays.asList((str.split(",")));
-    }
+    } //DB에서 빼냄
 
     public CommunityDto(CommunityEntity communityEntity){
         this.postID = communityEntity.getId();
@@ -61,4 +61,5 @@ public class CommunityDto {
                 .userNickname(userNickname)
                 .build();
     }
+
 }

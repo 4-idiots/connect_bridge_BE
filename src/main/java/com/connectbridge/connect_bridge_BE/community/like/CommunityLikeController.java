@@ -19,12 +19,14 @@ public class CommunityLikeController {
             return new ResponseEntity<Boolean>(false, HttpStatus.OK);
         }
         communityLikeService.save(fromUserId, toPostId);
+        communityLikeService.likecounting(toPostId);
         return new ResponseEntity<Boolean>(true, HttpStatus.OK);
     }
     @DeleteMapping("/community/like/{fromUserId}/{toPostId}")
     public ResponseEntity<?> unFollowUser(@PathVariable int fromUserId, @PathVariable long toPostId) {
         Long id = communityLikeService.unLike(fromUserId, toPostId);
         communityLikeRepository.deleteById(id);
+        communityLikeService.likecounting(toPostId);
         Message message = Message.builder()
                 .message("ok")
                 .build();

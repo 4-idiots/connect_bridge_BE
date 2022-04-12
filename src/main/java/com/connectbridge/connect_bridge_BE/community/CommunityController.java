@@ -45,10 +45,20 @@ public class CommunityController {
         return ResponseEntity.ok(list);
     }
 
-    @GetMapping("community/info/{fromUserId}/{communityID}")
+    @GetMapping("/community/info/{fromUserId}/{communityID}")
     public ResponseEntity<?> community(@PathVariable long fromUserId, @PathVariable long communityID) throws Exception{
+        communityService.postcountup(communityID);   //여기에 선방영으로 post카운터 올리고 +1
+
         CommunityDto getcommunitypage = communityService.getCommunityPage(fromUserId, communityID);
         return ResponseEntity.ok(getcommunitypage);
+    }
+    @PatchMapping("/community/write")
+    public ResponseEntity<?> communityPatch(@RequestBody CommunityDto communityDto) throws Exception{
+        communityService.updateCommunity(communityDto);
+        Message message = Message.builder()
+                .message("ok")
+                .build();
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
 

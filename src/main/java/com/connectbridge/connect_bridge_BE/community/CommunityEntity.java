@@ -39,7 +39,18 @@ public class CommunityEntity {
     @Column(name = "post_user_nickname")
     private String  userNickname;
 
-
-
-
+    public void updateCommunity(long id, String title, String contents, String hashtag){
+        this.id = id;
+        this.title = title;
+        this.contents = contents;
+        this.hashtag = hashtag;
+    }
+    public void postcountup(long id, long viewCount){
+        this.id = id;
+        this.viewCount = viewCount;
+    }
+    public void likecountup(long id, long likeCount){
+        this.id = id;
+        this.likeCount = likeCount;
+    }
 }
