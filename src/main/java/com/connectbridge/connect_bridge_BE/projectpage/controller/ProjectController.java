@@ -16,7 +16,7 @@ public class ProjectController {
 
     public ProjectController(ProjectService projectService) {
         this.projectService = projectService;}
-
+/*
     // 메인
     @GetMapping("/project")
     public ResponseEntity<List<ProjectDto>> projectPage() {
@@ -28,7 +28,6 @@ public class ProjectController {
             return new ResponseEntity(new Message("no"),HttpStatus.BAD_REQUEST);
         }
     }
-
     // 조회
     @GetMapping("/project/{projectID}")
     public ResponseEntity<DetailedDto> projectInquiry(@PathVariable("projectID") Long projectID){
@@ -40,11 +39,13 @@ public class ProjectController {
         }
     }
 
+ */
+
     // 생성
     @PostMapping("/project")
     public ResponseEntity<Message> projectCreate(@RequestBody CreateDto createReqDto){
         try{
-        projectService.createProject(createReqDto);
+            projectService.createProject(createReqDto);
         return new ResponseEntity(new Message("ok"),HttpStatus.OK);
         }catch (Exception e){
             System.out.println(e);
@@ -75,6 +76,13 @@ public class ProjectController {
             return new ResponseEntity(new Message("no"),HttpStatus.BAD_REQUEST);
         }
     }
+/*
+    @PatchMapping("project/apply")
+    public ResponseEntity<?> projectApply(@RequestBody ApplyDto applyDto){
 
+        return new ResponseEntity<>(new Message("ok"),HttpStatus.OK);
+    }
+
+ */
 }
 

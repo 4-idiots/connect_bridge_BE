@@ -5,8 +5,8 @@ import com.connectbridge.connect_bridge_BE.projectpage.data.entity.Project;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Arrays;
 import java.util.List;
 
 // 3.26 수정된 api로 변경됨.
@@ -16,17 +16,17 @@ public class CreateDto {
 
     private Long userID;
 
-    private boolean projectMotive;
-
     private String projectName;
 
-    private String projectImg;
+    private boolean projectMotive;
 
-    private List<String> projectContent;
+    private MultipartFile projectImg;
+
+    private String projectContent;
 
     private String projectField;
 
-    private String projectOnOff;
+    //private String projectOnOff;
 
     private String projectArea;
 
@@ -42,6 +42,11 @@ public class CreateDto {
 
     private List<String> projectPlatform; // List
 
+    /*
+     Postman에서 넣으려면 JSON parse error가 발생한다.
+     희재가 통신으로 넣으면 그냥 들어가진다고 함.
+     왜 되는지 잘 모르겠음.
+     */
     @Builder
     public Project Create() {
         return Project.builder()
@@ -49,9 +54,9 @@ public class CreateDto {
                 .projectName(projectName)
                 .projectMotive(projectMotive)
                 .projectImg(projectImg)
-                .projectContent(String.valueOf(projectContent))
+                .projectContent(projectContent)
                 .projectField(projectField)
-                .projectOnOff(projectOnOff)
+                //.projectOnOff(projectOnOff)
                 .projectArea(projectArea)
                 .projectTotal(projectTotal)
                 .projectReference(projectReference)
@@ -61,10 +66,10 @@ public class CreateDto {
                 .projectSkill(projectSkill)
                 .build();
     }
-
     public String listToStr(List<String> test) {
         String str = String.join(",", test);
         System.out.println(str);
         return str;
     }
+
 }

@@ -81,6 +81,7 @@ public class RegisterEntity {
                 .userIntroduce(userIntroduce)
                 .build();
     }
+
     public RegisterEntity(String userNickname, String userName, String userAbility, String userArea, String userTime, String userInterest,String userIntroduce){
         this.userNickname= userNickname;
         this.userName = userName;

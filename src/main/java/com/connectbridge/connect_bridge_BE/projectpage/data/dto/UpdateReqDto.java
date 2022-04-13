@@ -1,12 +1,12 @@
 package com.connectbridge.connect_bridge_BE.projectpage.data.dto;
 
-import com.connectbridge.connect_bridge_BE.projectpage.data.entity.Project;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,7 +20,7 @@ public class UpdateReqDto{
     private String projectImg;
     private String projectContent;
     private String projectField;
-    private String projectOnOff;
+    private boolean projectOnOff;
     private String projectArea;
     private String projectReference;
     private String projectStart;

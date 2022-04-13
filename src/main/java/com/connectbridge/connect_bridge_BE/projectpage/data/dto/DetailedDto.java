@@ -1,7 +1,8 @@
 package com.connectbridge.connect_bridge_BE.projectpage.data.dto;
 
 import com.connectbridge.connect_bridge_BE.projectpage.data.entity.Project;
-import lombok.Builder;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,6 +10,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @Setter
 @Getter
@@ -29,12 +31,12 @@ public class DetailedDto {
     private String projectArea;
     private String projectStart;
     private String projectEnd;
-    private String projectContent;
-    private String projectOnOff;
+    private List projectContent;
+    private boolean projectOnOff;
     private String projectReference;
     private String projectSkill;
 
-    public DetailedDto(Project project){
+    public DetailedDto(Project project) {
         this.userID = project.getUserID();
         this.projectName =  project.getProjectName();
         this.projectView =  project.getProjectView();
@@ -50,11 +52,36 @@ public class DetailedDto {
         this.projectArea =  project.getProjectArea();
         this.projectStart =  project.getProjectStart();
         this.projectEnd =  project.getProjectEnd();
-        this.projectContent =  project.getProjectContent();
-        this.projectOnOff =  project.getProjectOnOff();
+        this.projectContent = jacksonMap(project.getProjectContent());
+        this.projectOnOff =  project.isProjectOnOff();
         this.projectReference =  project.getProjectReference();
         this.projectSkill =  project.getProjectSkill();
     }
+/*
+    //이게 맞는지는 모르겠음.
+    public List jacksonMap(String json) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        //List<Map<Object, Object>> map = mapper.readValue(json, List.class);
+        List map = mapper.readValue(json, List.class);
+
+        System.out.println(map);
+        return map;
+    }
+
+ */
+
+    public List jacksonMap(String json) {
+        ObjectMapper mapper = new ObjectMapper();
+        //List<Map<Object, Object>> map = mapper.readValue(json, List.class);
+        List map = null;
+        try {
+            map = mapper.readValue(json, List.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return map;
+    }
+
 
     public List<String> convertList(String str){
         return Arrays.asList((str.split(",")));

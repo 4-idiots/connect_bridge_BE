@@ -3,11 +3,14 @@ package com.connectbridge.connect_bridge_BE.projectpage.service;
 import com.connectbridge.connect_bridge_BE.projectpage.data.dto.*;
 import com.connectbridge.connect_bridge_BE.projectpage.data.entity.Project;
 import com.connectbridge.connect_bridge_BE.projectpage.repository.ProjectRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,13 +28,13 @@ public class ProjectService {
     }
 
     // 페이징
-    public List<ProjectDto> pageProject() {
+    public List<ProjectDto> pageProject(){
         List<Project> list = projectRepository.findAll();
         return list.stream().map(Project::toProjectDto).collect(Collectors.toList());
     }
 
     // 상세 페이지
-    public DetailedDto inquiryProject(Long projectID) {
+    public DetailedDto inquiryProject(Long projectID) throws JsonProcessingException {
         Project project = projectRepository.findByProjectID(projectID);
 
         //DetailedDto dto = modelMapper.map(project,DetailedDto.class);
@@ -47,11 +50,18 @@ public class ProjectService {
     public void deleteProject(Long projectID) {
         projectRepository.deleteById(projectID);
     }
-
     // 업데이트
     public void updateProject(UpdateReqDto updateDto) {
         Project project = projectRepository.findByProjectID(updateDto.getProjectID());
         project.update(updateDto);
         projectRepository.save(project);
+    }
+
+    public void applyProject(ApplyDto applyDto){
+        /*
+        1. 유저가 해당 프로젝트에 지원 신청을 한다.
+        2. 프로젝트에는 누가 어느분야에 지원했는지를 구분해야 한다.
+        3. 유저는 자신이 어떤 프로젝트에 지원했는지 알아야한다.
+         */
     }
 }
