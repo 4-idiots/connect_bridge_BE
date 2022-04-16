@@ -34,7 +34,6 @@ public class OutActController {
             List<OutActDto> list = outActService.getList(pageable, page);
 
             if (list.isEmpty()) {
-                //return new ResponseEntity<>(list, HttpStatus.BAD_REQUEST);
                 return new ResponseEntity<>(list, HttpStatus.OK);
             }
             return ResponseEntity.ok(list);
@@ -96,13 +95,16 @@ public class OutActController {
 
     // 수정
     @PatchMapping("outdoor/post")
-    public ResponseEntity<Message> postUpdate(@RequestParam(value="outActID",required = false) Long id,
-                                     @RequestParam(value = "outActName",required = false) String title,
-                                     @RequestParam(value = "outActLink",required = false) String link,
-                                     @RequestParam(value = "outActImg",required = false) MultipartFile img
+    public ResponseEntity<Message> postUpdate(
+                                     @RequestParam(value = "outActImg") MultipartFile img,
+                                     @RequestParam(value="outActID") Long id,
+                                     @RequestParam(value = "outActName") String title,
+                                     @RequestParam(value = "outActLink") String link
                                      ){
+
         try{
             String url = s3Service.upload(img,"outactpost");
+            System.out.println(img);
 
             UpdateReqDto requestDto = UpdateReqDto.builder()
                     .outActID(id)
@@ -110,6 +112,7 @@ public class OutActController {
                     .outActLink(link)
                     .outActImg(url)
                     .build();
+
 
             outActService.updatePost(requestDto);
 
@@ -129,6 +132,7 @@ public class OutActController {
 
         }
     }
+
 
     // 삭제
     @DeleteMapping("/outdoor/post/{outActID}")

@@ -74,8 +74,6 @@ public class OutActService {
     public ModifyResDto modifyInfo(Long id){
         OutAct outAct= outActRepository.findByid(id);
 
-        System.out.println("service CreatePost 동작함.");
-
         return ModifyResDto.builder()
                 .outActName(outAct.getOutActName())
                 .outActImg(outAct.getOutActImg())
@@ -89,9 +87,6 @@ public class OutActService {
 
         String newUrl = requestDto.getOutActImg();
         String oldUrl = outAct.getOutActImg();
-
-        log.info("new url : {}",newUrl);
-        log.info("old url : {}",oldUrl);
 
         // 새 파일 등록 확인
         if (newUrl != null && !newUrl.isEmpty()) {
