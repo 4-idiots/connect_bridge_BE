@@ -68,6 +68,26 @@ public class RegisterEntity {
     @CreatedDate
     private LocalDateTime createDate;
 
+    public RegisterDto toregisterDto() {
+        return RegisterDto.builder()
+                .id(id)
+                .userPhone(userPhone)
+                .userID(userID)
+                .userPW(userPW)
+                .userNickname(userNickname)
+                .userName(userName)
+                .userBirthdayY(userBirthdayY)
+                .userBirthdayM(userBirthdayM)
+                .userBirthdayD(userBirthdayD)
+                .userGender(userGender)
+                .userEmail(userEmail)
+                .userAbility(userAbility)
+                .userArea(userArea)
+                .userTime(userTime)
+                .userInterest(userInterest)
+                .userIntroduce(userIntroduce)
+                .build();
+    }
 
     public RegisterEntity(String userNickname, String userName, String userAbility, String userArea, String userTime, String userInterest,String userIntroduce){
         this.userNickname= userNickname;

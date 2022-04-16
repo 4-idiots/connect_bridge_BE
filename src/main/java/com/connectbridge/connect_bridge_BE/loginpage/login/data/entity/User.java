@@ -18,9 +18,10 @@ import javax.persistence.*;
 @DynamicUpdate
 public class User {
     @Id
+    @Column(name = "user_id")
     private Long id;
 
-    @Column(name = "user_id")
+    @Column(name = "user_uid")
     private String userID;
 
     @Column(name = "user_pw")

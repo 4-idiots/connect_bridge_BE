@@ -95,8 +95,6 @@ public class OutActService {
     public ModifyResDto modifyInfo(Long id){
         OutAct outAct= outActRepository.findByid(id);
 
-        System.out.println("service CreatePost 동작함.");
-
         return ModifyResDto.builder()
                 .outActName(outAct.getOutActName())
                 .outActImg(outAct.getOutActImg())
@@ -108,8 +106,13 @@ public class OutActService {
     public Boolean updatePost(UpdateReqDto requestDto) throws IOException {
         OutAct outAct = outActRepository.findByid(requestDto.getOutActID());
 
+<<<<<<< HEAD
         // 기존 저장된 경로
         String filePath = outAct.getOutActImg();
+=======
+        String newUrl = requestDto.getOutActImg();
+        String oldUrl = outAct.getOutActImg();
+>>>>>>> login_a
 
         // 새 파일 등록 확인
         if (requestDto.getOutActImg() != null && !requestDto.getOutActImg().isEmpty()) {
