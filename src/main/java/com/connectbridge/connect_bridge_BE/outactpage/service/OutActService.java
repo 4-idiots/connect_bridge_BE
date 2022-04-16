@@ -1,5 +1,6 @@
 package com.connectbridge.connect_bridge_BE.outactpage.service;
 
+import com.connectbridge.connect_bridge_BE.amazonS3.S3Service;
 import com.connectbridge.connect_bridge_BE.loginpage.login.jwt.JwtProvider;
 import com.connectbridge.connect_bridge_BE.outactpage.data.dto.ModifyResDto;
 import com.connectbridge.connect_bridge_BE.outactpage.data.dto.OutActDto;
@@ -24,10 +25,12 @@ public class OutActService {
 
     private final JwtProvider jwtProvider;
     private final OutActRepository outActRepository;
+    private final S3Service s3Service;
 
-    public OutActService(JwtProvider jwtProvider, OutActRepository outActRepository) {
+    public OutActService(JwtProvider jwtProvider, OutActRepository outActRepository, S3Service s3Service) {
         this.jwtProvider = jwtProvider;
         this.outActRepository = outActRepository;
+        this.s3Service = s3Service;
     }
 
     // yml에 저장된 경로
@@ -45,40 +48,16 @@ public class OutActService {
 
         System.out.println("Service getList 동작 됨");
 
-            return pageDto;
-    }
-
-    // 파일 저장 경로 설정
-    public String uploadFile(String originName){
-
-        // file 이름 중복방지 uuid
-        String uuid = UUID.randomUUID().toString();
-
-        // 확장자 추출
-        String ext = originName.substring(originName.lastIndexOf("."));
-
-        // 저장될 이름
-        String saveName = uuid + ext;
-
-        // 저장될 경로
-        String filePath = baseDir +"\\"+ saveName;
-
-        return  filePath;
-
+        return pageDto;
     }
 
     // 생성
     public boolean createPost(PostCreateDto request) throws IOException {
 
         try {
-            // file 원본 이름
-            String originName = request.getOutActImg().getOriginalFilename();
-            //assert originName != null;
-            String filePath = uploadFile(originName);
-            request.getOutActImg().transferTo(new File(filePath));
 
             OutAct outAct = new OutAct();
-            outAct.createPost(request.getOutActName(),filePath, request.getOutActLink());
+            outAct.createPost(request.getOutActName(),request.getOutActImg(), request.getOutActLink());
             outActRepository.save(outAct);
 
             return true;
@@ -106,49 +85,38 @@ public class OutActService {
     public Boolean updatePost(UpdateReqDto requestDto) throws IOException {
         OutAct outAct = outActRepository.findByid(requestDto.getOutActID());
 
-<<<<<<< HEAD
-        // 기존 저장된 경로
-        String filePath = outAct.getOutActImg();
-=======
         String newUrl = requestDto.getOutActImg();
         String oldUrl = outAct.getOutActImg();
->>>>>>> login_a
 
         // 새 파일 등록 확인
-        if (requestDto.getOutActImg() != null && !requestDto.getOutActImg().isEmpty()) {
+        if (newUrl != null && !newUrl.isEmpty()) {
 
-            // 기존 경로의 파일 삭제
-            File file = new File(outAct.getOutActImg());
-            file.delete();
+            // 기존 파일 삭제
+            s3Service.deleteS3(oldUrl);
 
-            // 새 file 등록
-            String originName = requestDto.getOutActImg().getOriginalFilename();
-            assert originName != null : "originName is null";
-            filePath = uploadFile(originName);
-            requestDto.getOutActImg().transferTo(new File(filePath));
+            outAct.updatePost(requestDto.getOutActName(),
+                    newUrl,
+                    requestDto.getOutActLink());
+            outActRepository.save(outAct);
 
+            return true;
         }
-
-        outAct.updatePost(requestDto.getOutActName(),
-                filePath,
-                requestDto.getOutActLink());
-
-        outActRepository.save(outAct);
-
-        return true;
+        return false;
     }
 
     // 삭제
+    /*
+    전달받은 id로 해당 id의 DB에 있는 Img Url을 가져온다.
+    deleteS3: "https: ~ .com/"의 문자열을 때고 저장된 문서 + 이름을 이용해서 파일 삭제.
+    deleteById: id에 해당하는 row를 삭제
+     */
     public boolean deletePost(Long id){
         try {
             String path = outActRepository.findByid(id).getOutActImg(); // img 저장 경로
-            File file = new File(path); // 경로로 파일 생성
-            if(file.exists()){
-                file.delete(); // 경로의 파일 삭제
-            }
+
+            s3Service.deleteS3(path);
             // row 삭제
             outActRepository.deleteById(id);
-
 
             return true;
         }catch (Exception e){
@@ -156,5 +124,4 @@ public class OutActService {
             return false;
         }
     }
-
 }
