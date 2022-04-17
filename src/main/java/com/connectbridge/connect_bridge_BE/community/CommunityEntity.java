@@ -1,10 +1,16 @@
 package com.connectbridge.connect_bridge_BE.community;
 
+import com.connectbridge.connect_bridge_BE.community.comment.CommentEntity;
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.entity.RegisterEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -26,6 +32,11 @@ public class CommunityEntity {
 
     @Column(name = "post_hashtag")
     private String hashtag;
+
+    @OrderBy("id")
+    @JsonManagedReference
+    @OneToMany(mappedBy = "postID", fetch = FetchType.EAGER)
+    private List<CommentEntity> commentList = new ArrayList<>();
 
     @Column(name = "post_viewcount")
     private long viewCount;

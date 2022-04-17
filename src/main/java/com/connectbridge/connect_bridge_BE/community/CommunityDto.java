@@ -1,6 +1,7 @@
 package com.connectbridge.connect_bridge_BE.community;
 
 import com.connectbridge.connect_bridge_BE.community.CommunityEntity;
+import com.connectbridge.connect_bridge_BE.community.comment.CommentEntity;
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.entity.RegisterEntity;
 import lombok.*;
 
@@ -23,11 +24,13 @@ public class CommunityDto {
     private String contents;
     private long viewCount;
     private long likeCount;
+    private long likeCounta;
     private long commentCount;
     private String userNickname; //fromUserId
     private long fromUserId;
     private long state;
     private String color;
+    private List<CommentEntity> commentList;
 
 
     public String convertStr(List<String> hashtag) { //DB에 저장
@@ -46,8 +49,10 @@ public class CommunityDto {
         this.hashtag = convertList(communityEntity.getHashtag());
         this.viewCount = communityEntity.getViewCount();
         this.likeCount = communityEntity.getLikeCount();
+        this.likeCounta = communityEntity.getLikeCount();
         this.commentCount = communityEntity.getCommentCount();
         this.userNickname = communityEntity.getUserNickname();
+        this.setCommentList(communityEntity.getCommentList());
     }
     public CommunityEntity communityEntity() {
         return CommunityEntity.builder()
@@ -59,6 +64,7 @@ public class CommunityDto {
                 .likeCount(likeCount)
                 .commentCount(commentCount)
                 .userNickname(userNickname)
+                .commentList(commentList)
                 .build();
     }
 
