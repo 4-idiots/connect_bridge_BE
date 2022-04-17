@@ -354,7 +354,5 @@ public class ProjectEntity extends BaseTimeEntity {
                 .influEtcNow(createDto.getInfluEtcNow())
                 .compEtcNow(createDto.getCompEtcNow())
                 .build();
-
-
     }
 }
