@@ -67,7 +67,9 @@ public class CommunityService {
         communityDto.setUserNickname(communityEntity.getUserNickname());
         communityDto.setViewCount(communityEntity.getViewCount());
         communityDto.setLikeCount(communityEntity.getLikeCount());
+        communityDto.setLikeCounta(communityEntity.getLikeCount());
         communityDto.setCommentCount(communityEntity.getCommentCount());
+        communityDto.setCommentList(communityEntity.getCommentList());
         if (fromUserId != 0){
             if (communityLikeRepository.findByFromUserIdAndToPostId(fromUserId, communityID) != null){
                 communityDto.setState(Long.valueOf(2));
