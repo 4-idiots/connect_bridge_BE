@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
-    ProjectEntity findByProjectID(Long projectID);
+    ProjectEntity findByid(Long id);
 }

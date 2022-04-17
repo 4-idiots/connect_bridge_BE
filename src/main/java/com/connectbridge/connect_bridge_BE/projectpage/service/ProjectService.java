@@ -49,7 +49,7 @@ public class ProjectService {
 
     // 상세
     public DetailDto detailProject(Long projectID){
-        ProjectEntity project = projectRepository.findByProjectID(projectID);
+        ProjectEntity project = projectRepository.findByid(projectID);
         DetailDto detailDto = new DetailDto(project);
         return detailDto;
     }
@@ -62,7 +62,7 @@ public class ProjectService {
         4. delete old Img to s3 server
          */
     public Boolean updateProject(Long projectID, MultipartFile projectImg, CreateDto createDto) throws IOException {
-        ProjectEntity projectEntity = projectRepository.findByProjectID(projectID);
+        ProjectEntity projectEntity = projectRepository.findByid(projectID);
 
         if(projectEntity != null) {
                 String now = s3Service.upload(projectImg, "project");
@@ -86,7 +86,7 @@ public class ProjectService {
      */
     public boolean deleteProject(Long projectID){
         try {
-            ProjectEntity project = projectRepository.findByProjectID(projectID);
+            ProjectEntity project = projectRepository.findByid(projectID);
             String path = project.getProjectImg();
             s3Service.deleteS3(path);
 
