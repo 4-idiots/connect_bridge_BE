@@ -16,7 +16,6 @@ public class OutAct extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name ="post_id")
     private Long id; // primary key
 
     @Column(name = "post_name")

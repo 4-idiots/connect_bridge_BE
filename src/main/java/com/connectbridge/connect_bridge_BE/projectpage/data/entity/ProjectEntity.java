@@ -19,8 +19,7 @@ public class ProjectEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "project_id")
-    private Long projectID;
+    private Long id;
 
     @Column(name = "user_id")
     private Long userID; // user table의 user_id(pk)를 fk로 사용

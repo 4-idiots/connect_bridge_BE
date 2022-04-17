@@ -18,8 +18,7 @@ public class SubmitEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "submit_id")
-    private Long submitID;
+    private Long id;
 
     @Column(name = "project_id")
     private Long projectID;
