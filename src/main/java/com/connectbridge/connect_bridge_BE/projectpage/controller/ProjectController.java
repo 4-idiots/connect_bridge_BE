@@ -23,14 +23,18 @@ public class ProjectController {
         this.s3Service = s3Service;
     }
 
-/*
+
     @GetMapping("/project")
     public ResponseEntity<?> projectPage(){
+        try{
+            return new ResponseEntity<>(projectService.pagingProject(),HttpStatus.OK);
+        }catch (Exception e){
+            System.out.println(e);
+            return new ResponseEntity<>(new Message("no"),HttpStatus.BAD_REQUEST);
+        }
 
-        return new ResponseEntity<>(projectService.pagingProject(),HttpStatus.OK);
     }
 
- */
 
     // 생성
     @PostMapping("/project")

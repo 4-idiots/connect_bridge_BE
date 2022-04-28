@@ -1,14 +1,17 @@
 package com.connectbridge.connect_bridge_BE.community;
 
+import com.connectbridge.connect_bridge_BE.community.comment.CommentRepository;
 import com.connectbridge.connect_bridge_BE.community.like.CommunityLikeRepository;
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.entity.RegisterEntity;
 import com.connectbridge.connect_bridge_BE.loginpage.register.repository.RegisterRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+import org.qlrm.mapper.JpaResultMapper;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.util.List;
-
+import javax.persistence.EntityManager;
 
 @Service
 @Slf4j
@@ -16,11 +19,15 @@ public class CommunityService {
     private final CommunityRepository communityRepository;
     private final RegisterRepository registerRepository;
     private final CommunityLikeRepository communityLikeRepository;
+    private final CommentRepository commentRepository;
+    private final EntityManager em;
 
-    public CommunityService(CommunityRepository communityRepository, RegisterRepository registerRepository, CommunityLikeRepository communityLikeRepository){
+    public CommunityService(CommunityRepository communityRepository, RegisterRepository registerRepository, CommunityLikeRepository communityLikeRepository, CommentRepository commentRepository, EntityManager em){
         this.communityRepository = communityRepository;
         this.registerRepository = registerRepository;
         this.communityLikeRepository = communityLikeRepository;
+        this.commentRepository = commentRepository;
+        this.em = em;
     }
 
 
@@ -34,18 +41,16 @@ public class CommunityService {
         communityDto.setCommentCount(0);
         communityRepository.save(communityDto.communityEntity()).getId();
     }
+    @Transactional
+    public List<CommunityEntity> getList() {
 
-    public List<CommunityDto> getList(Pageable pageable, int reqPage) {
+        //pageable = PageRequest.of(reqPage, 5, Sort.by(Sort.Direction.DESC, "id"));
 
-        pageable = PageRequest.of(reqPage, 2, Sort.by(Sort.Direction.DESC, "id"));
+        List<CommunityEntity> paging = communityRepository.findAll(); // DB값 불러옴.
 
-        Page<CommunityEntity> page = communityRepository.findAll(pageable); // DB값 불러옴.
+        //List<CommunityDto> pageDto = page.map(CommunityDto::new).getContent(); // List로 받게 바꿔봄
 
-        List<CommunityDto> pageDto = page.map(CommunityDto::new).getContent(); // List로 받게 바꿔봄 ㅋ
-
-        System.out.println("Service getList 동작 됨" + page);
-
-        return pageDto;
+        return paging;
     }
     public void postcountup(long communityID){
         CommunityEntity community = communityRepository.findByid(communityID);
@@ -60,11 +65,14 @@ public class CommunityService {
         CommunityDto communityDto = new CommunityDto();
 
         CommunityEntity communityEntity = communityRepository.getById(communityID);
+        RegisterEntity id = registerRepository.findById(communityID).get();
         communityDto.setPostID(communityEntity.getId());
         communityDto.setTitle(communityEntity.getTitle());
         communityDto.setHashtag(communityDto.convertList(communityEntity.getHashtag()));
         communityDto.setContents(communityEntity.getContents());
         communityDto.setUserNickname(communityEntity.getUserNickname());
+        communityDto.setUserAbility(id.getUserAbility());
+        communityDto.setUserInterest(id.getUserInterest());
         communityDto.setViewCount(communityEntity.getViewCount());
         communityDto.setLikeCount(communityEntity.getLikeCount());
         communityDto.setLikeCounta(communityEntity.getLikeCount());
@@ -91,4 +99,35 @@ public class CommunityService {
         communityRepository.save(community);
     }
 
+    public void communityDelete(long communityId){
+        CommunityEntity communityEntity = communityRepository.getById(communityId);
+
+        //commentRepository.deleteCommentsBycommunity(communityEntity);
+        //communityLikeRepository.deleteLikesBycommunity(communityEntity);
+
+
+        communityRepository.deleteById(communityId);
+
+    }
+    @Transactional
+    public List<CommunityPreviewDto> getPopularPost() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("SELECT p.id, p.post_title, p.post_hashtag, p.post_user_nickname, p.post_viewcount, COUNT(p.id) as likesCount, p.post_commentcount ");
+        sb.append("FROM communitylike l, community p ");
+        sb.append("WHERE l.to_post_id = p.id ");
+        sb.append("AND p.id IN (SELECT p.id FROM communitylike l, community p WHERE p.id = l.to_post_id) ");
+        sb.append("AND p.post_likecount > 1 ");
+        sb.append("GROUP BY p.id ");
+        sb.append("ORDER BY p.id DESC");
+        sb.append("LIMIT 3 OFFSET {page}");
+
+        // 쿼리 완성
+        Query query = em.createNativeQuery(sb.toString());
+
+        //JPA 쿼리 매핑 - DTO에 매핑
+        JpaResultMapper result = new JpaResultMapper();
+        List<CommunityPreviewDto> communityDtoList = result.list(query, CommunityPreviewDto.class);
+
+        return communityDtoList;
+    }
 }

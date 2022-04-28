@@ -88,12 +88,12 @@ public class DetailDto {
 
     String projectName;
     boolean projectMotive;
-    String projectStrImg;
+    String projectImg;
     List projectContent;
     String projectField;
     boolean projectOnOff;
     String projectArea;
-    String projectTotal;
+    List projectTotal;
     String projectReference;
     String projectStart;
     String projectEnd;
@@ -101,6 +101,7 @@ public class DetailDto {
     String projectSkill;
     int projectView;
     int projectLike;
+    Long userID;
 
 
     public List jacksonMap(String json) {
@@ -179,12 +180,12 @@ public class DetailDto {
          this.compEtcNow = projectEntity.getCompEtcNow();
          this.projectName = projectEntity.getProjectName();
          this.projectMotive = projectEntity.isProjectMotive();
-         this.projectStrImg = projectEntity.getProjectImg();
+         this.projectImg = projectEntity.getProjectImg();
          this.projectContent = jacksonMap(projectEntity.getProjectContent());
          this.projectField = projectEntity.getProjectField();
          this.projectOnOff =projectEntity.isProjectOnOff();
          this.projectArea = projectEntity.getProjectArea();
-         this.projectTotal = projectEntity.getProjectTotal();
+        this.projectTotal = jacksonMap(projectEntity.getProjectTotal());
          this.projectReference = projectEntity.getProjectReference();
          this.projectStart = projectEntity.getProjectStart();
          this.projectEnd = projectEntity.getProjectEnd();
@@ -192,6 +193,7 @@ public class DetailDto {
          this.projectSkill = projectEntity.getProjectSkill();
          this.projectLike =projectEntity.getProjectLike();
          this.projectView = projectEntity.getProjectView();
+         this.userID = projectEntity.getUserID();
     }
 
 }

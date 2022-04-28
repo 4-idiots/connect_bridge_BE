@@ -27,6 +27,8 @@ public class CommunityDto {
     private long likeCounta;
     private long commentCount;
     private String userNickname; //fromUserId
+    private String userAbility;
+    private String userInterest;
     private long fromUserId;
     private long state;
     private String color;

@@ -64,4 +64,8 @@ public class CommunityEntity {
         this.id = id;
         this.likeCount = likeCount;
     }
+    public void commentCount(long id, long commentCount){
+        this.id = id;
+        this.commentCount = commentCount;
+    }
 }

@@ -29,12 +29,12 @@ public class ProjectService {
         this.s3Service = s3Service;
         this.submitRepository = submitRepository;
     }
-/*
+
     public List<ProjectEntity> pagingProject(){
         List<ProjectEntity> paging = projectRepository.findAll();
         return paging;
     }
- */
+
 
     // 생성
     public void createProject(CreateDto createDto){

@@ -22,7 +22,6 @@ public class CommentService {
     public void addComment (CommentDto commentDto, long fromUserId) {
         CommunityEntity post = communityRepository.findById(commentDto.getPostID()).get();
         RegisterEntity user = registerRepository.findById(fromUserId).get();
-        String userNickname = user.getUserNickname();
         CommentEntity commentEntity = CommentEntity.builder()
                 .comment(commentDto.getComment())
                 .postID(post)
@@ -40,6 +39,14 @@ public class CommentService {
         System.out.println(commentEntity);
         commentEntity.updateComment(commentDto.getId(), commentDto.getComment());
         commentRepository.save(commentEntity);
+    }
+
+    @Transactional
+    public void commentcounting(long toPostId) {
+        CommunityEntity communityEntity = communityRepository.getById(toPostId);
+        int commentcount = commentRepository.findCommentCountById(toPostId);
+        communityEntity.commentCount(toPostId, commentcount);
+        communityRepository.save(communityEntity);
     }
 
 }

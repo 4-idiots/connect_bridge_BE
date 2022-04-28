@@ -4,9 +4,7 @@ import com.connectbridge.connect_bridge_BE.teampage.TeamProfileDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +17,7 @@ public class CommunityController {
     private final CommunityRepository communityRepository;
     private final CommunityService communityService;
 
-    @GetMapping("/community")
+    @GetMapping("/communityw")
     public ResponseEntity<String> getcommunitywrite() throws Exception{
         return new ResponseEntity<>("ok", HttpStatus.OK);
     }
@@ -35,14 +33,9 @@ public class CommunityController {
     }
 
 
-    @GetMapping("/community{page}")
-    public ResponseEntity<List<CommunityDto>> getPageList(@PathVariable("page") int page, Pageable pageable){
-        System.out.println("페이지 번호" + page);
-        List<CommunityDto> list = communityService.getList(pageable, page);
-        if(list.isEmpty()){
-            return new ResponseEntity<>(list,HttpStatus.OK);
-        }
-        return ResponseEntity.ok(list);
+    @GetMapping("/community")
+    public ResponseEntity<?> getPageList(){
+        return new ResponseEntity<>(communityService.getList(),HttpStatus.OK);
     }
 
     @GetMapping("/community/info/{fromUserId}/{communityID}")
@@ -62,6 +55,18 @@ public class CommunityController {
     }
 
 
+    @DeleteMapping("/community/delete/{id}")
+    public ResponseEntity communityDel(@PathVariable long communityId) {
+        //communityService.communityDelete(communityId);
+        Message message = Message.builder()
+                .message("ok")
+                .build();
+        return new ResponseEntity<>(message, HttpStatus.OK);
+    }
 
+    @GetMapping("/community/popular")
+    public ResponseEntity<?> getPopularCommunity(){
+        return new ResponseEntity<>(communityService.getPopularPost(),HttpStatus.OK);
+    }
 
 }
