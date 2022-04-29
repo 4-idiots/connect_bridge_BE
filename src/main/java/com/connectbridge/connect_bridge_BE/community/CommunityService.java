@@ -42,15 +42,22 @@ public class CommunityService {
         communityRepository.save(communityDto.communityEntity()).getId();
     }
     @Transactional
-    public List<CommunityEntity> getList() {
+    public List<CommunityPreviewDto> getList() {
 
-        //pageable = PageRequest.of(reqPage, 5, Sort.by(Sort.Direction.DESC, "id"));
+        StringBuffer sb = new StringBuffer();
+        sb.append("SELECT p.id, p.post_title, p.post_hashtag, p.post_user_nickname, p.post_viewcount, p.post_likecount, p.post_commentcount ");
+        sb.append("FROM community p ");
+        sb.append("GROUP BY p.id ");
+        sb.append("ORDER BY p.id DESC");
 
-        List<CommunityEntity> paging = communityRepository.findAll(); // DB값 불러옴.
+        // 쿼리 완성
+        Query query = em.createNativeQuery(sb.toString());
 
-        //List<CommunityDto> pageDto = page.map(CommunityDto::new).getContent(); // List로 받게 바꿔봄
+        //JPA 쿼리 매핑 - DTO에 매핑
+        JpaResultMapper result = new JpaResultMapper();
+        List<CommunityPreviewDto> communityList = result.list(query, CommunityPreviewDto.class);
 
-        return paging;
+        return communityList;
     }
     public void postcountup(long communityID){
         CommunityEntity community = communityRepository.findByid(communityID);
@@ -65,19 +72,34 @@ public class CommunityService {
         CommunityDto communityDto = new CommunityDto();
 
         CommunityEntity communityEntity = communityRepository.getById(communityID);
-        RegisterEntity id = registerRepository.findById(communityID).get();
-        communityDto.setPostID(communityEntity.getId());
-        communityDto.setTitle(communityEntity.getTitle());
-        communityDto.setHashtag(communityDto.convertList(communityEntity.getHashtag()));
-        communityDto.setContents(communityEntity.getContents());
-        communityDto.setUserNickname(communityEntity.getUserNickname());
-        communityDto.setUserAbility(id.getUserAbility());
-        communityDto.setUserInterest(id.getUserInterest());
-        communityDto.setViewCount(communityEntity.getViewCount());
-        communityDto.setLikeCount(communityEntity.getLikeCount());
-        communityDto.setLikeCounta(communityEntity.getLikeCount());
-        communityDto.setCommentCount(communityEntity.getCommentCount());
-        communityDto.setCommentList(communityEntity.getCommentList());
+
+        if(fromUserId == 0){
+            communityDto.setPostID(communityEntity.getId());
+            communityDto.setTitle(communityEntity.getTitle());
+            communityDto.setHashtag(communityDto.convertList(communityEntity.getHashtag()));
+            communityDto.setContents(communityEntity.getContents());
+            communityDto.setUserNickname(communityEntity.getUserNickname());
+            communityDto.setViewCount(communityEntity.getViewCount());
+            communityDto.setLikeCount(communityEntity.getLikeCount());
+            communityDto.setLikeCounta(communityEntity.getLikeCount());
+            communityDto.setCommentCount(communityEntity.getCommentCount());
+            communityDto.setCommentList(communityEntity.getCommentList());
+        }
+        else {
+            RegisterEntity id = registerRepository.getById(fromUserId);
+            communityDto.setPostID(communityEntity.getId());
+            communityDto.setTitle(communityEntity.getTitle());
+            communityDto.setHashtag(communityDto.convertList(communityEntity.getHashtag()));
+            communityDto.setContents(communityEntity.getContents());
+            communityDto.setUserNickname(communityEntity.getUserNickname());
+            communityDto.setUserAbility(id.getUserAbility());
+            communityDto.setUserInterest(id.getUserInterest());
+            communityDto.setViewCount(communityEntity.getViewCount());
+            communityDto.setLikeCount(communityEntity.getLikeCount());
+            communityDto.setLikeCounta(communityEntity.getLikeCount());
+            communityDto.setCommentCount(communityEntity.getCommentCount());
+            communityDto.setCommentList(communityEntity.getCommentList());
+        }
         if (fromUserId != 0){
             if (communityLikeRepository.findByFromUserIdAndToPostId(fromUserId, communityID) != null){
                 communityDto.setState(Long.valueOf(2));
@@ -116,10 +138,9 @@ public class CommunityService {
         sb.append("FROM communitylike l, community p ");
         sb.append("WHERE l.to_post_id = p.id ");
         sb.append("AND p.id IN (SELECT p.id FROM communitylike l, community p WHERE p.id = l.to_post_id) ");
-        sb.append("AND p.post_likecount > 1 ");
+        sb.append("AND p.post_likecount > 2 ");
         sb.append("GROUP BY p.id ");
         sb.append("ORDER BY p.id DESC");
-        sb.append("LIMIT 3 OFFSET {page}");
 
         // 쿼리 완성
         Query query = em.createNativeQuery(sb.toString());
@@ -129,5 +150,12 @@ public class CommunityService {
         List<CommunityPreviewDto> communityDtoList = result.list(query, CommunityPreviewDto.class);
 
         return communityDtoList;
+    }
+
+    @Transactional
+    public List<CommunityEntity> getSerach(String keyword){
+        List<CommunityEntity> paging = communityRepository.searchResultByTitleContaining(keyword);
+
+        return paging;
     }
 }

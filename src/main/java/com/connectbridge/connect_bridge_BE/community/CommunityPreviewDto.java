@@ -15,7 +15,7 @@ import java.util.List;
 @Setter
 public class CommunityPreviewDto {
     private long postID;
-    private String tile;
+    private String title;
     private List<String> hashtag;
     private String userNickname;
     private long viewCount;
@@ -28,9 +28,9 @@ public class CommunityPreviewDto {
         return Arrays.asList((str.split(",")));
     } //DB에서 빼냄
 
-    public CommunityPreviewDto(BigInteger postID, String tile, String hashtag, String userNickname, BigInteger viewCount, BigInteger likeCount, BigInteger commentCount) {
+    public CommunityPreviewDto(BigInteger postID, String title, String hashtag, String userNickname, BigInteger viewCount, BigInteger likeCount, BigInteger commentCount) {
         this.postID = postID.longValue();
-        this.tile = tile;
+        this.title = title;
         this.hashtag = convertList(String.valueOf(hashtag));
         this.userNickname = userNickname;
         this.viewCount = viewCount.longValue();

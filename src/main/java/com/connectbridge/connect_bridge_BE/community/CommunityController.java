@@ -68,5 +68,9 @@ public class CommunityController {
     public ResponseEntity<?> getPopularCommunity(){
         return new ResponseEntity<>(communityService.getPopularPost(),HttpStatus.OK);
     }
+    @GetMapping("/serach/{keyword}")
+    public ResponseEntity<?> getSerach(@PathVariable("keyword") String keyword){
+        return new ResponseEntity<>(communityService.getSerach(keyword), HttpStatus.OK);
+    }
 
 }
