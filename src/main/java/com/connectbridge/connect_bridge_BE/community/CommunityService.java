@@ -10,7 +10,11 @@ import org.springframework.stereotype.Service;
 import org.qlrm.mapper.JpaResultMapper;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 
 @Service
@@ -153,8 +157,9 @@ public class CommunityService {
     }
 
     @Transactional
-    public List<CommunityEntity> getSerach(String keyword){
-        List<CommunityEntity> paging = communityRepository.searchResultByTitleContaining(keyword);
+    public List<CommunityPreviewDto> getSerach(String keyword){
+        List<CommunityPreviewDto> paging = communityRepository.searchResultByTitleContainingOrderByIdDesc(keyword).stream()
+                .map(CommunityPreviewDto::fromEntity).collect(Collectors.toList());
 
         return paging;
     }

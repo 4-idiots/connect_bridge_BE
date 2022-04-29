@@ -24,7 +24,7 @@ public class CommunityPreviewDto {
 
 
 
-    public List<String> convertList(String str){
+    public static List<String> convertList(String str){
         return Arrays.asList((str.split(",")));
     } //DB에서 빼냄
 
@@ -37,4 +37,17 @@ public class CommunityPreviewDto {
         this.likeCount = likeCount.longValue();
         this.commentCount = commentCount.longValue();
     }
+
+    public static CommunityPreviewDto fromEntity(CommunityEntity communityEntity){
+        return CommunityPreviewDto.builder()
+                .postID(communityEntity.getId())
+                .title(communityEntity.getTitle())
+                .hashtag(convertList(communityEntity.getHashtag()))
+                .userNickname(communityEntity.getUserNickname())
+                .viewCount(communityEntity.getViewCount())
+                .likeCount(communityEntity.getLikeCount())
+                .commentCount(communityEntity.getCommentCount())
+                .build();
+    }
+
 }

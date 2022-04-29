@@ -30,13 +30,14 @@ public class CommunityEntity {
     @Column(name = "post_contents")
     private String contents;
 
-    @Column(name = "post_hashtag")
-    private String hashtag;
-
     @OrderBy("id")
     @JsonManagedReference
     @OneToMany(mappedBy = "postID", fetch = FetchType.EAGER)
     private List<CommentEntity> commentList = new ArrayList<>();
+
+    @Column(name = "post_hashtag")
+    private String hashtag;
+
 
     @Column(name = "post_viewcount")
     private long viewCount;
@@ -68,4 +69,7 @@ public class CommunityEntity {
         this.id = id;
         this.commentCount = commentCount;
     }
+
+
+
 }
