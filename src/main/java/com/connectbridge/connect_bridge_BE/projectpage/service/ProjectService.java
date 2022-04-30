@@ -32,11 +32,8 @@ public class ProjectService {
         this.submitRepository = submitRepository;
     }
 
-<<<<<<< HEAD
-    public List<ProjectEntity> pagingProject(){
-=======
     public List<ProjectEntity> pagingProject() {
->>>>>>> main
+
         List<ProjectEntity> paging = projectRepository.findAll();
         Long count = projectRepository.count();
         //List<ProjectDto> page = new ArrayList<>();
@@ -46,10 +43,6 @@ public class ProjectService {
         //List<ProjectDto> page = paging.stream().map(p-> modelMapper.map(p,ProjectDto.class)).collect(Collectors.toList());
         return paging;
     }
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 
     // 생성
     public void createProject(CreateDto createDto) {

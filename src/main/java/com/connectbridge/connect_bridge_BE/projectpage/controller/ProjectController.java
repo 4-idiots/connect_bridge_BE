@@ -35,12 +35,6 @@ public class ProjectController {
 
     }
 
-<<<<<<< HEAD
-=======
-
- */
->>>>>>> main
-
     // 생성
     @PostMapping("/project")
     public ResponseEntity<Message> projectCreate(
