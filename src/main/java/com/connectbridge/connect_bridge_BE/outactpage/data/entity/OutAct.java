@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -47,6 +48,10 @@ public class OutAct extends BaseTimeEntity{
         this.outActName = outActName;
         this.outActImg = outActImg;
         this.outActLink = outActLink;
+    }
+
+    public void updateLike(int outActLike){
+        this.outActLike = outActLike;
     }
 
 }

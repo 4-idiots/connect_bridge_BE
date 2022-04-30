@@ -35,6 +35,11 @@ public class ProjectController {
 
     }
 
+<<<<<<< HEAD
+=======
+
+ */
+>>>>>>> main
 
     // 생성
     @PostMapping("/project")
@@ -87,12 +92,12 @@ public class ProjectController {
             return new ResponseEntity<>(new Message("no"),HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping("/project/apply")
+    @PatchMapping("/project/apply")
     public ResponseEntity<?> submitProject(@RequestBody SubmitDto submitDto) {
-
             if(projectService.submitProject(submitDto)){
                 return new ResponseEntity<>(new Message("ok"),HttpStatus.OK);
             }
             return new ResponseEntity<>(new Message("no"),HttpStatus.BAD_REQUEST);
     }
+
 }

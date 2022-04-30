@@ -30,6 +30,10 @@ dependencies {
 	implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.4.5'
 	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 	implementation group: 'org.qlrm', name: 'qlrm', version: '3.0.1'
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.2.1'
 

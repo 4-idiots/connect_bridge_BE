@@ -101,7 +101,11 @@ public class DetailDto {
     String projectSkill;
     int projectView;
     int projectLike;
+<<<<<<< HEAD
     Long userID;
+=======
+    Long userID; // 4.18 추가
+>>>>>>> main
 
 
     public List jacksonMap(String json) {
@@ -185,7 +189,11 @@ public class DetailDto {
          this.projectField = projectEntity.getProjectField();
          this.projectOnOff =projectEntity.isProjectOnOff();
          this.projectArea = projectEntity.getProjectArea();
+<<<<<<< HEAD
         this.projectTotal = jacksonMap(projectEntity.getProjectTotal());
+=======
+         this.projectTotal = jacksonMap(projectEntity.getProjectTotal());
+>>>>>>> main
          this.projectReference = projectEntity.getProjectReference();
          this.projectStart = projectEntity.getProjectStart();
          this.projectEnd = projectEntity.getProjectEnd();

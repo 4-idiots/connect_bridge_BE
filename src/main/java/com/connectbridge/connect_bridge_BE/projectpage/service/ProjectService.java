@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProjectService {
@@ -30,14 +32,27 @@ public class ProjectService {
         this.submitRepository = submitRepository;
     }
 
+<<<<<<< HEAD
     public List<ProjectEntity> pagingProject(){
+=======
+    public List<ProjectEntity> pagingProject() {
+>>>>>>> main
         List<ProjectEntity> paging = projectRepository.findAll();
+        Long count = projectRepository.count();
+        //List<ProjectDto> page = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            System.out.println(paging.get(i));
+        }
+        //List<ProjectDto> page = paging.stream().map(p-> modelMapper.map(p,ProjectDto.class)).collect(Collectors.toList());
         return paging;
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 
     // 생성
-    public void createProject(CreateDto createDto){
+    public void createProject(CreateDto createDto) {
         /*
         Project create-> Apply create(project_id is fk).
         -Multipart Img. clear.
@@ -48,7 +63,7 @@ public class ProjectService {
     }
 
     // 상세
-    public DetailDto detailProject(Long projectID){
+    public DetailDto detailProject(Long projectID) {
         ProjectEntity project = projectRepository.findByid(projectID);
         DetailDto detailDto = new DetailDto(project);
         return detailDto;
@@ -64,18 +79,18 @@ public class ProjectService {
     public Boolean updateProject(Long projectID, MultipartFile projectImg, CreateDto createDto) throws IOException {
         ProjectEntity projectEntity = projectRepository.findByid(projectID);
 
-        if(projectEntity != null) {
-                String now = s3Service.upload(projectImg, "project");
-                createDto.setProjectStrImg(now);
+        if (projectEntity != null) {
+            String now = s3Service.upload(projectImg, "project");
+            createDto.setProjectStrImg(now);
 
-                String old = projectEntity.getProjectImg();
-                s3Service.deleteS3(old);
+            String old = projectEntity.getProjectImg();
+            s3Service.deleteS3(old);
 
-                projectEntity.proEntUpdate(createDto);
-                projectRepository.save(projectEntity);
-                return true;
+            projectEntity.proEntUpdate(createDto);
+            projectRepository.save(projectEntity);
+            return true;
         }
-            return null;
+        return null;
     }
 
     // 삭제
@@ -84,7 +99,7 @@ public class ProjectService {
     2. s3 server Img delete
     3. project table delete
      */
-    public boolean deleteProject(Long projectID){
+    public boolean deleteProject(Long projectID) {
         try {
             ProjectEntity project = projectRepository.findByid(projectID);
             String path = project.getProjectImg();
@@ -93,25 +108,30 @@ public class ProjectService {
             projectRepository.deleteById(projectID);
 
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
 
     }
 
-    public boolean submitProject(SubmitDto submitDto){
+    // 지원.
+    public boolean submitProject(SubmitDto submitDto) {
         try {
             boolean chker = submitRepository.existsByUserIDAndProjectID(submitDto.getUserID(), submitDto.getProjectID());
             if (!chker) {
                 SubmitEntity submitEntity = new SubmitEntity().createSubmit(submitDto);
                 submitRepository.save(submitEntity);
+                System.out.println("submit save done");
                 return true;
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e);
-                return false;
-            }
+            System.out.println("submit save fail");
             return false;
         }
+        return false;
+    }
+
 }
+
