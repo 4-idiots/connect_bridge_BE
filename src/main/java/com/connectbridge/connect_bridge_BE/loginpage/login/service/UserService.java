@@ -52,10 +52,8 @@ public class UserService {
     // 아이디 찾기
     public FindIdRes findID(FindIdReq findIdReq){
         User user = userRepository.findByUserEmail(findIdReq.getUserEmail());
-
         String message="no",userID = "no";
-        if(user.getUserPhone().equals(findIdReq.getUserPhone()) &&
-                user.getUserName().equals(findIdReq.getUserName())){
+        if(user.getUserName().equals(findIdReq.getUserName())){
             message = "ok";
             userID = user.getUserID();
             //return new FindIdRes(message,userID);

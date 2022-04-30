@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -16,6 +17,7 @@ public class OutAct extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name ="id")
     private Long id; // primary key
 
     @Column(name = "post_name")
@@ -46,6 +48,10 @@ public class OutAct extends BaseTimeEntity{
         this.outActName = outActName;
         this.outActImg = outActImg;
         this.outActLink = outActLink;
+    }
+
+    public void updateLike(int outActLike){
+        this.outActLike = outActLike;
     }
 
 }

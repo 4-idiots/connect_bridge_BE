@@ -26,9 +26,15 @@ public class ProjectController {
 /*
     @GetMapping("/project")
     public ResponseEntity<?> projectPage(){
+        try{
+            return new ResponseEntity<>(projectService.pagingProject(),HttpStatus.OK);
+        }catch (Exception e){
+            System.out.println(e);
+            return new ResponseEntity<>(new Message("no"),HttpStatus.BAD_REQUEST);
+        }
 
-        return new ResponseEntity<>(projectService.pagingProject(),HttpStatus.OK);
     }
+
 
  */
 
@@ -83,12 +89,12 @@ public class ProjectController {
             return new ResponseEntity<>(new Message("no"),HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping("/project/apply")
+    @PatchMapping("/project/apply")
     public ResponseEntity<?> submitProject(@RequestBody SubmitDto submitDto) {
-
             if(projectService.submitProject(submitDto)){
                 return new ResponseEntity<>(new Message("ok"),HttpStatus.OK);
             }
             return new ResponseEntity<>(new Message("no"),HttpStatus.BAD_REQUEST);
     }
+
 }

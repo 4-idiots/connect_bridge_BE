@@ -22,6 +22,7 @@ public class CommunityLikeController {
         communityLikeService.likecounting(toPostId);
         return new ResponseEntity<Boolean>(true, HttpStatus.OK);
     }
+
     @DeleteMapping("/community/like/{fromUserId}/{toPostId}")
     public ResponseEntity<?> unFollowUser(@PathVariable int fromUserId, @PathVariable long toPostId) {
         Long id = communityLikeService.unLike(fromUserId, toPostId);
@@ -32,5 +33,4 @@ public class CommunityLikeController {
                 .build();
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
-
 }

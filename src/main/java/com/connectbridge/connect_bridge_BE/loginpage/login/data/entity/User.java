@@ -29,9 +29,6 @@ public class User {
     @Column(name = "user_Name")
     private String userName;
 
-    @Column(name = "user_Phone")
-    private String userPhone;
-
     @Column(name = "user_Email")
     private String userEmail;
 
