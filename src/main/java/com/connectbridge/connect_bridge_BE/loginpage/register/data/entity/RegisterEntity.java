@@ -22,9 +22,6 @@ public class RegisterEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_phone")
-    private String userPhone;
-
     @Column(name = "user_id")
     private String userID;
 
@@ -36,16 +33,6 @@ public class RegisterEntity {
 
     @Column(name = "user_name")
     private String userName;
-
-    @Column(name = "user_birthday1")
-    private String userBirthdayY;
-    @Column(name = "user_birthday2")
-    private String userBirthdayM;
-    @Column(name = "user_birthday3")
-    private String userBirthdayD;
-
-    @Column(name = "user_gender")
-    private Boolean userGender;
 
     @Column(name = "user_email")
     private String userEmail;
@@ -59,11 +46,16 @@ public class RegisterEntity {
     @Column(name = "user_time")
     private String userTime;
 
-    @Column(name = "user_interest")
-    private String userInterest;
+    @Column(name = "user_interest_main")
+    private String userInterestMain;
+    @Column(name = "user_interest_sub")
+    private String userInterestSub;
+
 
     @Column(name = "user_introduce")
     private String userIntroduce;
+
+
     @Column(name = "createdate")
     @CreatedDate
     private LocalDateTime createDate;
@@ -71,31 +63,28 @@ public class RegisterEntity {
     public RegisterDto toregisterDto() {
         return RegisterDto.builder()
                 .id(id)
-                .userPhone(userPhone)
                 .userID(userID)
                 .userPW(userPW)
                 .userNickname(userNickname)
                 .userName(userName)
-                .userBirthdayY(userBirthdayY)
-                .userBirthdayM(userBirthdayM)
-                .userBirthdayD(userBirthdayD)
-                .userGender(userGender)
                 .userEmail(userEmail)
                 .userAbility(userAbility)
                 .userArea(userArea)
                 .userTime(userTime)
-                .userInterest(userInterest)
+                .userInterestMain(userInterestMain)
+                .userInterestSub(userInterestSub)
                 .userIntroduce(userIntroduce)
                 .build();
     }
 
-    public RegisterEntity(String userNickname, String userName, String userAbility, String userArea, String userTime, String userInterest,String userIntroduce){
+    public RegisterEntity(String userNickname, String userName, String userAbility, String userArea, String userTime, String userInterestMain ,String userInterestSub, String userIntroduce){
         this.userNickname= userNickname;
         this.userName = userName;
         this.userAbility = userAbility;
         this.userArea = userArea;
         this.userTime = userTime;
-        this.userInterest = userInterest;
+        this.userInterestMain = userInterestMain;
+        this.userInterestSub = userInterestSub;
         this.userIntroduce = userIntroduce;
     }
 }

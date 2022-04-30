@@ -57,7 +57,7 @@ public class RegisterController {
 
 
     @PostMapping("/register")
-    public ResponseEntity postRegister(@Valid @RequestBody RegisterDto registerDto) throws Exception {
+    public ResponseEntity postRegister(@RequestBody RegisterDto registerDto) throws Exception {
         registerService.postRegister(registerDto);
         Message message = Message.builder()
                 .message("ok")

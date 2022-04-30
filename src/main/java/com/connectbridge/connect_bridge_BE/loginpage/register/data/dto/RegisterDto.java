@@ -18,9 +18,6 @@ import java.time.LocalDateTime;
 
 public class RegisterDto {
     private Long id;
-    @Pattern(regexp="^[\\d]{10,11}",
-            message="휴대폰 번호는 필수 입력 값입니다.")
-    private String userPhone;
     @Pattern(regexp="^[A-Za-z\\d]{5,20}",
             message="아이디는 필수 입력 값입니다.")
     private String userID;
@@ -32,10 +29,6 @@ public class RegisterDto {
     private String userNickname;
     @NotBlank(message="이름은 필수 입력 값입니다.")
     private String userName;
-    private String userBirthdayY;
-    private String userBirthdayM;
-    private String userBirthdayD;
-    private Boolean userGender;
 
     @NotBlank(message="이메일은 필수 입력 값입니다.")
     @Email(message="이메일 형식에 맞지 않습니다.")
@@ -43,7 +36,8 @@ public class RegisterDto {
     private String userAbility;
     private String userArea;
     private String userTime;
-    private String userInterest;
+    private String userInterestMain;
+    private String userInterestSub;
     private String userIntroduce;
 
     private LocalDateTime registerDate;
@@ -52,20 +46,16 @@ public class RegisterDto {
     public RegisterEntity toregisterEntity() {
         return RegisterEntity.builder()
                 .id(id)
-                .userPhone(userPhone)
                 .userID(userID)
                 .userPW(userPW)
                 .userNickname(userNickname)
                 .userName(userName)
-                .userBirthdayY(userBirthdayY)
-                .userBirthdayM(userBirthdayM)
-                .userBirthdayD(userBirthdayD)
-                .userGender(userGender)
                 .userEmail(userEmail)
                 .userAbility(userAbility)
                 .userArea(userArea)
                 .userTime(userTime)
-                .userInterest(userInterest)
+                .userInterestMain(userInterestMain)
+                .userInterestSub(userInterestSub)
                 .userIntroduce(userIntroduce)
                 .createDate(registerDate)
                 .build();

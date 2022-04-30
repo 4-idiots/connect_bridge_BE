@@ -36,7 +36,9 @@ public class TeamService {
         teamProfileDto.setUserNickname(registerEntity.getUserNickname());
         teamProfileDto.setUserAbility(registerEntity.getUserAbility());
         teamProfileDto.setUserArea(registerEntity.getUserArea());
-        teamProfileDto.setUserInterest(registerEntity.getUserInterest());
+        teamProfileDto.setUserInterestMain(registerEntity.getUserInterestMain());
+        teamProfileDto.setUserInterestSub(registerEntity.getUserInterestSub());
+
         teamProfileDto.setUserIntroduce(registerEntity.getUserIntroduce());
         teamProfileDto.setUserTime(registerEntity.getUserTime());
         if (fromUserId != 0){

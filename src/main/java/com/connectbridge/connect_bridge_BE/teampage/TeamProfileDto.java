@@ -20,7 +20,8 @@ public class TeamProfileDto  {
     private String userAbility;
     private String userArea;
     private String userTime;
-    private String userInterest;
+    private String userInterestMain;
+    private String userInterestSub;
     private String userIntroduce;
     private Long follow;
     private String color;
@@ -30,7 +31,8 @@ public class TeamProfileDto  {
         this.userName = registerEntity.getUserName();
         this.userNickname = registerEntity.getUserNickname();
         this.userAbility = registerEntity.getUserAbility();
-        this.userInterest = registerEntity.getUserInterest();
+        this.userInterestMain = registerEntity.getUserInterestMain();
+        this.userInterestSub = registerEntity.getUserInterestSub();
         this.userTime = registerEntity.getUserTime();
         this.userIntroduce = registerEntity.getUserIntroduce();
         this.userArea = registerEntity.getUserArea();

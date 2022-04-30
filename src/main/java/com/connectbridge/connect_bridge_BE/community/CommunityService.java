@@ -97,7 +97,8 @@ public class CommunityService {
             communityDto.setContents(communityEntity.getContents());
             communityDto.setUserNickname(communityEntity.getUserNickname());
             communityDto.setUserAbility(id.getUserAbility());
-            communityDto.setUserInterest(id.getUserInterest());
+            communityDto.setUserInterestMain(id.getUserInterestMain());
+            communityDto.setUserInterestSub(id.getUserInterestSub());
             communityDto.setViewCount(communityEntity.getViewCount());
             communityDto.setLikeCount(communityEntity.getLikeCount());
             communityDto.setLikeCounta(communityEntity.getLikeCount());
@@ -142,7 +143,7 @@ public class CommunityService {
         sb.append("FROM communitylike l, community p ");
         sb.append("WHERE l.to_post_id = p.id ");
         sb.append("AND p.id IN (SELECT p.id FROM communitylike l, community p WHERE p.id = l.to_post_id) ");
-        sb.append("AND p.post_likecount > 2 ");
+        sb.append("AND p.post_likecount > 1 ");
         sb.append("GROUP BY p.id ");
         sb.append("ORDER BY p.id DESC");
 
