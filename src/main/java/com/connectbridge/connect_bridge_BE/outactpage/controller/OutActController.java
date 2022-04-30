@@ -135,7 +135,7 @@ public class OutActController {
 
     // 삭제
     @DeleteMapping("/outdoor/post/{outActID}")
-    public ResponseEntity<Message> deletePost(@PathVariable("outActID") Long id){
+    public ResponseEntity<Message> postDelete(@PathVariable("outActID") Long id){
         if(outActService.deletePost(id)){
 
             Message message = Message.builder()
@@ -152,4 +152,6 @@ public class OutActController {
             return new ResponseEntity<>(message,HttpStatus.BAD_REQUEST);
         }
     }
+
+
 }
