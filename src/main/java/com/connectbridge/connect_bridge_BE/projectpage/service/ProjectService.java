@@ -112,6 +112,8 @@ public class ProjectService {
     public boolean submitProject(SubmitDto submitDto) {
         try {
             boolean chker = submitRepository.existsByUserIDAndProjectID(submitDto.getUserID(), submitDto.getProjectID());
+            ProjectEntity project = projectRepository.findByid(submitDto.getProjectID());
+            //project.get(submitDto.getField());
             if (!chker) {
                 SubmitEntity submitEntity = new SubmitEntity().createSubmit(submitDto);
                 submitRepository.save(submitEntity);

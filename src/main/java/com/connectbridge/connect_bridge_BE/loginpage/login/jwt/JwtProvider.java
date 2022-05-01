@@ -41,7 +41,7 @@ public class JwtProvider {
 
         // 2h
         long ACCESS_TOKEN_VALID_TIME = 10 * 60 * 60 * 1000L;
-        //long ACCESS_TOKEN_VALID_TIME = 1000L*60;
+        //long ACCESS_TOKEN_VALID_TIME = 1000L*20;
 
         JwtBuilder builder = Jwts.builder()
                 .setHeader(header)
@@ -141,4 +141,13 @@ public class JwtProvider {
         return authHeader.substring("Bearer ".length());
     }
 
+    // Header에서 ID추출
+    public Long getTokenID(String accessToken){
+        /*
+        혹시나 나중에 아주 짧은 시간차이로 AccessToken이 만료된 후에 메서드가 실행되면 에러가 발생할 수 있음.
+         */
+            Claims claims = Jwts.parser().setSigningKey(secretKey.getBytes()).parseClaimsJws(accessToken).getBody();
+            int id = (int) claims.get("id");
+            return Long.valueOf(id);
+    }
 }

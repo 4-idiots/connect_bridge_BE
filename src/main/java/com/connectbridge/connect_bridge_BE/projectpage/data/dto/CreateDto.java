@@ -15,9 +15,8 @@ import java.util.List;
 public class CreateDto {
     private Long userID;
     private String projectName;
-    private boolean projectMotive;
     private String projectStrImg;
-    private String projectContent;
+    private String content;
     private String projectField;
     private String projectArea;
     private String projectTotal;

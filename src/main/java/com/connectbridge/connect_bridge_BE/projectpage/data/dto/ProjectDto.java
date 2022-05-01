@@ -23,8 +23,7 @@ public class ProjectDto {
     String projectArea;
     String projectStart;
     String projectEnd;
-    boolean projectMotive;
-    List projectContent;
+    List content;
     boolean projectOnOff;
     String projectTotal;
     String projectReference;
@@ -176,9 +175,8 @@ public class ProjectDto {
         this.influEtcNow = projectEntity.getInfluEtcNow();
         this.compEtcNow = projectEntity.getCompEtcNow();
         this.projectName = projectEntity.getProjectName();
-        this.projectMotive = projectEntity.isProjectMotive();
         this.projectStrImg = projectEntity.getProjectImg();
-        this.projectContent = jacksonMap(projectEntity.getProjectContent());
+        this.content = jacksonMap(projectEntity.getContent());
         this.projectField = projectEntity.getProjectField();
         this.projectOnOff =projectEntity.isProjectOnOff();
         this.projectArea = projectEntity.getProjectArea();

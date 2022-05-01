@@ -87,9 +87,8 @@ public class DetailDto {
 
 
     String projectName;
-    boolean projectMotive;
     String projectImg;
-    List projectContent;
+    List content;
     String projectField;
     boolean projectOnOff;
     String projectArea;
@@ -179,9 +178,8 @@ public class DetailDto {
          this.influEtcNow = projectEntity.getInfluEtcNow();
          this.compEtcNow = projectEntity.getCompEtcNow();
          this.projectName = projectEntity.getProjectName();
-         this.projectMotive = projectEntity.isProjectMotive();
          this.projectImg = projectEntity.getProjectImg();
-         this.projectContent = jacksonMap(projectEntity.getProjectContent());
+         this.content = jacksonMap(projectEntity.getContent());
          this.projectField = projectEntity.getProjectField();
          this.projectOnOff =projectEntity.isProjectOnOff();
          this.projectArea = projectEntity.getProjectArea();

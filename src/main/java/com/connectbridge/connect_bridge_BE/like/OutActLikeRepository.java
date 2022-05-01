@@ -7,4 +7,6 @@ public interface OutActLikeRepository extends JpaRepository<OutActLike,Long> {
     Long countByUserIDAndOutActID(Long userID, Long outActID);
     OutActLike findByUserIDAndOutActID(Long userID, Long outActID);
     Long countByOutActID(Long outActID);
+    boolean existsByUserIDAndOutActID(Long userID, Long outActID);
+
 }

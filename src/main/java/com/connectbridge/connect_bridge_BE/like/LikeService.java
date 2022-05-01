@@ -56,4 +56,7 @@ public class LikeService {
         outActRepository.save(outAct);
     }
 
+    public boolean isLike(Long userID, Long outActID){
+        return outActLikeRepository.existsByUserIDAndOutActID(userID, outActID);
+    }
 }
