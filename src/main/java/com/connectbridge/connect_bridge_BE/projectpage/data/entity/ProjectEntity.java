@@ -1,3 +1,4 @@
+
 package com.connectbridge.connect_bridge_BE.projectpage.data.entity;
 
 import com.connectbridge.connect_bridge_BE.outactpage.data.entity.BaseTimeEntity;
@@ -12,8 +13,9 @@ import java.util.List;
 
 @Entity
 @Getter
-@AllArgsConstructor @NoArgsConstructor
-@DynamicUpdate @Builder
+@AllArgsConstructor
+@DynamicUpdate
+@Builder
 @Table(name = "project")
 public class ProjectEntity extends BaseTimeEntity {
 
@@ -196,6 +198,9 @@ public class ProjectEntity extends BaseTimeEntity {
     @Column(name = "comp_etc_now")
     private int compEtcNow;
 
+    public ProjectEntity() {
+    }
+
     public void proEntUpdate(CreateDto createDto) {
         this.projectName = createDto.getProjectName();
         this.projectImg = createDto.getProjectStrImg();
@@ -274,6 +279,7 @@ public class ProjectEntity extends BaseTimeEntity {
         System.out.println(str);
         return str;
     }
+
     public ProjectEntity createProject(CreateDto createDto){
         return builder()
                 .projectName(createDto.getProjectName())
@@ -350,5 +356,11 @@ public class ProjectEntity extends BaseTimeEntity {
                 .compEtcNow(createDto.getCompEtcNow())
                 .build();
     }
-
+    public void updateLike(int projectLike){
+        this.projectLike = projectLike;
+    }
+    public void updateView(int projectView){
+        this.projectView = projectView;
+    }
 }
+

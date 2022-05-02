@@ -8,6 +8,10 @@ import com.connectbridge.connect_bridge_BE.projectpage.repository.ProjectReposit
 import com.connectbridge.connect_bridge_BE.projectpage.repository.SubmitRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,25 +36,20 @@ public class ProjectService {
         this.submitRepository = submitRepository;
     }
 
-    public List<ProjectEntity> pagingProject() {
 
-        List<ProjectEntity> paging = projectRepository.findAll();
-        Long count = projectRepository.count();
-        //List<ProjectDto> page = new ArrayList<>();
-        for (int i = 0; i < count; i++) {
-            System.out.println(paging.get(i));
-        }
-        //List<ProjectDto> page = paging.stream().map(p-> modelMapper.map(p,ProjectDto.class)).collect(Collectors.toList());
-        return paging;
+    public List<ProjectDto> pagingProject(Pageable pageable,int reqPage) {
+        pageable = PageRequest.of(reqPage,5, Sort.by(Sort.Direction.DESC,"id"));
+        Page<ProjectEntity> page = projectRepository.findAll(pageable);
+        List<ProjectDto> pageDto = page.map(ProjectDto::new).getContent();
+
+        System.out.println("Project GetList 동작");
+        return pageDto;
     }
+
+
 
     // 생성
     public void createProject(CreateDto createDto) {
-        /*
-        Project create-> Apply create(project_id is fk).
-        -Multipart Img. clear.
-        -platform, content 변환해서 보내기.
-        */
         ProjectEntity projectEntity = new ProjectEntity().createProject(createDto);
         projectRepository.save(projectEntity);
     }
@@ -59,16 +58,11 @@ public class ProjectService {
     public DetailDto detailProject(Long projectID) {
         ProjectEntity project = projectRepository.findByid(projectID);
         DetailDto detailDto = new DetailDto(project);
+        projectViewManager(projectID);
         return detailDto;
     }
 
     // 갱신
-    /* 갱신
-        1. new Img upload to s3 server
-        2. new Img url save to String now
-        3. old Img url get to projectEntity
-        4. delete old Img to s3 server
-         */
     public Boolean updateProject(Long projectID, MultipartFile projectImg, CreateDto createDto) throws IOException {
         ProjectEntity projectEntity = projectRepository.findByid(projectID);
 
@@ -87,11 +81,6 @@ public class ProjectService {
     }
 
     // 삭제
-    /*
-    1. apply table delete
-    2. s3 server Img delete
-    3. project table delete
-     */
     public boolean deleteProject(Long projectID) {
         try {
             ProjectEntity project = projectRepository.findByid(projectID);
@@ -128,6 +117,13 @@ public class ProjectService {
         return false;
     }
 
+    private void projectViewManager(Long projectID){
+        ProjectEntity project = projectRepository.findByid(projectID);
+        int proView = project.getProjectView();
+        proView += 1;
+        project.updateView(proView);
+        projectRepository.save(project);
+    }
 
 
 }

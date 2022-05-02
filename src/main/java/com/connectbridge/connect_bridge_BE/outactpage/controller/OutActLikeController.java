@@ -29,10 +29,10 @@ public class OutActLikeController {
             Long userID = jwtProvider.getTokenID(tokenResDto.getAccessToken());
 
             if (likeService.likeChk(userID, outActID)) {
-                System.out.println("likeOn Start");
+                System.out.println("O likeOn Start");
                 likeService.likeOn(userID, outActID);
             } else {
-                System.out.println("likeOff Start");
+                System.out.println("O likeOff Start");
                 likeService.likeOff(userID, outActID);
             }
             return new ResponseEntity<>(new Message("ok"), HttpStatus.OK);
