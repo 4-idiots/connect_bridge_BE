@@ -38,7 +38,6 @@ public class CommunityDto {
 
     public String convertStr(List<String> hashtag) { //DB에 저장
         String str = String.join(",", hashtag);
-        System.out.println(str);
         return str;
     }
     public List<String> convertList(String str){
