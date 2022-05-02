@@ -35,6 +35,8 @@ public class User {
     @Column(name = "refresh_token")
     private String refreshToken;
 
+    private boolean role;
+
     //토큰 갱신
     public void updateToken(String refreshToken){
         this.refreshToken = refreshToken;

@@ -19,14 +19,18 @@ public class TokenController {
 
     @GetMapping("/valid")
     public ResponseEntity<TokenResDto> tokenChk(@RequestHeader("Authorization") String token){
+        try {
+            TokenResDto chk = jwtProvider.tokenManager(token);
 
-         TokenResDto chk = jwtProvider.tokenManager(token);
+            if (chk.getAccessToken().equals("Err")) {
 
-        if(chk.getAccessToken().equals("Err")){
+                return ResponseEntity.badRequest().build();
+            }
 
-            return ResponseEntity.badRequest().build();
+            return new ResponseEntity<TokenResDto>(chk, HttpStatus.OK);
+        }catch (Exception e){
+            System.out.println(e);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);// try catch 추가됬음.
         }
-
-        return new ResponseEntity<TokenResDto>(chk, HttpStatus.OK);
     }
 }

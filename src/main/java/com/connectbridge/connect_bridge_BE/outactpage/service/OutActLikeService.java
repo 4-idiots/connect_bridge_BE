@@ -1,20 +1,21 @@
-package com.connectbridge.connect_bridge_BE.like;
+package com.connectbridge.connect_bridge_BE.outactpage.service;
 
-import com.connectbridge.connect_bridge_BE.like.entity.OutActLike;
+import com.connectbridge.connect_bridge_BE.outactpage.data.entity.OutActLike;
 import com.connectbridge.connect_bridge_BE.loginpage.login.repository.UserRepository;
 import com.connectbridge.connect_bridge_BE.outactpage.data.entity.OutAct;
+import com.connectbridge.connect_bridge_BE.outactpage.repository.OutActLikeRepository;
 import com.connectbridge.connect_bridge_BE.outactpage.repository.OutActRepository;
 import org.springframework.stereotype.Service;
 
 
 @Service
-public class LikeService {
+public class OutActLikeService {
 
     private final OutActLikeRepository outActLikeRepository;
     private final OutActRepository outActRepository;
     private final UserRepository userRepository;
 
-    public LikeService(OutActLikeRepository outActLikeRepository, OutActRepository outActRepository, UserRepository userRepository) {
+    public OutActLikeService(OutActLikeRepository outActLikeRepository, OutActRepository outActRepository, UserRepository userRepository) {
         this.outActLikeRepository = outActLikeRepository;
         this.outActRepository = outActRepository;
         this.userRepository = userRepository;
@@ -56,4 +57,7 @@ public class LikeService {
         outActRepository.save(outAct);
     }
 
+    public boolean isLike(Long userID, Long outActID){
+        return outActLikeRepository.existsByUserIDAndOutActID(userID, outActID);
+    }
 }

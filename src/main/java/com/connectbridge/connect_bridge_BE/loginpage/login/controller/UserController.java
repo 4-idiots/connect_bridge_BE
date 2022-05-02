@@ -21,16 +21,16 @@ public class UserController {
     }
 
     @PostMapping("user/login")
-    public ResponseEntity<TokenResDto> login(@RequestBody LoginReqDto reqDto) {
+    public ResponseEntity<TokenResDto> login(@RequestBody LoginReqDto reqDto){
         try {
+
             TokenResDto loginResDto = userService.login(reqDto);
-            System.out.println("controller-login 동작성공.");
+            System.out.println("controller-login 동작");
 
-            return new ResponseEntity<TokenResDto>(loginResDto, HttpStatus.OK);
+            return new ResponseEntity<>(loginResDto, HttpStatus.OK);
 
-        } catch (Exception e) {
-            System.out.println("controller-login 동작실패: " + e);
-
+        } catch (Exception e){
+            System.out.println("controller-login 실패: " + e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

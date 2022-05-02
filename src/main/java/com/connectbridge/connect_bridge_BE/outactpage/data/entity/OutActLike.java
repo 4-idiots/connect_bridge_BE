@@ -1,4 +1,4 @@
-package com.connectbridge.connect_bridge_BE.like.entity;
+package com.connectbridge.connect_bridge_BE.outactpage.data.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

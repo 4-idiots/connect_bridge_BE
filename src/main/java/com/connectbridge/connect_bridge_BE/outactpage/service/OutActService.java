@@ -73,6 +73,7 @@ public class OutActService {
     // 개별 정보 조회
     public ModifyResDto modifyInfo(Long id){
         OutAct outAct= outActRepository.findByid(id);
+        outActViewManager(id);
 
         return ModifyResDto.builder()
                 .outActName(outAct.getOutActName())
@@ -123,5 +124,14 @@ public class OutActService {
 
             return false;
         }
+    }
+
+    // outAct 조회수 갱신.
+    private void outActViewManager(Long outActID){
+        OutAct outAct = outActRepository.findByid(outActID);
+        int postView = outAct.getOutActView();
+        postView +=1;
+        outAct.updateView(postView);
+        outActRepository.save(outAct);
     }
 }

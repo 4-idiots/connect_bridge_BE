@@ -1,3 +1,4 @@
+
 package com.connectbridge.connect_bridge_BE.projectpage.data.dto;
 
 import com.connectbridge.connect_bridge_BE.projectpage.data.entity.ProjectEntity;
@@ -15,9 +16,8 @@ import java.util.List;
 public class CreateDto {
     private Long userID;
     private String projectName;
-    private boolean projectMotive;
     private String projectStrImg;
-    private String projectContent;
+    private String content;
     private String projectField;
     private String projectArea;
     private String projectTotal;

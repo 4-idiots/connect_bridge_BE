@@ -54,4 +54,8 @@ public class OutAct extends BaseTimeEntity{
         this.outActLike = outActLike;
     }
 
+    public void updateView(int outActView){
+        this.outActView = outActView;
+    }
+
 }

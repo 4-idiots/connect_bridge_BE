@@ -26,7 +26,7 @@ public class JwtProvider {
     }
 
     // access token 발급
-    public String createAccessToken(Long id, String userID, String userName) {
+    public String createAccessToken(Long id, String userID, String userName, boolean userRole) {
 
         Map<String, Object> header = new HashMap<>();
         header.put("typ", "JWT");
@@ -36,12 +36,13 @@ public class JwtProvider {
         payloads.put("id", id);
         payloads.put("userID", userID);
         payloads.put("userName", userName);
+        payloads.put("role",userRole);
 
         Date now = new Date();
 
         // 2h
         long ACCESS_TOKEN_VALID_TIME = 10 * 60 * 60 * 1000L;
-        //long ACCESS_TOKEN_VALID_TIME = 1000L*60;
+        //long ACCESS_TOKEN_VALID_TIME = 1000L*20;
 
         JwtBuilder builder = Jwts.builder()
                 .setHeader(header)
@@ -87,7 +88,7 @@ public class JwtProvider {
     }
 
     // 토큰 재발급 기능.
-    public TokenResDto tokenManager(String accessT){
+    public TokenResDto tokenManager(String accessT) {
 
         validationHeader(accessT);
         String accessToken = extractToken(accessT);
@@ -108,18 +109,20 @@ public class JwtProvider {
 
                 // access 생성을 위한 추출
                 int id = (int) claims.get("id");
+                boolean uRole = (boolean) claims.get("role");
                 String uID = (String) claims.get("userID");
                 String uName = (String) claims.get("userName");
 
+
                 // token 정보 확인후 refreshToken 검증
-                User user = userRepository.findByIdAndUserIDAndAndUserName((long) id, uID, uName);
+                User user = userRepository.findByIdAndUserIDAndAndUserNameAndRole((long) id, uID, uName, uRole);
                 String chkRefToken = user.getRefreshToken();
 
                 // access 재발급.
                 if (!validateToken(chkRefToken)) {
                     return new TokenResDto("Err");
                 }
-                inputToken = createAccessToken((long) id, uID, uName);
+                inputToken = createAccessToken((long) id, uID, uName, uRole);
 
         }catch (Exception e){
                 System.out.println(e);
@@ -141,4 +144,13 @@ public class JwtProvider {
         return authHeader.substring("Bearer ".length());
     }
 
+    // Header에서 ID추출
+    public Long getTokenID(String accessToken){
+        /*
+        혹시나 나중에 아주 짧은 시간차이로 AccessToken이 만료된 후에 메서드가 실행되면 에러가 발생할 수 있음.
+         */
+            Claims claims = Jwts.parser().setSigningKey(secretKey.getBytes()).parseClaimsJws(accessToken).getBody();
+            int id = (int) claims.get("id");
+            return Long.valueOf(id);
+    }
 }

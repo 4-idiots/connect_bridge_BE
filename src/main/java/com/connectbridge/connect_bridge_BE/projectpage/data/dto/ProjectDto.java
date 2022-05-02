@@ -3,34 +3,34 @@ package com.connectbridge.connect_bridge_BE.projectpage.data.dto;
 import com.connectbridge.connect_bridge_BE.projectpage.data.entity.ProjectEntity;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
 @Getter
 @Setter
 public class ProjectDto {
-
-    Long userID;
     Long projectID;
+    Long userID;
     String projectName;
-    int projectView;
-    int projectLike;
     String projectStrImg;
+    List content;
     String projectField;
-    String projectArea;
-    String projectStart;
-    String projectEnd;
-    boolean projectMotive;
-    List projectContent;
     boolean projectOnOff;
+    String projectArea;
     String projectTotal;
     String projectReference;
+    String projectStart;
+    String projectEnd;
     List<String> projectPlatform;
-    String createDate;
     String projectSkill;
+    int projectLike;
+    int projectView;
+    LocalDateTime createDate;
 
     int uiuxPlan;
     int gamePlan;
@@ -117,7 +117,7 @@ public class ProjectDto {
         return map;
     }
 
-    ProjectDto(ProjectEntity projectEntity){
+    public ProjectDto(ProjectEntity projectEntity){
         this.uiuxPlan=projectEntity.getUiuxPlan();
         this.gamePlan = projectEntity.getGamePlan();
         this.managerPlan = projectEntity.getManagerPlan();
@@ -176,9 +176,8 @@ public class ProjectDto {
         this.influEtcNow = projectEntity.getInfluEtcNow();
         this.compEtcNow = projectEntity.getCompEtcNow();
         this.projectName = projectEntity.getProjectName();
-        this.projectMotive = projectEntity.isProjectMotive();
         this.projectStrImg = projectEntity.getProjectImg();
-        this.projectContent = jacksonMap(projectEntity.getProjectContent());
+        this.content = jacksonMap(projectEntity.getContent());
         this.projectField = projectEntity.getProjectField();
         this.projectOnOff =projectEntity.isProjectOnOff();
         this.projectArea = projectEntity.getProjectArea();
@@ -190,5 +189,8 @@ public class ProjectDto {
         this.projectSkill = projectEntity.getProjectSkill();
         this.projectLike =projectEntity.getProjectLike();
         this.projectView = projectEntity.getProjectView();
+        this.projectID = projectEntity.getId();
+        this.userID = projectEntity.getUserID();
+        this.createDate = projectEntity.getCreateDate();
     }
 }

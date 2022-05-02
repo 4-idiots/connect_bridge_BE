@@ -1,3 +1,4 @@
+
 package com.connectbridge.connect_bridge_BE.projectpage.data.entity;
 
 import com.connectbridge.connect_bridge_BE.outactpage.data.entity.BaseTimeEntity;
@@ -12,8 +13,9 @@ import java.util.List;
 
 @Entity
 @Getter
-@AllArgsConstructor @NoArgsConstructor
-@DynamicUpdate @Builder
+@AllArgsConstructor
+@DynamicUpdate
+@Builder
 @Table(name = "project")
 public class ProjectEntity extends BaseTimeEntity {
 
@@ -27,14 +29,11 @@ public class ProjectEntity extends BaseTimeEntity {
     @Column(name = "project_name")
     private String projectName; // 프로젝트 이름
 
-    @Column(name = "project_motive")
-    private boolean projectMotive; //프로젝트 목적(프로젝트, 스터디)
-
     @Column(name = "project_img")
     private String projectImg; // 프로젝트 사진
 
     @Column(name = "project_content")
-    private String projectContent; // 프로젝트 설명
+    private String content; // 프로젝트 설명
 
     @Column(name = "project_field")
     private String projectField; // 프로젝트 분야
@@ -199,11 +198,13 @@ public class ProjectEntity extends BaseTimeEntity {
     @Column(name = "comp_etc_now")
     private int compEtcNow;
 
+    public ProjectEntity() {
+    }
+
     public void proEntUpdate(CreateDto createDto) {
         this.projectName = createDto.getProjectName();
-        this.projectMotive = createDto.isProjectMotive();
         this.projectImg = createDto.getProjectStrImg();
-        this.projectContent = createDto.getProjectContent();
+        this.content = createDto.getContent();
         this.projectField = createDto.getProjectField();
         this.projectArea = createDto.getProjectArea();
         this.projectTotal = createDto.getProjectTotal();
@@ -278,13 +279,13 @@ public class ProjectEntity extends BaseTimeEntity {
         System.out.println(str);
         return str;
     }
+
     public ProjectEntity createProject(CreateDto createDto){
         return builder()
                 .projectName(createDto.getProjectName())
                 .userID(createDto.getUserID())
-                .projectMotive(createDto.isProjectMotive())
                 .projectImg(createDto.getProjectStrImg())
-                .projectContent(createDto.getProjectContent())
+                .content(createDto.getContent())
                 .projectField(createDto.getProjectField())
                 .projectArea(createDto.getProjectArea())
                 .projectTotal(createDto.getProjectTotal())
@@ -355,5 +356,11 @@ public class ProjectEntity extends BaseTimeEntity {
                 .compEtcNow(createDto.getCompEtcNow())
                 .build();
     }
-
+    public void updateLike(int projectLike){
+        this.projectLike = projectLike;
+    }
+    public void updateView(int projectView){
+        this.projectView = projectView;
+    }
 }
+
