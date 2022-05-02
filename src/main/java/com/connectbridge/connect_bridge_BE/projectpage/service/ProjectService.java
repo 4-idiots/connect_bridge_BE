@@ -108,7 +108,7 @@ public class ProjectService {
 
     }
 
-    // 지원.
+    // 지원 신청
     public boolean submitProject(SubmitDto submitDto) {
         try {
             boolean chker = submitRepository.existsByUserIDAndProjectID(submitDto.getUserID(), submitDto.getProjectID());
@@ -127,6 +127,8 @@ public class ProjectService {
         }
         return false;
     }
+
+
 
 }
 

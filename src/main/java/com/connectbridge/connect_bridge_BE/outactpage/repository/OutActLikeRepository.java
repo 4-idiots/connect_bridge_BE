@@ -1,6 +1,6 @@
-package com.connectbridge.connect_bridge_BE.like;
+package com.connectbridge.connect_bridge_BE.outactpage.repository;
 
-import com.connectbridge.connect_bridge_BE.like.entity.OutActLike;
+import com.connectbridge.connect_bridge_BE.outactpage.data.entity.OutActLike;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface OutActLikeRepository extends JpaRepository<OutActLike,Long> {

@@ -30,14 +30,15 @@ public class UserService {
     public TokenResDto login(LoginReqDto reqDto){
         User user = userRepository.findByUserID(reqDto.getUserID());
         log.info("userID : {}, userPW : {} ", user.getUserID(),user.getUserPW());
-       String pw = user.getUserPW();
-       // user.getUserPW().equals(reqDto.getUserPW())
+        String pw = user.getUserPW();
+        // user.getUserPW().equals(reqDto.getUserPW())
         if(passwordEncoder.matches(reqDto.getUserPW(),pw)){
             Long id = user.getId();
             String uID = user.getUserID();
             String uName = user.getUserName();
+            boolean uRole = user.isRole();
 
-            String accessToken = jwtProvider.createAccessToken(id,uID,uName);
+            String accessToken = jwtProvider.createAccessToken(id,uID,uName,uRole);
             String refreshToken = jwtProvider.createRefreshToken();
 
             user.updateToken(refreshToken); // refresh 토큰 발급.
@@ -46,6 +47,7 @@ public class UserService {
             System.out.println("비밀번호 확인 완료! jwt 발급");
             return new TokenResDto(accessToken);
         }
+        System.out.println("비밀번호 틀렸음");
         return new TokenResDto(null);
     }
 

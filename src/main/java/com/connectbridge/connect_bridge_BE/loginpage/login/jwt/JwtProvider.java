@@ -26,7 +26,7 @@ public class JwtProvider {
     }
 
     // access token 발급
-    public String createAccessToken(Long id, String userID, String userName) {
+    public String createAccessToken(Long id, String userID, String userName, boolean userRole) {
 
         Map<String, Object> header = new HashMap<>();
         header.put("typ", "JWT");
@@ -36,6 +36,7 @@ public class JwtProvider {
         payloads.put("id", id);
         payloads.put("userID", userID);
         payloads.put("userName", userName);
+        payloads.put("role",userRole);
 
         Date now = new Date();
 
@@ -87,7 +88,7 @@ public class JwtProvider {
     }
 
     // 토큰 재발급 기능.
-    public TokenResDto tokenManager(String accessT){
+    public TokenResDto tokenManager(String accessT) {
 
         validationHeader(accessT);
         String accessToken = extractToken(accessT);
@@ -108,18 +109,20 @@ public class JwtProvider {
 
                 // access 생성을 위한 추출
                 int id = (int) claims.get("id");
+                boolean uRole = (boolean) claims.get("role");
                 String uID = (String) claims.get("userID");
                 String uName = (String) claims.get("userName");
 
+
                 // token 정보 확인후 refreshToken 검증
-                User user = userRepository.findByIdAndUserIDAndAndUserName((long) id, uID, uName);
+                User user = userRepository.findByIdAndUserIDAndAndUserNameAndRole((long) id, uID, uName, uRole);
                 String chkRefToken = user.getRefreshToken();
 
                 // access 재발급.
                 if (!validateToken(chkRefToken)) {
                     return new TokenResDto("Err");
                 }
-                inputToken = createAccessToken((long) id, uID, uName);
+                inputToken = createAccessToken((long) id, uID, uName, uRole);
 
         }catch (Exception e){
                 System.out.println(e);

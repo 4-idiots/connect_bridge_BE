@@ -51,10 +51,8 @@ public class RegisterEntity {
     @Column(name = "user_interest_sub")
     private String userInterestSub;
 
-
     @Column(name = "user_introduce")
     private String userIntroduce;
-
 
     @Column(name = "createdate")
     @CreatedDate

@@ -25,6 +25,7 @@ public class OutActController {
         this.s3Service = s3Service;
     }
 
+    // paging
     @GetMapping("/outdoor/{page}")
     public ResponseEntity<List<OutActDto>> getPageList(
             @PathVariable("page") int page,
@@ -76,18 +77,17 @@ public class OutActController {
         }
     }
 
-    // 수정 조회 클리어!
+    // 상세정보
     @GetMapping("/outdoor/post/{outActID}")
     public ResponseEntity<ModifyResDto> selectModify(@PathVariable("outActID") Long id){
         try{
             ModifyResDto responseDto = outActService.modifyInfo(id);
-
+            System.out.println("여기?");
             return new ResponseEntity<ModifyResDto>(responseDto,HttpStatus.OK);
 
         }catch (Exception e)
         {
             System.out.println(e);
-
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -112,7 +112,6 @@ public class OutActController {
                     .outActLink(link)
                     .outActImg(url)
                     .build();
-
 
             outActService.updatePost(requestDto);
 

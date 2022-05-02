@@ -1,5 +1,6 @@
-package com.connectbridge.connect_bridge_BE.like;
+package com.connectbridge.connect_bridge_BE.outactpage.controller;
 
+import com.connectbridge.connect_bridge_BE.outactpage.service.OutActLikeService;
 import com.connectbridge.connect_bridge_BE.loginpage.login.data.dto.Message;
 import com.connectbridge.connect_bridge_BE.loginpage.login.data.dto.TokenResDto;
 import com.connectbridge.connect_bridge_BE.loginpage.login.jwt.JwtProvider;
@@ -8,12 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class LikeController {
+public class OutActLikeController {
 
-    private final LikeService likeService;
+    private final OutActLikeService likeService;
     private final JwtProvider jwtProvider;
 
-    public LikeController(LikeService likeService, JwtProvider jwtProvider) {
+    public OutActLikeController(OutActLikeService likeService, JwtProvider jwtProvider) {
         this.likeService = likeService;
         this.jwtProvider = jwtProvider;
     }
@@ -44,7 +45,7 @@ public class LikeController {
     // 대외활동 별 좋아요 확인
     @GetMapping("/outdoor/islike/{outActID}")
     public Boolean outdoorIsLike(@RequestHeader(value = "Authorization") String token,
-                                               @PathVariable(value = "outActID") Long outActID) {
+                                 @PathVariable(value = "outActID") Long outActID) {
         try {
 
             TokenResDto tokenResDto = jwtProvider.tokenManager(token);
@@ -62,9 +63,6 @@ public class LikeController {
 
             return false;
         }
-        }
-
-
+    }
 }
-
 

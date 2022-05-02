@@ -11,6 +11,6 @@ public class LoginReqDto {
 
     private String userPW;
 
-    private String accessToken;
+    //private String accessToken;
 
 }
