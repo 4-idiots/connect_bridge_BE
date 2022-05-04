@@ -41,12 +41,9 @@ public class ProjectService {
         pageable = PageRequest.of(reqPage,5, Sort.by(Sort.Direction.DESC,"id"));
         Page<ProjectEntity> page = projectRepository.findAll(pageable);
         List<ProjectDto> pageDto = page.map(ProjectDto::new).getContent();
-
         System.out.println("Project GetList 동작");
         return pageDto;
     }
-
-
 
     // 생성
     public void createProject(CreateDto createDto) {

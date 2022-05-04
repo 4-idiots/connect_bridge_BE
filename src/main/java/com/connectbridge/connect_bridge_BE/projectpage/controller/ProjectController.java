@@ -36,7 +36,7 @@ public class ProjectController {
 
     // 무한 스크롤
     @GetMapping("/project/page/{page}")
-    public ResponseEntity<?> projectPage(@PathVariable("page") int page, Pageable pageable){
+    public ResponseEntity<List<ProjectDto>> projectPage(@PathVariable("page") int page, Pageable pageable){
         System.out.println("input page: " + page);
         List<ProjectDto> list = projectService.pagingProject(pageable,page);
         if (list.isEmpty()) {

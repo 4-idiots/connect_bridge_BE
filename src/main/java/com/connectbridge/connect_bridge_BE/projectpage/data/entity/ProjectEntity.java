@@ -32,7 +32,6 @@ public class ProjectEntity extends BaseTimeEntity {
     @Column(name = "project_img")
     private String projectImg; // 프로젝트 사진
 
-    @Column(name = "project_content")
     private String content; // 프로젝트 설명
 
     @Column(name = "project_field")
