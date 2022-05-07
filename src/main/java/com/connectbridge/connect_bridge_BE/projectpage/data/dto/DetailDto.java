@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 @Getter@Setter
@@ -101,7 +102,10 @@ public class DetailDto {
     int projectView;
     int projectLike;
     Long userID; // 4.18 추가
-
+    List memberID;
+    HashMap leaderInfo;
+    HashMap projectSub;
+    //HashMap testHash;
 
     public List jacksonMap(String json) {
         ObjectMapper mapper = new ObjectMapper();

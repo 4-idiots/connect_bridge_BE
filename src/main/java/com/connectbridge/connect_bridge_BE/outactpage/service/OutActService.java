@@ -38,16 +38,11 @@ public class OutActService {
     String baseDir;
 
     public List<OutActDto> getList(Pageable pageable, int reqPage){
-
         // Pageable 설정
         pageable = PageRequest.of(reqPage,5, Sort.by(Sort.Direction.DESC,"id"));
-
         Page<OutAct> page = outActRepository.findAll(pageable); // DB값 불러옴.
-
         List<OutActDto> pageDto = page.map(OutActDto::new).getContent(); // List로 받게 바꿔봄 ㅋ
-
         System.out.println("Service getList 동작 됨");
-
         return pageDto;
     }
 

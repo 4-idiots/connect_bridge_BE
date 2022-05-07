@@ -17,7 +17,7 @@ public class ProjectDto {
     Long projectID;
     Long userID;
     String projectName;
-    String projectStrImg;
+    String projectImg;
     List content;
     String projectField;
     boolean projectOnOff;
@@ -176,7 +176,7 @@ public class ProjectDto {
         this.influEtcNow = projectEntity.getInfluEtcNow();
         this.compEtcNow = projectEntity.getCompEtcNow();
         this.projectName = projectEntity.getProjectName();
-        this.projectStrImg = projectEntity.getProjectImg();
+        this.projectImg = projectEntity.getProjectImg();
         this.content = jacksonMap(projectEntity.getContent());
         this.projectField = projectEntity.getProjectField();
         this.projectOnOff =projectEntity.isProjectOnOff();
