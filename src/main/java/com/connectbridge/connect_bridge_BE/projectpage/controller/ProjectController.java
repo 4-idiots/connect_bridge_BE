@@ -8,6 +8,7 @@ import com.connectbridge.connect_bridge_BE.loginpage.login.jwt.JwtProvider;
 import com.connectbridge.connect_bridge_BE.projectpage.data.dto.CreateDto;
 import com.connectbridge.connect_bridge_BE.projectpage.data.dto.ProjectDto;
 import com.connectbridge.connect_bridge_BE.projectpage.data.dto.SubmitDto;
+import com.connectbridge.connect_bridge_BE.projectpage.service.ProjectFollowService;
 import com.connectbridge.connect_bridge_BE.projectpage.service.ProjectLikeService;
 import com.connectbridge.connect_bridge_BE.projectpage.service.ProjectService;
 import org.springframework.data.domain.Pageable;
@@ -24,12 +25,14 @@ public class ProjectController {
 
     private final ProjectService projectService;
     private final ProjectLikeService likeService;
+    private final ProjectFollowService followService;
     private final S3Service s3Service;
     private final JwtProvider jwtProvider;
 
-    public ProjectController(ProjectService projectService, ProjectLikeService likeService, S3Service s3Service, JwtProvider jwtProvider) {
+    public ProjectController(ProjectService projectService, ProjectLikeService likeService, ProjectFollowService followService, S3Service s3Service, JwtProvider jwtProvider) {
         this.projectService = projectService;
         this.likeService = likeService;
+        this.followService = followService;
         this.s3Service = s3Service;
         this.jwtProvider = jwtProvider;
     }
@@ -64,11 +67,22 @@ public class ProjectController {
 
     // 카드 클릭
     @GetMapping("project/{projectID}")
-    public ResponseEntity<?> projectDetail(@PathVariable("projectID") Long projectID) {
+    public ResponseEntity<?> projectDetail(@PathVariable("projectID") Long projectID,
+                                           @RequestHeader(value = "Authorization",required = false) String token) {
         try {
-            return new ResponseEntity<>(projectService.detailProject(projectID), HttpStatus.OK);
+            Long userID = Long.valueOf(0);
+
+            if (token != null){
+                TokenResDto dto = jwtProvider.tokenManager(token);
+                userID = jwtProvider.getTokenID(dto.getAccessToken());
+                System.out.println("Cont1 userID : "+userID);
+
+            }
+            System.out.println("Cont2 userID : "+userID);
+
+            return new ResponseEntity<>(projectService.detailProject(projectID, userID), HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("그곳이 여기인가?: "+e);
             return new ResponseEntity<>(new Message("no"), HttpStatus.BAD_REQUEST);
         }
     }
@@ -86,7 +100,6 @@ public class ProjectController {
         }
         return new ResponseEntity<>(new Message("no"), HttpStatus.BAD_REQUEST);
     }
-
     // 삭제
     @DeleteMapping("/project/{projectID}")
     public ResponseEntity<?> projectDelete(@PathVariable("projectID") Long projectID){
@@ -149,4 +162,28 @@ public class ProjectController {
         }
     }
 
+    // 프로젝트 구독
+    @PatchMapping("/project/follow/{projectID}")
+    public ResponseEntity<?> followProject(@PathVariable("projectID") Long projectID,
+                                           @RequestHeader("Authorization") String token) {
+        try{
+
+            TokenResDto tokenResDto = jwtProvider.tokenManager(token);
+            Long userID = jwtProvider.getTokenID(tokenResDto.getAccessToken());
+
+            if(followService.followChk(userID, projectID)){
+                System.out.println("P followOn Start");
+                followService.followOn(userID,projectID);
+            }else{
+                System.out.println("P followOff Start");
+                followService.followOff(userID,projectID);
+            }
+            return new ResponseEntity<>(new Message("ok"), HttpStatus.OK);
+
+        }catch (Exception e){
+            System.out.println(e);
+            return new ResponseEntity<>(new Message("no"), HttpStatus.BAD_REQUEST);
+        }
+    }
 }
+

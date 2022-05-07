@@ -1,13 +1,15 @@
 package com.connectbridge.connect_bridge_BE.projectpage.service;
 
 import com.connectbridge.connect_bridge_BE.amazonS3.S3Service;
+import com.connectbridge.connect_bridge_BE.loginpage.login.repository.LeaderMapping;
+import com.connectbridge.connect_bridge_BE.loginpage.login.repository.UserRepository;
 import com.connectbridge.connect_bridge_BE.projectpage.data.dto.*;
 import com.connectbridge.connect_bridge_BE.projectpage.data.entity.ProjectEntity;
 import com.connectbridge.connect_bridge_BE.projectpage.data.entity.SubmitEntity;
+import com.connectbridge.connect_bridge_BE.projectpage.repository.MemberMapping;
+import com.connectbridge.connect_bridge_BE.projectpage.repository.ProjectFollowRepository;
 import com.connectbridge.connect_bridge_BE.projectpage.repository.ProjectRepository;
 import com.connectbridge.connect_bridge_BE.projectpage.repository.SubmitRepository;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,9 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.*;
 
 @Service
 public class ProjectService {
@@ -26,17 +26,18 @@ public class ProjectService {
     private final ProjectRepository projectRepository;
     private final S3Service s3Service;
     private final SubmitRepository submitRepository;
+    private final UserRepository userRepository;
+    private final ProjectFollowRepository projectFollowRepository;
 
-    @Autowired
-    private ModelMapper modelMapper;
-
-    public ProjectService(ProjectRepository projectRepository, S3Service s3Service, SubmitRepository submitRepository) {
+    public ProjectService(ProjectRepository projectRepository, S3Service s3Service, SubmitRepository submitRepository, UserRepository userRepository, ProjectFollowRepository projectFollowRepository) {
         this.projectRepository = projectRepository;
         this.s3Service = s3Service;
         this.submitRepository = submitRepository;
+        this.userRepository = userRepository;
+        this.projectFollowRepository = projectFollowRepository;
     }
 
-
+    // 페이징
     public List<ProjectDto> pagingProject(Pageable pageable,int reqPage) {
         pageable = PageRequest.of(reqPage,5, Sort.by(Sort.Direction.DESC,"id"));
         Page<ProjectEntity> page = projectRepository.findAll(pageable);
@@ -52,11 +53,64 @@ public class ProjectService {
     }
 
     // 상세
-    public DetailDto detailProject(Long projectID) {
+    public DetailDto detailProject(Long projectID, Long userID) {
         ProjectEntity project = projectRepository.findByid(projectID);
         DetailDto detailDto = new DetailDto(project);
+
+        LeaderMapping user = userRepository.findByid(project.getUserID());
+
+        detailDto.setLeaderInfo(leaderMap(user)); // leader Info add
+
+        detailDto.setProjectSub(subMap(projectID,userID));// subInfo add
+
+        detailDto.setMemberID(membersMap(projectID)); // members add
+
+        //detailDto.setTestHash(setTestHashMeth(projectID, userID));
+
         projectViewManager(projectID);
+
         return detailDto;
+    }
+
+    // 혹시 헤쉬안에 넣어야하니?
+    private HashMap<String,Object> setTestHashMeth(Long projectID, Long userID){
+        HashMap<String,Object> testHashMap = new HashMap<>();
+        testHashMap.put("subMap",subMap(projectID, userID));
+        testHashMap.put("memberMap",membersMap(projectID));
+        return testHashMap;
+    }
+
+    private HashMap<String, Object> subMap(Long projectID, Long userID){
+        HashMap<String,Object> subInfo = new HashMap<>();
+
+        if(userID !=0){
+            System.out.println("userID : " +userID + ", projectID : "+projectID);
+            subInfo.put("projectSub",projectFollowRepository.existsByUserIDAndProjectID(userID, projectID));
+        }else{
+            subInfo.put("projectSub", false);
+        }
+        return subInfo;
+    }
+
+    // member 정보
+    private List<Integer> membersMap(Long projectID) {
+        List<MemberMapping> memberID = submitRepository.findByProjectIDAndAccept(projectID,true);
+
+        List<Integer> memList = new ArrayList<>();
+
+        for(int i =0; i< memberID.size();i++){
+            memList.add(i,memberID.get(i).getUserID());
+        }
+        return memList;
+    }
+
+    // leader 정보
+    private HashMap<String,Object> leaderMap(LeaderMapping user){
+        HashMap<String,Object> leaderInfo = new HashMap<>();
+        leaderInfo.put("leaderID", user.getId());
+        leaderInfo.put("introduce", user.getIntroduce());
+
+        return leaderInfo;
     }
 
     // 갱신
@@ -98,8 +152,6 @@ public class ProjectService {
     public boolean submitProject(SubmitDto submitDto) {
         try {
             boolean chker = submitRepository.existsByUserIDAndProjectID(submitDto.getUserID(), submitDto.getProjectID());
-            ProjectEntity project = projectRepository.findByid(submitDto.getProjectID());
-            //project.get(submitDto.getField());
             if (!chker) {
                 SubmitEntity submitEntity = new SubmitEntity().createSubmit(submitDto);
                 submitRepository.save(submitEntity);
@@ -114,6 +166,7 @@ public class ProjectService {
         return false;
     }
 
+    // 조회수 카운터
     private void projectViewManager(Long projectID){
         ProjectEntity project = projectRepository.findByid(projectID);
         int proView = project.getProjectView();
@@ -122,6 +175,9 @@ public class ProjectService {
         projectRepository.save(project);
     }
 
+    public void projectFollow(Long userID, Long projectID){
+
+    }
 
 }
 
