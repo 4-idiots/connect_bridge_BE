@@ -15,7 +15,7 @@ import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api")
 public class RegisterController {
 
     private final RegisterImpl registerService;
@@ -26,7 +26,7 @@ public class RegisterController {
         return new ResponseEntity<>("ok", HttpStatus.OK);
     }
 
-    @GetMapping("/check/userNickname")
+    @GetMapping("/users/check/userNickname")
     public ResponseEntity<Boolean> checkNicknameDuplicate(@RequestParam String userNickname) throws Exception{
         Boolean checkNick = registerService.checkNicknameDuplicate(userNickname);
         Message message = Message.builder()
@@ -35,7 +35,7 @@ public class RegisterController {
                 .build();
         return new ResponseEntity(message, HttpStatus.OK);
     }
-    @GetMapping("/check/userID")
+    @GetMapping("/users/check/userID")
     public ResponseEntity<Boolean> checkIdDuplicate(@RequestParam String userID) throws Exception{
         Boolean checkId = registerService.checkIdDuplicate(userID);
         Message message = Message.builder()
@@ -44,7 +44,7 @@ public class RegisterController {
                 .build();
         return new ResponseEntity(message, HttpStatus.OK);
     }
-    @GetMapping("/check/userEmail")
+    @GetMapping("/users/check/userEmail")
     public ResponseEntity<Boolean> checkEmailDuplicate(@RequestParam String userEmail) throws Exception{
 
         Boolean checkEmail = registerService.checkEmailDuplicate(userEmail);
@@ -56,7 +56,7 @@ public class RegisterController {
     }
 
 
-    @PostMapping("/register")
+    @PostMapping("/users/register")
     public ResponseEntity postRegister(@RequestBody RegisterDto registerDto) throws Exception {
         registerService.postRegister(registerDto);
         Message message = Message.builder()

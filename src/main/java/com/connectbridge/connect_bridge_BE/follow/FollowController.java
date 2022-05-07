@@ -14,6 +14,7 @@ import javax.validation.constraints.Null;
 @RequiredArgsConstructor
 @RestController
 @Slf4j
+@RequestMapping("/api")
 public class FollowController {
     private final FollowService followService;
     private final FollowRepository followRepository;

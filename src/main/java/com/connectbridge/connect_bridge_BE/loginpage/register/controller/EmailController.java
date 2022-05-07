@@ -16,6 +16,7 @@ import java.util.Map;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/api")
 public class EmailController {
 
     private final EmailService emailService;

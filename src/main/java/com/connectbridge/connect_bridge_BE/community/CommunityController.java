@@ -13,6 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @Slf4j
+@RequestMapping("/api")
 public class CommunityController {
     private final CommunityRepository communityRepository;
     private final CommunityService communityService;

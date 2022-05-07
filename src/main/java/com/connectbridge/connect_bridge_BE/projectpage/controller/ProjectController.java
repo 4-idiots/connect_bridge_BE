@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class ProjectController {
 
     private final ProjectService projectService;

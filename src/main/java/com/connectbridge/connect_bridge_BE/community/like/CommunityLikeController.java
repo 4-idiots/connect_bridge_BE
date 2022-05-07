@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 @Slf4j
+@RequestMapping("/api")
 public class CommunityLikeController {
     private final CommunityLikeRepository communityLikeRepository;
     private final CommunityLikeService communityLikeService;

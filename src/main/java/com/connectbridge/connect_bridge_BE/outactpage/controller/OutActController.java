@@ -15,6 +15,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
+@RequestMapping("/api")
 public class OutActController {
 
     private final OutActService outActService;
