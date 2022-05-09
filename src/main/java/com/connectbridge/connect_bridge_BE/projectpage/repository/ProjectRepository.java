@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
     ProjectEntity findByid(Long id);
+    ProjectEntity findByUserID(Long userID);
 }
