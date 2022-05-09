@@ -91,6 +91,7 @@ public class ProjectService {
             return false;
         }
     }
+
     /*
     // like 정보
     private HashMap<String, Object> likeMap(Long projectID, Long userID){
@@ -107,13 +108,21 @@ public class ProjectService {
 
      */
 
-    // member 정보
-    private List<Integer> membersMap(Long projectID) {
+    // member List<HashMap>
+    private List<HashMap<String,Object>> membersMap(Long projectID) {
         List<MemberMapping> memberID = submitRepository.findByProjectIDAndAccept(projectID,true);
-        List<Integer> memList = new ArrayList<>();
+        List<HashMap<String,Object>> memList = new ArrayList<>();
 
         for(int i =0; i< memberID.size();i++){
-            memList.add(i,memberID.get(i).getUserID());
+
+            LeaderMapping user = userRepository.findByid((long) memberID.get(i).getUserID());
+            HashMap<String,Object> memberInfo = new HashMap<>();
+            memberInfo.put("memberID",user.getId());
+            memberInfo.put("memberName",user.getUserName());
+            memberInfo.put("memberImg",user.getPicture());
+            memberInfo.put("Introduce",user.getIntroduce());
+
+            memList.add(i,memberInfo);
         }
         return memList;
     }
@@ -191,12 +200,5 @@ public class ProjectService {
         projectRepository.save(project);
     }
 
-    // 상세 페이지- 공지
-    public void projectNoticeCreate(Long userID, Long projectID, String content){
-        ProjectEntity projectEntity = projectRepository.findByid(projectID);
-        if(projectEntity.getUserID().equals(userID)){
-
-        }
-    }
 }
 

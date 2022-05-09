@@ -161,20 +161,5 @@ public class ProjectController {
         }
     }
 
-    // 상세 페이지-공지
-    @PostMapping("project/notice")
-    public ResponseEntity<?> projectNotice(@RequestParam(value = "content") String content,
-                                           @RequestParam(value = "projectID") Long projectID,
-                                           @RequestHeader("Authorization") String token) {
-
-        TokenResDto tokenResDto = jwtProvider.tokenManager(token);
-        Long userID = jwtProvider.getTokenID(tokenResDto.getAccessToken());
-
-
-
-
-        return new ResponseEntity<>(new Message("ok"),HttpStatus.OK);
-    }
-
 }
 
