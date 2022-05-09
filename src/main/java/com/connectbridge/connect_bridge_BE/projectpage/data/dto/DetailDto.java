@@ -104,8 +104,8 @@ public class DetailDto {
     Long userID; // 4.18 추가
     List memberID;
     HashMap leaderInfo;
-    HashMap projectSub;
-    //HashMap testHash;
+    //HashMap projectSub;
+    boolean projectSub; // hashmap 안하고 줄 수 있음.
 
     public List jacksonMap(String json) {
         ObjectMapper mapper = new ObjectMapper();
