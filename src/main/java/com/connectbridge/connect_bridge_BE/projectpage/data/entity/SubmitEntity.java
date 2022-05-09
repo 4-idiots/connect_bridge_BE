@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
@@ -12,6 +13,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@DynamicUpdate
 @Builder
 @Table(name = "submit")
 public class SubmitEntity {
@@ -40,4 +42,7 @@ public class SubmitEntity {
                 .build();
     }
 
+    public void updateAccept(boolean accept){
+        this.accept= accept;
+    }
 }
