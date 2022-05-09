@@ -1,15 +1,13 @@
 package com.connectbridge.connect_bridge_BE.projectpage.service;
 
 import com.connectbridge.connect_bridge_BE.amazonS3.S3Service;
+import com.connectbridge.connect_bridge_BE.loginpage.login.data.entity.User;
 import com.connectbridge.connect_bridge_BE.loginpage.login.repository.LeaderMapping;
 import com.connectbridge.connect_bridge_BE.loginpage.login.repository.UserRepository;
 import com.connectbridge.connect_bridge_BE.projectpage.data.dto.*;
 import com.connectbridge.connect_bridge_BE.projectpage.data.entity.ProjectEntity;
 import com.connectbridge.connect_bridge_BE.projectpage.data.entity.SubmitEntity;
-import com.connectbridge.connect_bridge_BE.projectpage.repository.MemberMapping;
-import com.connectbridge.connect_bridge_BE.projectpage.repository.ProjectFollowRepository;
-import com.connectbridge.connect_bridge_BE.projectpage.repository.ProjectRepository;
-import com.connectbridge.connect_bridge_BE.projectpage.repository.SubmitRepository;
+import com.connectbridge.connect_bridge_BE.projectpage.repository.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -27,14 +25,14 @@ public class ProjectService {
     private final S3Service s3Service;
     private final SubmitRepository submitRepository;
     private final UserRepository userRepository;
-    private final ProjectFollowRepository projectFollowRepository;
+    private final ProjectLikeRepository projectLikeRepository;
 
-    public ProjectService(ProjectRepository projectRepository, S3Service s3Service, SubmitRepository submitRepository, UserRepository userRepository, ProjectFollowRepository projectFollowRepository) {
+    public ProjectService(ProjectRepository projectRepository, S3Service s3Service, SubmitRepository submitRepository, UserRepository userRepository, ProjectLikeRepository projectLikeRepository) {
         this.projectRepository = projectRepository;
         this.s3Service = s3Service;
         this.submitRepository = submitRepository;
         this.userRepository = userRepository;
-        this.projectFollowRepository = projectFollowRepository;
+        this.projectLikeRepository = projectLikeRepository;
     }
 
     // 페이징
@@ -61,45 +59,70 @@ public class ProjectService {
 
         detailDto.setLeaderInfo(leaderMap(user)); // leader Info add
 
-        detailDto.setProjectSub(subMap(projectID,userID));// subInfo add
+        //detailDto.setProjectSub(likeMap(projectID,userID));// subInfo add
+        detailDto.setProjectSub(likeMap(projectID,userID)); //no hashMap
 
         detailDto.setMemberID(membersMap(projectID)); // members add
-
-        //detailDto.setTestHash(setTestHashMeth(projectID, userID));
 
         projectViewManager(projectID);
 
         return detailDto;
     }
 
+/*
     // 혹시 헤쉬안에 넣어야하니?
     private HashMap<String,Object> setTestHashMeth(Long projectID, Long userID){
         HashMap<String,Object> testHashMap = new HashMap<>();
+        ProjectEntity project = projectRepository.findByid(projectID);
+        LeaderMapping user = userRepository.findByid(project.getUserID());
         testHashMap.put("subMap",subMap(projectID, userID));
         testHashMap.put("memberMap",membersMap(projectID));
+        testHashMap.put("leaderMap",leaderMap(user));
         return testHashMap;
     }
+*/
 
-    private HashMap<String, Object> subMap(Long projectID, Long userID){
+    private boolean likeMap(Long projectID, Long userID){
+
+        if(userID !=0){
+            System.out.println("userID : " +userID + ", projectID : "+projectID);
+            return projectLikeRepository.existsByUserIDAndProjectID(userID, projectID);
+        }else {
+            return false;
+        }
+    }
+
+    /*
+    // like 정보
+    private HashMap<String, Object> likeMap(Long projectID, Long userID){
         HashMap<String,Object> subInfo = new HashMap<>();
 
         if(userID !=0){
             System.out.println("userID : " +userID + ", projectID : "+projectID);
-            subInfo.put("projectSub",projectFollowRepository.existsByUserIDAndProjectID(userID, projectID));
+            subInfo.put("projectSub",projectLikeRepository.existsByUserIDAndProjectID(userID, projectID));
         }else{
             subInfo.put("projectSub", false);
         }
         return subInfo;
     }
 
-    // member 정보
-    private List<Integer> membersMap(Long projectID) {
-        List<MemberMapping> memberID = submitRepository.findByProjectIDAndAccept(projectID,true);
+     */
 
-        List<Integer> memList = new ArrayList<>();
+    // member List<HashMap>
+    private List<HashMap<String,Object>> membersMap(Long projectID) {
+        List<MemberMapping> memberID = submitRepository.findByProjectIDAndAccept(projectID,true);
+        List<HashMap<String,Object>> memList = new ArrayList<>();
 
         for(int i =0; i< memberID.size();i++){
-            memList.add(i,memberID.get(i).getUserID());
+
+            LeaderMapping user = userRepository.findByid((long) memberID.get(i).getUserID());
+            HashMap<String,Object> memberInfo = new HashMap<>();
+            memberInfo.put("memberID",user.getId());
+            memberInfo.put("memberName",user.getUserName());
+            memberInfo.put("memberImg",user.getPicture());
+            memberInfo.put("Introduce",user.getIntroduce());
+
+            memList.add(i,memberInfo);
         }
         return memList;
     }
@@ -108,6 +131,8 @@ public class ProjectService {
     private HashMap<String,Object> leaderMap(LeaderMapping user){
         HashMap<String,Object> leaderInfo = new HashMap<>();
         leaderInfo.put("leaderID", user.getId());
+        leaderInfo.put("leaderName",user.getUserName());
+        leaderInfo.put("leaderImg", user.getPicture());
         leaderInfo.put("introduce", user.getIntroduce());
 
         return leaderInfo;
@@ -173,10 +198,6 @@ public class ProjectService {
         proView += 1;
         project.updateView(proView);
         projectRepository.save(project);
-    }
-
-    public void projectFollow(Long userID, Long projectID){
-
     }
 
 }

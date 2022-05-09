@@ -75,7 +75,7 @@ public class JwtProvider {
     public boolean validateToken(String token) {
         try {
 
-            Claims claims = Jwts.parser()
+            Jwts.parser()
                     .setSigningKey(secretKey.getBytes()) // 서명된 key를 불러와야함.
                     .parseClaimsJws(token)
                     .getBody();

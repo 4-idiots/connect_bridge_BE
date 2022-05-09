@@ -40,6 +40,9 @@ public class User {
     @Column(name = "user_introduce")
     private String introduce;
 
+    @Column(name = "user_picture")
+    private String picture;
+
     //토큰 갱신
     public void updateToken(String refreshToken){
         this.refreshToken = refreshToken;
