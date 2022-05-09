@@ -1,7 +1,6 @@
 package com.connectbridge.connect_bridge_BE.projectpage.service;
 
 import com.connectbridge.connect_bridge_BE.amazonS3.S3Service;
-import com.connectbridge.connect_bridge_BE.loginpage.login.data.entity.User;
 import com.connectbridge.connect_bridge_BE.loginpage.login.repository.LeaderMapping;
 import com.connectbridge.connect_bridge_BE.loginpage.login.repository.UserRepository;
 import com.connectbridge.connect_bridge_BE.projectpage.data.dto.*;
