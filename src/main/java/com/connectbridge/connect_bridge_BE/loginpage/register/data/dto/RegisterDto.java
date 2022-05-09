@@ -9,7 +9,7 @@ import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 
 @Data
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @Builder
@@ -39,6 +39,8 @@ public class RegisterDto {
     private String userInterestMain;
     private String userInterestSub;
     private String userIntroduce;
+    private String userPortfolio;
+    private String userPicture;
 
     private LocalDateTime registerDate;
 

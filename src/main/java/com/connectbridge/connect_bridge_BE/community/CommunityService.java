@@ -45,6 +45,7 @@ public class CommunityService {
         communityDto.setCommentCount(0);
         communityRepository.save(communityDto.communityEntity()).getId();
     }
+
     @Transactional
     public List<CommunityPreviewDto> getList() {
 
@@ -63,6 +64,7 @@ public class CommunityService {
 
         return communityList;
     }
+
     public void postcountup(long communityID){
         CommunityEntity community = communityRepository.findByid(communityID);
         long viewCount = community.getViewCount();
@@ -136,6 +138,7 @@ public class CommunityService {
         communityRepository.deleteById(communityId);
 
     }
+
     @Transactional
     public List<CommunityPreviewDto> getPopularPost() {
         StringBuffer sb = new StringBuffer();

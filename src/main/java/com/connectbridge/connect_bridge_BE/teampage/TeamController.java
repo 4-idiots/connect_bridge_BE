@@ -18,12 +18,8 @@ import java.util.List;
 public class TeamController {
 
     private final TeamService teamService;
-    private final FollowRepository followRepository;
-    @GetMapping("/")
-    public String home() throws Exception{
 
-        return "hello";
-    }
+
     @GetMapping("/team/info/{fromUserId}/{toUserId}")
     public ResponseEntity<?> team(@PathVariable long fromUserId, @PathVariable long toUserId) throws Exception{
         TeamProfileDto getteampage = teamService.getTeamProfile(fromUserId, toUserId);

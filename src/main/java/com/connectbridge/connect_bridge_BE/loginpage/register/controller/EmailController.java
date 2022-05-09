@@ -35,9 +35,9 @@ public class EmailController {
     @PostMapping("/verifycode") // 이메일 인증 코드 검증
     public ResponseEntity<?> verifyCode(@RequestBody EmailCodeDto emailCodeDto) throws Exception{
         String getcode = emailCodeDto.getCode();
-        log.info("{getcode : }",getcode);
+        log.info("getcode : {}", getcode);
         String getemail = emailCodeDto.getUserEmail();
-        log.info("{getemail : }",getemail);
+        log.info("getemail : {}", getemail);
         if(emailService.checkCode(getcode, getemail)){
             Message message = Message.builder()
                     .message("ok")

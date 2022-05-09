@@ -54,6 +54,12 @@ public class RegisterEntity {
     @Column(name = "user_introduce")
     private String userIntroduce;
 
+    @Column(name = "user_portfolio")
+    private String userPortfolio;
+
+    @Column(name = "user_picture")
+    private String userPicture;
+
     @Column(name = "createdate")
     @CreatedDate
     private LocalDateTime createDate;
@@ -85,4 +91,17 @@ public class RegisterEntity {
         this.userInterestSub = userInterestSub;
         this.userIntroduce = userIntroduce;
     }
+    public void updateRegister(String userPW, String userNickname, String userAbility, String userArea, String userTime, String userInterestMain, String userInterestSub, String userIntroduce, String userPortfolio, String userPicture) {
+        this.userPW = userPW;
+        this.userNickname = userNickname;
+        this.userAbility = userAbility;
+        this.userArea = userArea;
+        this.userTime = userTime;
+        this.userInterestMain = userInterestMain;
+        this.userInterestSub = userInterestSub;
+        this.userIntroduce = userIntroduce;
+        this.userPortfolio = userPortfolio;
+        this.userPicture = userPicture;
+    }
+
 }
