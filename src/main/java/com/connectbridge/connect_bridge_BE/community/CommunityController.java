@@ -56,9 +56,9 @@ public class CommunityController {
     }
 
 
-    @DeleteMapping("/community/delete/{id}")
+    @DeleteMapping("/community/{communityId}")
     public ResponseEntity communityDel(@PathVariable long communityId) {
-        //communityService.communityDelete(communityId);
+        communityService.communityDelete(communityId);
         Message message = Message.builder()
                 .message("ok")
                 .build();

@@ -1,19 +1,26 @@
 package com.connectbridge.connect_bridge_BE.mypage;
 
 import com.connectbridge.connect_bridge_BE.amazonS3.S3Service;
+import com.connectbridge.connect_bridge_BE.community.CommunityEntity;
 import com.connectbridge.connect_bridge_BE.community.CommunityPreviewDto;
 import com.connectbridge.connect_bridge_BE.community.CommunityRepository;
+import com.connectbridge.connect_bridge_BE.community.MyCommunityDto;
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.dto.RegisterDto;
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.dto.UpdateRegisterDto;
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.entity.RegisterEntity;
 import com.connectbridge.connect_bridge_BE.loginpage.register.repository.RegisterRepository;
 import com.connectbridge.connect_bridge_BE.outactpage.data.dto.UpdateReqDto;
 import lombok.RequiredArgsConstructor;
+import org.qlrm.mapper.JpaResultMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -39,6 +46,7 @@ public class MyPageService {
         registerDto.setUserArea(registerEntity.getUserArea());
         registerDto.setUserTime(registerEntity.getUserTime());
         registerDto.setUserPortfolio(registerEntity.getUserPortfolio());
+        registerDto.setUserPicture(registerEntity.getUserPicture());
         registerDto.setUserInterestMain(registerEntity.getUserInterestMain());
         registerDto.setUserInterestSub(registerEntity.getUserInterestSub());
         registerDto.setRegisterDate(registerEntity.getCreateDate());
@@ -78,11 +86,13 @@ public class MyPageService {
         }
     }
 
-    public CommunityPreviewDto getCommunityPage(long fromUserId){
-        CommunityPreviewDto communityPreviewDto = new CommunityPreviewDto();
+    //내가 쓴 커뮤니티 페이지 *** 엔티티 -> DTO 변경 기능 ***
+    public List<MyCommunityDto> getCommunityPage(long fromUserId){
+        RegisterEntity registerEntity = registerRepository.findById(fromUserId).get();
 
+        List<MyCommunityDto> community = communityRepository.findAllCommunityByUserNicknameOrderByIdDesc(registerEntity.getUserNickname())
+                .stream().map(MyCommunityDto::fromEntity2).collect(Collectors.toList());;
 
-
-        return communityPreviewDto;
+        return community;
     }
 }

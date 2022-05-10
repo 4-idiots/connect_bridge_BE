@@ -38,7 +38,6 @@ public class MyPageController {
 
     @GetMapping("/mycommunity/{fromUserId}")
     public ResponseEntity<?> myCommunity(@PathVariable long fromUserId) throws Exception{
-        CommunityPreviewDto communityPreviewDto = myPageService.getCommunityPage(fromUserId);
-        return new ResponseEntity<>(communityPreviewDto, HttpStatus.OK);
+        return new ResponseEntity<>(myPageService.getCommunityPage(fromUserId), HttpStatus.OK);
     }
 }

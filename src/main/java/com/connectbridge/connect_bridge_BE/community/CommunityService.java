@@ -34,7 +34,7 @@ public class CommunityService {
         this.em = em;
     }
 
-
+    //커뮤니티 저장
     @Transactional
     public void save(CommunityDto communityDto){
         RegisterEntity id = registerRepository.findById(communityDto.getFromUserId()).get();
@@ -46,6 +46,7 @@ public class CommunityService {
         communityRepository.save(communityDto.communityEntity()).getId();
     }
 
+    //커뮤니티 정보
     @Transactional
     public List<CommunityPreviewDto> getList() {
 
@@ -65,6 +66,7 @@ public class CommunityService {
         return communityList;
     }
 
+    //뷰 카운트
     public void postcountup(long communityID){
         CommunityEntity community = communityRepository.findByid(communityID);
         long viewCount = community.getViewCount();
@@ -73,6 +75,7 @@ public class CommunityService {
         communityRepository.save(community);
     }
 
+    //커뮤니티 상세페이지
     @Transactional
     public CommunityDto getCommunityPage(long fromUserId, long communityID){
         CommunityDto communityDto = new CommunityDto();
@@ -92,7 +95,8 @@ public class CommunityService {
             communityDto.setCommentList(communityEntity.getCommentList());
         }
         else {
-            RegisterEntity id = registerRepository.getById(fromUserId);
+
+            RegisterEntity id = registerRepository.getTop1ByUserNickname(communityEntity.getUserNickname());
             communityDto.setPostID(communityEntity.getId());
             communityDto.setTitle(communityEntity.getTitle());
             communityDto.setHashtag(communityDto.convertList(communityEntity.getHashtag()));
@@ -121,6 +125,7 @@ public class CommunityService {
         return communityDto;
     }
 
+    //커뮤니티 수정
     public void updateCommunity(CommunityDto communityDto) throws Exception{
         CommunityEntity community = communityRepository.findByid(communityDto.getPostID());
         community.updateCommunity(communityDto.getPostID(), communityDto.getTitle(),
@@ -129,17 +134,12 @@ public class CommunityService {
     }
 
     public void communityDelete(long communityId){
-        CommunityEntity communityEntity = communityRepository.getById(communityId);
-
-        //commentRepository.deleteCommentsBycommunity(communityEntity);
-        //communityLikeRepository.deleteLikesBycommunity(communityEntity);
-
 
         communityRepository.deleteById(communityId);
 
     }
 
-    @Transactional
+    @Transactional // 인기글
     public List<CommunityPreviewDto> getPopularPost() {
         StringBuffer sb = new StringBuffer();
         sb.append("SELECT p.id, p.post_title, p.post_hashtag, p.post_user_nickname, p.post_viewcount, COUNT(p.id) as likesCount, p.post_commentcount ");
@@ -160,7 +160,7 @@ public class CommunityService {
         return communityDtoList;
     }
 
-    @Transactional
+    @Transactional //검색 기능 *** 엔티티 -> DTO 변경 기능 ***
     public List<CommunityPreviewDto> getSerach(String keyword){
         List<CommunityPreviewDto> paging = communityRepository.searchResultByTitleContainingOrderByIdDesc(keyword).stream()
                 .map(CommunityPreviewDto::fromEntity).collect(Collectors.toList());
