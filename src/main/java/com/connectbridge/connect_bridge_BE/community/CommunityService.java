@@ -1,18 +1,18 @@
 package com.connectbridge.connect_bridge_BE.community;
 
+import com.connectbridge.connect_bridge_BE.community.comment.CommentDto;
+import com.connectbridge.connect_bridge_BE.community.comment.CommentEntity;
 import com.connectbridge.connect_bridge_BE.community.comment.CommentRepository;
 import com.connectbridge.connect_bridge_BE.community.like.CommunityLikeRepository;
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.entity.RegisterEntity;
 import com.connectbridge.connect_bridge_BE.loginpage.register.repository.RegisterRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.qlrm.mapper.JpaResultMapper;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
@@ -33,18 +33,31 @@ public class CommunityService {
         this.commentRepository = commentRepository;
         this.em = em;
     }
-
+    public List jacksonMap(String json) {
+        ObjectMapper mapper = new ObjectMapper();
+        //List<Map<Object, Object>> map = mapper.readValue(json, List.class);
+        List map = null;
+        try {
+            map = mapper.readValue(json, List.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return map;
+    }
     //커뮤니티 저장
     @Transactional
-    public void save(CommunityDto communityDto){
-        RegisterEntity id = registerRepository.findById(communityDto.getFromUserId()).get();
+    public void save(CommunityCreateDto communityCreateDto){
+        RegisterEntity id = registerRepository.findById(communityCreateDto.getFromUserId()).get();
         String nickname = id.getUserNickname();
-        communityDto.setUserNickname(nickname);
-        communityDto.setViewCount(0);
-        communityDto.setLikeCount(0);
-        communityDto.setCommentCount(0);
-        communityRepository.save(communityDto.communityEntity()).getId();
+        communityCreateDto.setUserNickname(nickname);
+        communityCreateDto.setViewCount(0);
+        communityCreateDto.setLikeCount(0);
+        communityCreateDto.setCommentCount(0);
+        communityCreateDto.setUserID(communityCreateDto.getFromUserId());
+        communityRepository.save(communityCreateDto.communityEntity()).getId();
     }
+
+
 
     //커뮤니티 정보
     @Transactional
@@ -75,6 +88,17 @@ public class CommunityService {
         communityRepository.save(community);
     }
 
+    //get 수정 페이지
+    @Transactional
+    public CommunityChangeDto getCommunityFixPage(long communityID){
+        CommunityChangeDto communityChangeDto = new CommunityChangeDto();
+        CommunityEntity communityEntity = communityRepository.getById(communityID);
+        communityChangeDto.setTitle(communityEntity.getTitle());
+        communityChangeDto.setHashtag(communityChangeDto.convertList(communityEntity.getHashtag()));
+        communityChangeDto.setContents(jacksonMap(communityEntity.getContents()));
+        return communityChangeDto;
+    }
+
     //커뮤니티 상세페이지
     @Transactional
     public CommunityDto getCommunityPage(long fromUserId, long communityID){
@@ -86,13 +110,15 @@ public class CommunityService {
             communityDto.setPostID(communityEntity.getId());
             communityDto.setTitle(communityEntity.getTitle());
             communityDto.setHashtag(communityDto.convertList(communityEntity.getHashtag()));
-            communityDto.setContents(communityEntity.getContents());
+            communityDto.setContents(jacksonMap(communityEntity.getContents()));
             communityDto.setUserNickname(communityEntity.getUserNickname());
             communityDto.setViewCount(communityEntity.getViewCount());
             communityDto.setLikeCount(communityEntity.getLikeCount());
             communityDto.setLikeCounta(communityEntity.getLikeCount());
             communityDto.setCommentCount(communityEntity.getCommentCount());
             communityDto.setCommentList(communityEntity.getCommentList());
+            communityDto.setUserID(communityEntity.getUserID());
+
         }
         else {
 
@@ -100,7 +126,7 @@ public class CommunityService {
             communityDto.setPostID(communityEntity.getId());
             communityDto.setTitle(communityEntity.getTitle());
             communityDto.setHashtag(communityDto.convertList(communityEntity.getHashtag()));
-            communityDto.setContents(communityEntity.getContents());
+            communityDto.setContents(jacksonMap(communityEntity.getContents()));
             communityDto.setUserNickname(communityEntity.getUserNickname());
             communityDto.setUserAbility(id.getUserAbility());
             communityDto.setUserInterestMain(id.getUserInterestMain());
@@ -110,6 +136,7 @@ public class CommunityService {
             communityDto.setLikeCounta(communityEntity.getLikeCount());
             communityDto.setCommentCount(communityEntity.getCommentCount());
             communityDto.setCommentList(communityEntity.getCommentList());
+            communityDto.setUserID(communityEntity.getUserID());
         }
         if (fromUserId != 0){
             if (communityLikeRepository.findByFromUserIdAndToPostId(fromUserId, communityID) != null){
@@ -126,10 +153,10 @@ public class CommunityService {
     }
 
     //커뮤니티 수정
-    public void updateCommunity(CommunityDto communityDto) throws Exception{
-        CommunityEntity community = communityRepository.findByid(communityDto.getPostID());
-        community.updateCommunity(communityDto.getPostID(), communityDto.getTitle(),
-                communityDto.getContents(), communityDto.convertStr(communityDto.getHashtag()));
+    public void updateCommunity(CommunityCreateDto communityCreateDto) throws Exception{
+        CommunityEntity community = communityRepository.findByid(communityCreateDto.getPostID());
+        community.updateCommunity(communityCreateDto.getPostID(), communityCreateDto.getTitle(),
+                communityCreateDto.getContents(), communityCreateDto.convertStr(communityCreateDto.getHashtag()));
         communityRepository.save(community);
     }
 

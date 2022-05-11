@@ -1,12 +1,10 @@
 package com.connectbridge.connect_bridge_BE.mypage;
 
 import com.connectbridge.connect_bridge_BE.amazonS3.S3Service;
-import com.connectbridge.connect_bridge_BE.community.CommunityEntity;
-import com.connectbridge.connect_bridge_BE.community.CommunityPreviewDto;
-import com.connectbridge.connect_bridge_BE.community.CommunityRepository;
-import com.connectbridge.connect_bridge_BE.community.MyCommunityDto;
+import com.connectbridge.connect_bridge_BE.community.*;
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.dto.RegisterDto;
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.dto.UpdateRegisterDto;
+import com.connectbridge.connect_bridge_BE.loginpage.register.data.dto.UpdateRegisterDto2;
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.entity.RegisterEntity;
 import com.connectbridge.connect_bridge_BE.loginpage.register.repository.RegisterRepository;
 import com.connectbridge.connect_bridge_BE.outactpage.data.dto.UpdateReqDto;
@@ -27,6 +25,7 @@ import java.util.stream.Collectors;
 public class MyPageService {
     private final RegisterRepository registerRepository;
     private final CommunityRepository communityRepository;
+    private final CommunityService communityService;
     private final S3Service s3Service;
     private final PasswordEncoder passwordEncoder;
 
@@ -75,6 +74,7 @@ public class MyPageService {
                     updateRegisterDto.getUserInterestSub(), updateRegisterDto.getUserIntroduce(),
                     updateRegisterDto.getUserPortfolio(), newUrl);
             registerRepository.save(registerEntity);
+
         }else if (newUrl != null && !newUrl.isEmpty()) {
             s3Service.deleteS3(oldUrl);
             registerEntity.updateRegister(encodePassword, updateRegisterDto.getUserNickname(),
@@ -85,14 +85,27 @@ public class MyPageService {
             registerRepository.save(registerEntity);
         }
     }
+    public void updateMyInfo2(UpdateRegisterDto2 updateRegisterDto2){
+        RegisterEntity registerEntity = registerRepository.findByid(updateRegisterDto2.getId());
+        String encodePassword = passwordEncoder.encode(updateRegisterDto2.getUserPW());
+        registerEntity.updateRegister2(encodePassword, updateRegisterDto2.getUserNickname(),
+                updateRegisterDto2.getUserAbility(), updateRegisterDto2.getUserArea(),
+                updateRegisterDto2.getUserTime(), updateRegisterDto2.getUserInterestMain(),
+                updateRegisterDto2.getUserInterestSub(), updateRegisterDto2.getUserIntroduce(),
+                updateRegisterDto2.getUserPortfolio());
+        registerRepository.save(registerEntity);
+    }
 
     //내가 쓴 커뮤니티 페이지 *** 엔티티 -> DTO 변경 기능 ***
     public List<MyCommunityDto> getCommunityPage(long fromUserId){
         RegisterEntity registerEntity = registerRepository.findById(fromUserId).get();
 
         List<MyCommunityDto> community = communityRepository.findAllCommunityByUserNicknameOrderByIdDesc(registerEntity.getUserNickname())
-                .stream().map(MyCommunityDto::fromEntity2).collect(Collectors.toList());;
+                .stream().map(MyCommunityDto::fromEntity2).collect(Collectors.toList());
 
         return community;
     }
+
+    //구독 페이지
+
 }

@@ -1,14 +1,10 @@
 package com.connectbridge.connect_bridge_BE.community;
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.dto.Message;
-import com.connectbridge.connect_bridge_BE.teampage.TeamProfileDto;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -22,11 +18,16 @@ public class CommunityController {
     public ResponseEntity<String> getcommunitywrite() throws Exception{
         return new ResponseEntity<>("ok", HttpStatus.OK);
     }
+    @GetMapping("/communitychange/{communityID}")
+    public ResponseEntity<?> getcommunityinfo(@PathVariable long communityID){
+        CommunityChangeDto getcommunityfix = communityService.getCommunityFixPage(communityID);
+        return new ResponseEntity<>(getcommunityfix,HttpStatus.OK);
+    }
 
     @PostMapping("/write/{fromUserId}")
-    public ResponseEntity<?> communityWrite(@RequestBody CommunityDto communityDto,@PathVariable long fromUserId) throws Exception{
-        communityDto.setFromUserId(fromUserId);
-        communityService.save(communityDto);
+    public ResponseEntity<?> communityWrite(@RequestBody CommunityCreateDto communityCreateDto,@PathVariable long fromUserId) throws Exception{
+        communityCreateDto.setFromUserId(fromUserId);
+        communityService.save(communityCreateDto);
         Message message = Message.builder()
                 .message("ok")
                 .build();
@@ -47,8 +48,8 @@ public class CommunityController {
         return ResponseEntity.ok(getcommunitypage);
     }
     @PatchMapping("/community/write")
-    public ResponseEntity<?> communityPatch(@RequestBody CommunityDto communityDto) throws Exception{
-        communityService.updateCommunity(communityDto);
+    public ResponseEntity<?> communityPatch(@RequestBody CommunityCreateDto communityCreateDto) throws Exception{
+        communityService.updateCommunity(communityCreateDto);
         Message message = Message.builder()
                 .message("ok")
                 .build();

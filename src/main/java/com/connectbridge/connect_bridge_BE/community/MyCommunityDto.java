@@ -1,5 +1,7 @@
 package com.connectbridge.connect_bridge_BE.community;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.*;
 
 import java.math.BigInteger;
@@ -23,6 +25,17 @@ public class MyCommunityDto {
     private long likeCount;
     private long commentCount;
 
+    public List jacksonMap(String json) {
+        ObjectMapper mapper = new ObjectMapper();
+        //List<Map<Object, Object>> map = mapper.readValue(json, List.class);
+        List map = null;
+        try {
+            map = mapper.readValue(json, List.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return map;
+    }
 
 
     public static List<String> convertList(String str){

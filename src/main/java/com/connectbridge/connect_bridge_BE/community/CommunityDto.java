@@ -3,6 +3,8 @@ package com.connectbridge.connect_bridge_BE.community;
 import com.connectbridge.connect_bridge_BE.community.CommunityEntity;
 import com.connectbridge.connect_bridge_BE.community.comment.CommentEntity;
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.entity.RegisterEntity;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.*;
 
 import java.util.Arrays;
@@ -21,11 +23,12 @@ public class CommunityDto {
     private long postID;
     private String title;
     private List<String> hashtag;
-    private String contents;
+    private List contents;
     private long viewCount;
     private long likeCount;
     private long likeCounta;
     private long commentCount;
+    private long userID;
     private String userNickname; //fromUserId
     private String userAbility;
     private String userInterestMain;
@@ -35,7 +38,17 @@ public class CommunityDto {
     private String color;
     private List<CommentEntity> commentList;
 
-
+    public List jacksonMap(String json) {
+        ObjectMapper mapper = new ObjectMapper();
+        //List<Map<Object, Object>> map = mapper.readValue(json, List.class);
+        List map = null;
+        try {
+            map = mapper.readValue(json, List.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return map;
+    }
     public String convertStr(List<String> hashtag) { //DB에 저장
         String str = String.join(",", hashtag);
         return str;
@@ -47,7 +60,7 @@ public class CommunityDto {
     public CommunityDto(CommunityEntity communityEntity){
         this.postID = communityEntity.getId();
         this.title = communityEntity.getTitle();
-        this.contents = communityEntity.getContents();
+        this.contents = jacksonMap(communityEntity.getContents());
         this.hashtag = convertList(communityEntity.getHashtag());
         this.viewCount = communityEntity.getViewCount();
         this.likeCount = communityEntity.getLikeCount();
@@ -56,18 +69,6 @@ public class CommunityDto {
         this.userNickname = communityEntity.getUserNickname();
         this.setCommentList(communityEntity.getCommentList());
     }
-    public CommunityEntity communityEntity() {
-        return CommunityEntity.builder()
-                .id(postID)
-                .title(title)
-                .contents(contents)
-                .hashtag(convertStr(hashtag))
-                .viewCount(viewCount)
-                .likeCount(likeCount)
-                .commentCount(commentCount)
-                .userNickname(userNickname)
-                .commentList(commentList)
-                .build();
-    }
+
 
 }

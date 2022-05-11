@@ -103,5 +103,16 @@ public class RegisterEntity {
         this.userPortfolio = userPortfolio;
         this.userPicture = userPicture;
     }
+    public void updateRegister2(String userPW, String userNickname, String userAbility, String userArea, String userTime, String userInterestMain, String userInterestSub, String userIntroduce, String userPortfolio) {
+        this.userPW = userPW;
+        this.userNickname = userNickname;
+        this.userAbility = userAbility;
+        this.userArea = userArea;
+        this.userTime = userTime;
+        this.userInterestMain = userInterestMain;
+        this.userInterestSub = userInterestSub;
+        this.userIntroduce = userIntroduce;
+        this.userPortfolio = userPortfolio;
+    }
 
 }

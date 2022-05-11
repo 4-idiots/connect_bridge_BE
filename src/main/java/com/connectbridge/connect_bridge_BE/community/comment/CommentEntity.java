@@ -26,12 +26,13 @@ public class CommentEntity {
     @JoinColumn(name = "post_id")
     private CommunityEntity postID;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private RegisterEntity userID;
+    @Column(name = "user_id")
+    private long userID;
 
 
-    public CommentEntity(long id, String comment, CommunityEntity postID, RegisterEntity userID) {
+
+
+    public CommentEntity(long id, String comment, CommunityEntity postID, long userID) {
         this.id = id;
         this.comment = comment;
         this.postID = postID;

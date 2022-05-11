@@ -25,7 +25,7 @@ public class CommentService {
         CommentEntity commentEntity = CommentEntity.builder()
                 .comment(commentDto.getComment())
                 .postID(post)
-                .userID(user)
+                .userID(user.getId())
                 .build();
         commentRepository.save(commentEntity);
     }

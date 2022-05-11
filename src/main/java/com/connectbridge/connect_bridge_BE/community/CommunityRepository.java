@@ -11,6 +11,7 @@ import java.util.List;
 public interface CommunityRepository extends JpaRepository<CommunityEntity, Long> {
     CommunityEntity findByid(Long id);
 
+
     List<CommunityEntity> searchResultByTitleContainingOrderByIdDesc(String keyword);
 
 
