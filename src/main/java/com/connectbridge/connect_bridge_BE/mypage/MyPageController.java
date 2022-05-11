@@ -66,6 +66,11 @@ public class MyPageController {
         // 참여해서 진행 중인 project & study.
         // 완료된 프로젝트, 스터디.
     }
+    @GetMapping("/myfollow/{fromUserId}")
+    public ResponseEntity<?> myFollow(@PathVariable long fromUserId) throws Exception{
+        return new ResponseEntity<>(myPageService.myPageSub(fromUserId), HttpStatus.OK);
+    }
+
 
 
 }

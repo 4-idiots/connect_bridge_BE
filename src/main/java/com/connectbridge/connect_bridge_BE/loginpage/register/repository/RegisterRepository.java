@@ -10,10 +10,10 @@ import java.util.Optional;
 
 public interface RegisterRepository extends JpaRepository<RegisterEntity, Long>{
     RegisterEntity findByid(long id);
-    RegisterEntity getTop1ByUserNickname(String userNickname);
 
 
     Boolean existsByuserNickname(String userNickname);
     Boolean existsByuserID(String userID);
     Boolean existsByuserEmail(String userEmail);
+
 }

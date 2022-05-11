@@ -23,14 +23,12 @@ public class CommunityService {
     private final CommunityRepository communityRepository;
     private final RegisterRepository registerRepository;
     private final CommunityLikeRepository communityLikeRepository;
-    private final CommentRepository commentRepository;
     private final EntityManager em;
 
-    public CommunityService(CommunityRepository communityRepository, RegisterRepository registerRepository, CommunityLikeRepository communityLikeRepository, CommentRepository commentRepository, EntityManager em){
+    public CommunityService(CommunityRepository communityRepository, RegisterRepository registerRepository, CommunityLikeRepository communityLikeRepository, EntityManager em){
         this.communityRepository = communityRepository;
         this.registerRepository = registerRepository;
         this.communityLikeRepository = communityLikeRepository;
-        this.commentRepository = commentRepository;
         this.em = em;
     }
     public List jacksonMap(String json) {
@@ -105,6 +103,7 @@ public class CommunityService {
         CommunityDto communityDto = new CommunityDto();
 
         CommunityEntity communityEntity = communityRepository.getById(communityID);
+        System.out.println(communityEntity);
 
         if(fromUserId == 0){
             communityDto.setPostID(communityEntity.getId());
@@ -119,10 +118,10 @@ public class CommunityService {
             communityDto.setCommentList(communityEntity.getCommentList());
             communityDto.setUserID(communityEntity.getUserID());
 
+
         }
         else {
-
-            RegisterEntity id = registerRepository.getTop1ByUserNickname(communityEntity.getUserNickname());
+            RegisterEntity id = registerRepository.findByid(communityEntity.getUserID());
             communityDto.setPostID(communityEntity.getId());
             communityDto.setTitle(communityEntity.getTitle());
             communityDto.setHashtag(communityDto.convertList(communityEntity.getHashtag()));

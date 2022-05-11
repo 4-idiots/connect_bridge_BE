@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 public interface CommunityLikeRepository extends JpaRepository<CommunityLike, Long> {
     CommunityLike findByFromUserIdAndToPostId(long from_user_id, long to_post_id);
@@ -16,4 +17,6 @@ public interface CommunityLikeRepository extends JpaRepository<CommunityLike, Lo
     @Transactional
     @Query(value = "SELECT COUNT(*) FROM communitylike WHERE to_post_id = :postId", nativeQuery = true)
     int findCommunityLikeCountById(@Param("postId")long postId);
+
+    //List<CommunityEntity> findByUserIDOrderByIdDesc(long fromUserId);
 }

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RequestMapping("/api")
 public class CommunityController {
-    private final CommunityRepository communityRepository;
     private final CommunityService communityService;
 
     @GetMapping("/communityw")

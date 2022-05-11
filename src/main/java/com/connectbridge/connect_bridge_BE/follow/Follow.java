@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @Entity
-
+@Table(name = "follow")
 public class Follow {
 
     @Id
@@ -22,6 +22,7 @@ public class Follow {
     @JoinColumn(name = "from_user_id")
     @ManyToOne
     private RegisterEntity fromUser;
+
 
     @JoinColumn(name = "to_user_id")
     @ManyToOne
