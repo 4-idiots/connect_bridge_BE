@@ -24,10 +24,8 @@ public class OutActLikeService {
     // db에 해당하는 값이 있는지 확인.
     public boolean likeChk(Long userID, Long outActID){
         if(null == outActLikeRepository.findByUserIDAndOutActID(userID,outActID)){
-            System.out.println("db에 없으요~ 추가하세요");
             return true;
         }else {
-            System.out.println("db에 있는데요? 취소하세요");
             return false;
         }
     }
@@ -38,7 +36,6 @@ public class OutActLikeService {
         outActLikeRepository.deleteById(outActLike.getId());
         likeCount(outActID);
 
-        System.out.println("likeOff");
     }
 
     // 클릭을 했더니 값이 없다.-> 생성.
@@ -47,7 +44,6 @@ public class OutActLikeService {
         outActLikeRepository.save(outActLike);
         likeCount(outActID);
 
-        System.out.println("likeOn");
     }
 
     private void likeCount(Long outActID){

@@ -1,7 +1,6 @@
 package com.connectbridge.connect_bridge_BE.projectpage.service;
 
 import com.connectbridge.connect_bridge_BE.amazonS3.S3Service;
-import com.connectbridge.connect_bridge_BE.loginpage.login.data.entity.User;
 import com.connectbridge.connect_bridge_BE.loginpage.login.repository.LeaderMapping;
 import com.connectbridge.connect_bridge_BE.loginpage.login.repository.UserRepository;
 import com.connectbridge.connect_bridge_BE.projectpage.data.dto.*;
@@ -17,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ProjectService {
@@ -44,6 +44,13 @@ public class ProjectService {
         return pageDto;
     }
 
+    public List<ProjectDto> newProject(){
+        //Pageable pageable = PageRequest.of(0, 4, Sort.by(Sort.Direction.DESC,"id"));
+        List<ProjectEntity> page = projectRepository.findTop4ByOrderByIdDesc();
+        List<ProjectDto> pageDto = page.stream().map(ProjectDto::new).collect(Collectors.toList());
+        return pageDto;
+    }
+
     // 생성
     public void createProject(CreateDto createDto) {
         ProjectEntity projectEntity = new ProjectEntity().createProject(createDto);
@@ -64,6 +71,7 @@ public class ProjectService {
 
         detailDto.setMemberID(membersMap(projectID)); // members add
 
+        detailDto.setMemberList(memberList(projectID));
         projectViewManager(projectID);
 
         return detailDto;
@@ -82,6 +90,7 @@ public class ProjectService {
     }
 */
 
+    // 구독한 정보 dto에 제공
     private boolean likeMap(Long projectID, Long userID){
 
         if(userID !=0){
@@ -118,11 +127,26 @@ public class ProjectService {
             LeaderMapping user = userRepository.findByid((long) memberID.get(i).getUserID());
             HashMap<String,Object> memberInfo = new HashMap<>();
             memberInfo.put("memberID",user.getId());
-            memberInfo.put("memberName",user.getUserName());
+            memberInfo.put("memberName",user.getUserNickName());
             memberInfo.put("memberImg",user.getPicture());
-            memberInfo.put("Introduce",user.getIntroduce());
+            memberInfo.put("memberIntroduce",user.getIntroduce());
+            memberInfo.put("memberInterestSub",user.getUserInterestSub());
+            memberInfo.put("memberAbility",user.getUserAbility());
 
             memList.add(i,memberInfo);
+        }
+        return memList;
+    }
+
+    //방금만듬.
+    private List memberList(Long projectID){
+        List<MemberMapping> memberID = submitRepository.findByProjectIDAndAccept(projectID,true);
+        // submit 맴버를 가져온다.
+        List memList = new ArrayList<>();
+        for(int i=0;i< memberID.size();i++){
+            LeaderMapping user = userRepository.findByid((long) memberID.get(i).getUserID());
+
+            memList.add(user.getId());
         }
         return memList;
     }
@@ -131,7 +155,7 @@ public class ProjectService {
     private HashMap<String,Object> leaderMap(LeaderMapping user){
         HashMap<String,Object> leaderInfo = new HashMap<>();
         leaderInfo.put("leaderID", user.getId());
-        leaderInfo.put("leaderName",user.getUserName());
+        leaderInfo.put("leaderName",user.getUserNickName());
         leaderInfo.put("leaderImg", user.getPicture());
         leaderInfo.put("introduce", user.getIntroduce());
 
@@ -180,7 +204,6 @@ public class ProjectService {
             if (!chker) {
                 SubmitEntity submitEntity = new SubmitEntity().createSubmit(submitDto);
                 submitRepository.save(submitEntity);
-                System.out.println("submit save done");
                 return true;
             }
         } catch (Exception e) {

@@ -31,7 +31,6 @@ public class OutActController {
     public ResponseEntity<List<OutActDto>> getPageList(
             @PathVariable("page") int page,
             Pageable pageable) { // IllegalArgumentException 잡아야함
-        System.out.println("input page: " + page);
 
         List<OutActDto> list = outActService.getList(pageable, page);
 
@@ -83,7 +82,6 @@ public class OutActController {
     public ResponseEntity<ModifyResDto> selectModify(@PathVariable("outActID") Long id){
         try{
             ModifyResDto responseDto = outActService.modifyInfo(id);
-            System.out.println("여기?");
             return new ResponseEntity<ModifyResDto>(responseDto,HttpStatus.OK);
 
         }catch (Exception e)
@@ -105,7 +103,6 @@ public class OutActController {
 
         try{
             String url = s3Service.upload(img,"outactpost");
-            System.out.println(img);
 
             UpdateReqDto requestDto = UpdateReqDto.builder()
                     .outActID(id)

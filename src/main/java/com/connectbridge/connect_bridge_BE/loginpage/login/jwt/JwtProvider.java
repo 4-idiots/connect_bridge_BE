@@ -140,7 +140,7 @@ public class JwtProvider {
     }
 
     // Bearer 분리
-    private String extractToken(String authHeader){
+    public String extractToken(String authHeader){
         return authHeader.substring("Bearer ".length());
     }
 

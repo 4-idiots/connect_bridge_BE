@@ -6,7 +6,7 @@ import com.connectbridge.connect_bridge_BE.projectpage.data.dto.CreateDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.*;
 import java.util.List;
@@ -273,6 +273,7 @@ public class ProjectEntity extends BaseTimeEntity {
         this.compEtcNow = createDto.getCompEtcNow();
 
     }
+
     public String listToStr(List<String> test) {
         String str = String.join(",", test);
         System.out.println(str);
@@ -360,6 +361,122 @@ public class ProjectEntity extends BaseTimeEntity {
     }
     public void updateView(int projectView){
         this.projectView = projectView;
+    }
+
+    public void setUiuxPlanNow(int uiuxPlanNow) {
+        this.uiuxPlanNow = uiuxPlanNow;
+    }
+
+    public void setGamePlanNow(int gamePlanNow) {
+        this.gamePlanNow = gamePlanNow;
+    }
+
+    public void setManagerPlanNow(int managerPlanNow) {
+        this.managerPlanNow = managerPlanNow;
+    }
+
+    public void setHwPlanNow(int hwPlanNow) {
+        this.hwPlanNow = hwPlanNow;
+    }
+
+    public void setIosFrNow(int iosFrNow) {
+        this.iosFrNow = iosFrNow;
+    }
+
+    public void setAndroidFrNow(int androidFrNow) {
+        this.androidFrNow = androidFrNow;
+    }
+
+    public void setWebFrontFrNow(int webFrontFrNow) {
+        this.webFrontFrNow = webFrontFrNow;
+    }
+
+    public void setWebPublicFrNow(int webPublicFrNow) {
+        this.webPublicFrNow = webPublicFrNow;
+    }
+
+    public void setCrossFrNow(int crossFrNow) {
+        this.crossFrNow = crossFrNow;
+    }
+
+    public void setUiuxDeNow(int uiuxDeNow) {
+        this.uiuxDeNow = uiuxDeNow;
+    }
+
+    public void setGraphicDeNow(int graphicDeNow) {
+        this.graphicDeNow = graphicDeNow;
+    }
+
+    public void setThrdDeNow(int thrdDeNow) {
+        this.thrdDeNow = thrdDeNow;
+    }
+
+    public void setHwDeNow(int hwDeNow) {
+        this.hwDeNow = hwDeNow;
+    }
+
+    public void setEtcDeNow(int etcDeNow) {
+        this.etcDeNow = etcDeNow;
+    }
+
+    public void setWebBkNow(int webBkNow) {
+        this.webBkNow = webBkNow;
+    }
+
+    public void setBlchBkNow(int blchBkNow) {
+        this.blchBkNow = blchBkNow;
+    }
+
+    public void setAiBkNow(int aiBkNow) {
+        this.aiBkNow = aiBkNow;
+    }
+
+    public void setDsBkNow(int dsBkNow) {
+        this.dsBkNow = dsBkNow;
+    }
+
+    public void setGameBkNow(int gameBkNow) {
+        this.gameBkNow = gameBkNow;
+    }
+
+    public void setPlanBuNow(int planBuNow) {
+        this.planBuNow = planBuNow;
+    }
+
+    public void setMarketingBuNow(int marketingBuNow) {
+        this.marketingBuNow = marketingBuNow;
+    }
+
+    public void setFinanceBuNow(int financeBuNow) {
+        this.financeBuNow = financeBuNow;
+    }
+
+    public void setSalesBuNow(int salesBuNow) {
+        this.salesBuNow = salesBuNow;
+    }
+
+    public void setConsultBuNow(int consultBuNow) {
+        this.consultBuNow = consultBuNow;
+    }
+
+    public void setInvestBuNow(int investBuNow) {
+        this.investBuNow = investBuNow;
+    }
+
+    public void setEtcBuNow(int etcBuNow) {
+        this.etcBuNow = etcBuNow;
+    }
+
+    public void setBlogEtcNow(int blogEtcNow) {
+        this.blogEtcNow = blogEtcNow;
+    }
+
+    public void setInfluEtcNow(int influEtcNow) {
+        this.influEtcNow = influEtcNow;
+    }
+
+    public void setCompEtcNow(int compEtcNow) {
+        this.compEtcNow = compEtcNow;
     }
 }
 

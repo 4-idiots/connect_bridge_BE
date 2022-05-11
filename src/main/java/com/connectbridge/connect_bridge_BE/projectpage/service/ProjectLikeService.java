@@ -20,10 +20,8 @@ public class ProjectLikeService {
 
     public boolean likeChk(Long userID, Long projectID) {
         if (null == projectLikeRepository.findByUserIDAndProjectID(userID, projectID)) {
-            System.out.println("projectLike 추가");
             return true;
         } else {
-            System.out.println("projectLike 제거");
             return false;
         }
     }
@@ -33,7 +31,6 @@ public class ProjectLikeService {
         projectLikeRepository.deleteById(projectLike.getId());
         likeCount(projectID);
 
-        System.out.println("project likeOff");
     }
 
     public void likeOn(Long userID, Long projectID){
@@ -41,7 +38,6 @@ public class ProjectLikeService {
         projectLikeRepository.save(projectLike);
         likeCount(projectID);
 
-        System.out.println("likeOn");
     }
 
     private void likeCount(Long projectID){
