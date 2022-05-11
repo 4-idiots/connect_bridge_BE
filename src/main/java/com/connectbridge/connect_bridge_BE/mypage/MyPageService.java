@@ -121,18 +121,18 @@ public class MyPageService {
 
     //구독 페이지
     public HashMap myPageSub(long fromUserId){
-        List<ProjectEntity> likeProject = projectLikeRepository.findIdByUserIDOrderByIdDesc(fromUserId);
-        List<CommunityEntity> likeCommunity = communityLikeRepository.findIdByUserIDOrderByIdDesc(fromUserId);
-        List<RegisterEntity> follwTeam = teamRepository.findIdByUserIDOrderByIdDesc(fromUserId);
-        List<OutAct> likeOutact = outActLikeRepository.findIdByUserIDOrderByIdDesc(fromUserId);
+        //List<ProjectEntity> likeProject = projectLikeRepository.findIdByUserIDOrderByIdDesc(fromUserId);
+        //List<CommunityEntity> likeCommunity = communityLikeRepository.findIdByUserIDOrderByIdDesc(fromUserId);
+        //List<RegisterEntity> follwTeam = teamRepository.findIdByUserIDOrderByIdDesc(fromUserId);
+       // List<OutAct> likeOutact = outActLikeRepository.findIdByUserIDOrderByIdDesc(fromUserId);
 
 
         HashMap<String,List> page = new HashMap<>();
-        page.put("project", likeProject);
+       // page.put("project", likeProject);
         //page.put("study", likeStudy);
-        page.put("community",likeCommunity);
-        page.put("team",follwTeam);
-        page.put("outact",likeOutact);
+       // page.put("community",likeCommunity);
+        //page.put("team",follwTeam);
+        //page.put("outact",likeOutact);
 
         return page;
     }
