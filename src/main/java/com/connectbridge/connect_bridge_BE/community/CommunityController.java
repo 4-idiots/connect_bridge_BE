@@ -49,6 +49,7 @@ public class CommunityController {
     }
     @PatchMapping("/community/write")
     public ResponseEntity<?> communityPatch(@RequestBody CommunityCreateDto communityCreateDto) throws Exception{
+        System.out.println(communityCreateDto.getContents() + communityCreateDto.getTitle() + communityCreateDto.getPostID());
         communityService.updateCommunity(communityCreateDto);
         Message message = Message.builder()
                 .message("ok")

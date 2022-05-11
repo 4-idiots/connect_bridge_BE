@@ -26,6 +26,7 @@ public class CommentService {
                 .comment(commentDto.getComment())
                 .postID(post)
                 .userID(user.getId())
+                .userNickname(user.getUserNickname())
                 .build();
         commentRepository.save(commentEntity);
     }
@@ -36,7 +37,6 @@ public class CommentService {
 
     public void updateComment(CommentDto commentDto)throws Exception{
         CommentEntity commentEntity = commentRepository.findById(commentDto.getId()).get();
-        System.out.println(commentEntity);
         commentEntity.updateComment(commentDto.getId(), commentDto.getComment());
         commentRepository.save(commentEntity);
     }

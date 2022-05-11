@@ -34,10 +34,10 @@ public class CommentController {
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
-    @DeleteMapping("/community/comment/{id}")
-    public ResponseEntity commentDelete(@PathVariable long id) throws Exception{
+    @DeleteMapping("/community/comment/{id}/{postID}")
+    public ResponseEntity commentDelete(@PathVariable long id, @PathVariable long postID) throws Exception{
         commentService.deleteComment(id);
-        //만약 삭제를 한다면 댓글에서 postID 받아서 카운팅 삭제
+        commentService.commentcounting(postID);
         Message message = Message.builder()
                 .message("ok")
                 .build();

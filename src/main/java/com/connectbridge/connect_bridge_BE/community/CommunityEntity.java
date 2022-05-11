@@ -56,14 +56,11 @@ public class CommunityEntity {
 
 
 
-    public void updateCommunity(long id, String title, String contents, String hashtag){
+    public void updateCommunity(long id, String title, String contents, String hashtag, String userNickname){
         this.id = id;
         this.title = title;
         this.contents = contents;
         this.hashtag = hashtag;
-    }
-    public void updateCommunityNickname(long id, String userNickname){
-        this.id = id;
         this.userNickname = userNickname;
     }
 

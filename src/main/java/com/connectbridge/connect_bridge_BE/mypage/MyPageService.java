@@ -2,12 +2,19 @@ package com.connectbridge.connect_bridge_BE.mypage;
 
 import com.connectbridge.connect_bridge_BE.amazonS3.S3Service;
 import com.connectbridge.connect_bridge_BE.community.*;
+import com.connectbridge.connect_bridge_BE.community.like.CommunityLikeRepository;
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.dto.RegisterDto;
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.dto.UpdateRegisterDto;
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.dto.UpdateRegisterDto2;
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.entity.RegisterEntity;
 import com.connectbridge.connect_bridge_BE.loginpage.register.repository.RegisterRepository;
 import com.connectbridge.connect_bridge_BE.outactpage.data.dto.UpdateReqDto;
+import com.connectbridge.connect_bridge_BE.outactpage.data.entity.OutAct;
+import com.connectbridge.connect_bridge_BE.outactpage.repository.OutActLikeRepository;
+import com.connectbridge.connect_bridge_BE.projectpage.data.entity.ProjectEntity;
+import com.connectbridge.connect_bridge_BE.projectpage.repository.ProjectLikeRepository;
+import com.connectbridge.connect_bridge_BE.projectpage.repository.ProjectRepository;
+import com.connectbridge.connect_bridge_BE.teampage.TeamRepository;
 import lombok.RequiredArgsConstructor;
 import org.qlrm.mapper.JpaResultMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,15 +24,20 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class MyPageService {
+    private final TeamRepository  teamRepository;
+    private final CommunityLikeRepository communityLikeRepository;
+    private final ProjectLikeRepository projectLikeRepository;
+    private final OutActLikeRepository outActLikeRepository;
     private final RegisterRepository registerRepository;
-    private final CommunityRepository communityRepository;
     private final CommunityService communityService;
+    private final CommunityRepository communityRepository;
     private final S3Service s3Service;
     private final PasswordEncoder passwordEncoder;
 
@@ -56,34 +68,34 @@ public class MyPageService {
     public void updateMyInfo(UpdateRegisterDto updateRegisterDto){
         RegisterEntity registerEntity = registerRepository.findByid(updateRegisterDto.getId());
         String encodePassword = passwordEncoder.encode(updateRegisterDto.getUserPW());
-        String url = null;
 
         try {
-            url = s3Service.upload(updateRegisterDto.getImg(), "user");
+            String url = s3Service.upload(updateRegisterDto.getImg(), "user");
+            updateRegisterDto.setUserPicture(url);
+            String newUrl = updateRegisterDto.getUserPicture();
+            String oldUrl = registerEntity.getUserPicture();
+
+            if (oldUrl == null){ //기존 url 안뀌어도
+                registerEntity.updateRegister(encodePassword, updateRegisterDto.getUserNickname(),
+                        updateRegisterDto.getUserAbility(), updateRegisterDto.getUserArea(),
+                        updateRegisterDto.getUserTime(), updateRegisterDto.getUserInterestMain(),
+                        updateRegisterDto.getUserInterestSub(), updateRegisterDto.getUserIntroduce(),
+                        updateRegisterDto.getUserPortfolio(), newUrl);
+                registerRepository.save(registerEntity);
+
+            }else if (newUrl != null && !newUrl.isEmpty()) {
+                s3Service.deleteS3(oldUrl);
+                registerEntity.updateRegister(encodePassword, updateRegisterDto.getUserNickname(),
+                        updateRegisterDto.getUserAbility(), updateRegisterDto.getUserArea(),
+                        updateRegisterDto.getUserTime(), updateRegisterDto.getUserInterestMain(),
+                        updateRegisterDto.getUserInterestSub(), updateRegisterDto.getUserIntroduce(),
+                        updateRegisterDto.getUserPortfolio(), newUrl);
+                registerRepository.save(registerEntity);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        updateRegisterDto.setUserPicture(url);
-        String newUrl = updateRegisterDto.getUserPicture();
-        String oldUrl = registerEntity.getUserPicture();
 
-        if (oldUrl == null){
-            registerEntity.updateRegister(encodePassword, updateRegisterDto.getUserNickname(),
-                    updateRegisterDto.getUserAbility(), updateRegisterDto.getUserArea(),
-                    updateRegisterDto.getUserTime(), updateRegisterDto.getUserInterestMain(),
-                    updateRegisterDto.getUserInterestSub(), updateRegisterDto.getUserIntroduce(),
-                    updateRegisterDto.getUserPortfolio(), newUrl);
-            registerRepository.save(registerEntity);
-
-        }else if (newUrl != null && !newUrl.isEmpty()) {
-            s3Service.deleteS3(oldUrl);
-            registerEntity.updateRegister(encodePassword, updateRegisterDto.getUserNickname(),
-                    updateRegisterDto.getUserAbility(), updateRegisterDto.getUserArea(),
-                    updateRegisterDto.getUserTime(), updateRegisterDto.getUserInterestMain(),
-                    updateRegisterDto.getUserInterestSub(), updateRegisterDto.getUserIntroduce(),
-                    updateRegisterDto.getUserPortfolio(), newUrl);
-            registerRepository.save(registerEntity);
-        }
     }
     public void updateMyInfo2(UpdateRegisterDto2 updateRegisterDto2){
         RegisterEntity registerEntity = registerRepository.findByid(updateRegisterDto2.getId());
@@ -107,5 +119,19 @@ public class MyPageService {
     }
 
     //구독 페이지
+    public HashMap myPageSub(long fromUserId){
+        List<ProjectEntity> likeProject = projectLikeRepository.findIdByUserIDOrderByIdDesc(fromUserId);
+        List<CommunityEntity> likeCommunity = communityLikeRepository.findIdByUserIDOrderByIdDesc(fromUserId);
+        List<RegisterEntity> follwTeam = teamRepository.findIdByUserIDOrderByIdDesc(fromUserId);
+        List<OutAct> likeOutact = outActLikeRepository.findIdByUserIDOrderByIdDesc(fromUserId);
 
+        HashMap<String,List> page = new HashMap<>();
+        page.put("project", likeProject);
+        //page.put("study", likeStudy);
+        page.put("community",likeCommunity);
+        page.put("team",follwTeam);
+        page.put("outact",likeOutact);
+
+        return page;
+    }
 }

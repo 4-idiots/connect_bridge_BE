@@ -155,8 +155,10 @@ public class CommunityService {
     //커뮤니티 수정
     public void updateCommunity(CommunityCreateDto communityCreateDto) throws Exception{
         CommunityEntity community = communityRepository.findByid(communityCreateDto.getPostID());
+        RegisterEntity registerEntity = registerRepository.findByid(community.getUserID());
         community.updateCommunity(communityCreateDto.getPostID(), communityCreateDto.getTitle(),
-                communityCreateDto.getContents(), communityCreateDto.convertStr(communityCreateDto.getHashtag()));
+                communityCreateDto.getContents(), communityCreateDto.convertStr(communityCreateDto.getHashtag()),
+                registerEntity.getUserNickname());
         communityRepository.save(community);
     }
 

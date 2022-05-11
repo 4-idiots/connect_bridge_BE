@@ -29,14 +29,18 @@ public class CommentEntity {
     @Column(name = "user_id")
     private long userID;
 
+    @Column(name = "user_nickname")
+    private String userNickname;
 
 
 
-    public CommentEntity(long id, String comment, CommunityEntity postID, long userID) {
+
+    public CommentEntity(long id, String comment, CommunityEntity postID, long userID, String userNickname) {
         this.id = id;
         this.comment = comment;
         this.postID = postID;
         this.userID = userID;
+        this.userNickname = userNickname;
     }
     public void updateComment(long id, String comment){
         this.id = id;
