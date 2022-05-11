@@ -2,6 +2,8 @@ package com.connectbridge.connect_bridge_BE.mypage;
 
 import com.connectbridge.connect_bridge_BE.amazonS3.S3Service;
 import com.connectbridge.connect_bridge_BE.community.CommunityPreviewDto;
+import com.connectbridge.connect_bridge_BE.loginpage.login.data.dto.TokenResDto;
+import com.connectbridge.connect_bridge_BE.loginpage.login.jwt.JwtProvider;
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.dto.Message;
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.dto.RegisterDto;
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.dto.UpdateRegisterDto;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 public class MyPageController {
     private final MyPageService myPageService;
+    private final JwtProvider jwtProvider;
 
     @GetMapping("/my/info/{fromUserId}") //내 정보 불러오기
     public ResponseEntity<?> myinfoPage(@PathVariable long fromUserId) throws Exception{
@@ -35,6 +38,7 @@ public class MyPageController {
                 .build();
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
+
     @PostMapping("/my/info") // 내 정보 수정하기 이미지빼고
     public ResponseEntity<?> myinfoFix2(@RequestBody UpdateRegisterDto2 updateRegisterDto2) throws Exception{
         System.out.println(updateRegisterDto2.getId()+updateRegisterDto2.getUserNickname()+
@@ -53,4 +57,15 @@ public class MyPageController {
     public ResponseEntity<?> myCommunity(@PathVariable long fromUserId) throws Exception{
         return new ResponseEntity<>(myPageService.getCommunityPage(fromUserId), HttpStatus.OK);
     }
+
+    @GetMapping("/myproject")
+    public void mypage(){
+
+        myPageService.getProStu();
+        // 유저가 지원한 projet & study.
+        // 참여해서 진행 중인 project & study.
+        // 완료된 프로젝트, 스터디.
+    }
+
+
 }

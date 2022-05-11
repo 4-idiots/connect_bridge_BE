@@ -46,7 +46,7 @@ public class ProjectService {
 
     public List<ProjectDto> newProject(){
         //Pageable pageable = PageRequest.of(0, 4, Sort.by(Sort.Direction.DESC,"id"));
-        List<ProjectEntity> page = projectRepository.findTop4ByOrderByIdDesc();
+        List<ProjectEntity> page = projectRepository.findTop4ByOrderById();
         List<ProjectDto> pageDto = page.stream().map(ProjectDto::new).collect(Collectors.toList());
         return pageDto;
     }
@@ -66,29 +66,16 @@ public class ProjectService {
 
         detailDto.setLeaderInfo(leaderMap(user)); // leader Info add
 
-        //detailDto.setProjectSub(likeMap(projectID,userID));// subInfo add
         detailDto.setProjectSub(likeMap(projectID,userID)); //no hashMap
 
-        detailDto.setMemberID(membersMap(projectID)); // members add
+        detailDto.setMemberID(membersMap(projectID)); // members Info add
 
-        detailDto.setMemberList(memberList(projectID));
+        detailDto.setMemberList(memberList(projectID)); // members ID only
+
         projectViewManager(projectID);
 
         return detailDto;
     }
-
-/*
-    // 혹시 헤쉬안에 넣어야하니?
-    private HashMap<String,Object> setTestHashMeth(Long projectID, Long userID){
-        HashMap<String,Object> testHashMap = new HashMap<>();
-        ProjectEntity project = projectRepository.findByid(projectID);
-        LeaderMapping user = userRepository.findByid(project.getUserID());
-        testHashMap.put("subMap",subMap(projectID, userID));
-        testHashMap.put("memberMap",membersMap(projectID));
-        testHashMap.put("leaderMap",leaderMap(user));
-        return testHashMap;
-    }
-*/
 
     // 구독한 정보 dto에 제공
     private boolean likeMap(Long projectID, Long userID){
@@ -100,22 +87,6 @@ public class ProjectService {
             return false;
         }
     }
-
-    /*
-    // like 정보
-    private HashMap<String, Object> likeMap(Long projectID, Long userID){
-        HashMap<String,Object> subInfo = new HashMap<>();
-
-        if(userID !=0){
-            System.out.println("userID : " +userID + ", projectID : "+projectID);
-            subInfo.put("projectSub",projectLikeRepository.existsByUserIDAndProjectID(userID, projectID));
-        }else{
-            subInfo.put("projectSub", false);
-        }
-        return subInfo;
-    }
-
-     */
 
     // member List<HashMap>
     private List<HashMap<String,Object>> membersMap(Long projectID) {
@@ -200,18 +171,24 @@ public class ProjectService {
     // 지원 신청
     public boolean submitProject(SubmitDto submitDto) {
         try {
+            System.out.println("subpro 동작시작.");
+            System.out.println("sub userID= "+submitDto.getUserID()+", sub proID = "+ submitDto.getProjectID() + ", sub field= "+ submitDto.getField());
+            // 이미 지원을 했는가?
             boolean chker = submitRepository.existsByUserIDAndProjectID(submitDto.getUserID(), submitDto.getProjectID());
+            System.out.println("지원되있는 사람인가?: "+ chker);
             if (!chker) {
+                System.out.println("지원 안되있는 사람임!");
+
                 SubmitEntity submitEntity = new SubmitEntity().createSubmit(submitDto);
                 submitRepository.save(submitEntity);
                 return true;
             }
+            return false;
         } catch (Exception e) {
             System.out.println(e);
             System.out.println("submit save fail");
             return false;
         }
-        return false;
     }
 
     // 조회수 카운터
