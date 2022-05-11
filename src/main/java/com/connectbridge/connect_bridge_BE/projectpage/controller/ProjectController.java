@@ -8,7 +8,6 @@ import com.connectbridge.connect_bridge_BE.loginpage.login.jwt.JwtProvider;
 import com.connectbridge.connect_bridge_BE.projectpage.data.dto.CreateDto;
 import com.connectbridge.connect_bridge_BE.projectpage.data.dto.ProjectDto;
 import com.connectbridge.connect_bridge_BE.projectpage.data.dto.SubmitDto;
-import com.connectbridge.connect_bridge_BE.projectpage.data.entity.ProjectEntity;
 import com.connectbridge.connect_bridge_BE.projectpage.service.ProjectLikeService;
 import com.connectbridge.connect_bridge_BE.projectpage.service.ProjectService;
 import org.springframework.data.domain.Pageable;
@@ -109,7 +108,6 @@ public class ProjectController {
         }
         return new ResponseEntity<>(new Message("no"), HttpStatus.BAD_REQUEST);
     }
-
     // 삭제
     @DeleteMapping("/project/{projectID}")
     public ResponseEntity<?> projectDelete(@PathVariable("projectID") Long projectID) {
@@ -122,7 +120,9 @@ public class ProjectController {
     //프로젝트 지원
     @PatchMapping("/project/apply")
     public ResponseEntity<?> submitProject(@RequestBody SubmitDto submitDto) {
+        System.out.println("sub userID= "+submitDto.getUserID()+", sub proID= "+ submitDto.getProjectID() + ", sub field= "+ submitDto.getField());
         if (projectService.submitProject(submitDto)) {
+            System.out.println("subPro 종료됨.");
             return new ResponseEntity<>(new Message("ok"), HttpStatus.OK);
         }
         return new ResponseEntity<>(new Message("no"), HttpStatus.BAD_REQUEST);

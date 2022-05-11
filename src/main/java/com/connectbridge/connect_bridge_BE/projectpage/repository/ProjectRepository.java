@@ -13,5 +13,8 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
     ProjectEntity findByid(Long id);
     ProjectEntity findByUserID(Long userID);
     List<ProjectEntity> findTop4ByOrderByIdDesc(); // 역순 4개 전달.
+    List<ProjectEntity> findTop4ByOrderById();
+
     //MemberMapping findByID(Long id); // noticeService
+
 }

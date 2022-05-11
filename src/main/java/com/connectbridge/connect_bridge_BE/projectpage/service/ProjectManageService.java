@@ -60,17 +60,15 @@ public class ProjectManageService {
         // input apply = true, input reject = false
         //project leader가 token user와 같은가?
         if (userID.equals(projectEntity.getUserID())) {
-
+            System.out.println("이 사람은 리더가 맞습니다.");
             SubmitEntity submitEntity = submitRepository.findByid(submitID);
             // true => apply
             if(input){
 
                 String target = submitEntity.getField();
-
-                controll(target,projectEntity);
-
+                System.out.println("Field: "+ target);
+                //controll(target,projectEntity);
                 submitEntity.updateAccept(true);
-
                 submitRepository.save(submitEntity);
 
                 return true;
@@ -97,6 +95,7 @@ public class ProjectManageService {
                     now += 1;
                     projectEntity.setUiuxPlanNow(now);
                     projectRepository.save(projectEntity);
+                    System.out.println("1");
                 }
                 break;
             case "game_plan":
@@ -127,6 +126,7 @@ public class ProjectManageService {
                     now += 1;
                     projectEntity.setHwPlanNow(now);
                     projectRepository.save(projectEntity);
+                    System.out.println("2");
                 }
                 break;
             case "ios_fr":
@@ -237,6 +237,8 @@ public class ProjectManageService {
                     now += 1;
                     projectEntity.setWebBkNow(now);
                     projectRepository.save(projectEntity);
+                    System.out.println("3");
+
                 }
                 break;
             case "blch_bk":
@@ -257,6 +259,8 @@ public class ProjectManageService {
                     now += 1;
                     projectEntity.setAiBkNow(now);
                     projectRepository.save(projectEntity);
+                    System.out.println("4");
+
                 }
                 break;
             case "ds_bk":

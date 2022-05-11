@@ -19,6 +19,6 @@ public class MainController {
     @GetMapping("/main")
     public ResponseEntity<?> mainPage(){
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(mainService.mainGet(),HttpStatus.OK);
     }
 }

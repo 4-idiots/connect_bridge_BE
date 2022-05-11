@@ -46,10 +46,9 @@ public class ProjectManageController {
             // 검증, get userID
             TokenResDto tokenResDto = jwtProvider.tokenManager(token);
             Long userID = jwtProvider.getTokenID(tokenResDto.getAccessToken());
-
             boolean input = true;
             // service run
-            boolean result = projectManageService.manageSub(projectID, submitID, userID,input);
+            boolean result = projectManageService.manageSub(projectID, submitID, userID, input);
 
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception e) {

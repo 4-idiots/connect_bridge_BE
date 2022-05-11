@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -125,6 +126,7 @@ public class MyPageService {
         List<RegisterEntity> follwTeam = teamRepository.findIdByUserIDOrderByIdDesc(fromUserId);
         List<OutAct> likeOutact = outActLikeRepository.findIdByUserIDOrderByIdDesc(fromUserId);
 
+
         HashMap<String,List> page = new HashMap<>();
         page.put("project", likeProject);
         //page.put("study", likeStudy);
@@ -134,4 +136,31 @@ public class MyPageService {
 
         return page;
     }
+
+    // 유저가 지원한 projet & study.
+    // 참여해서 진행 중인 project & study + 리더로 진행 중인 프로젝트.
+    // 완료된 프로젝트, 스터디.
+    public void getProStu(){
+        HashMap proStuList = new HashMap();
+        // submit.findByUserIDAndAccept(userID,false); -> 지원한 프로젝트.->accept 0
+        // stusubmit.findByUserID(userID);-> 지원한 스터디. //list로 가지고 있는다면?
+        // submit.find.ByUserIDAndAccept(userID,true) -> 참여중인 프로젝트. -> accept 1
+        // project.findByUserIDAndOnOff(userID,true) -> 자신이 리더인 프로젝트
+        // 완료현황 체크를 어떻게 할 것인가?
+        // 조건 : onoff=1(종료)
+        // 1안. findByOnOff(true).getID ->
+        //->완료된 프로젝트 목록 챙김.
+
+        Long aID = Long.valueOf(1);
+        List member =new ArrayList<>();
+
+        for(int i=0;i<2;i++){
+            member.add(aID);
+            System.out.println(member);
+        }
+
+
+    }
+
+
 }
