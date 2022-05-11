@@ -8,6 +8,7 @@ import com.connectbridge.connect_bridge_BE.loginpage.login.jwt.JwtProvider;
 import com.connectbridge.connect_bridge_BE.projectpage.data.dto.CreateDto;
 import com.connectbridge.connect_bridge_BE.projectpage.data.dto.ProjectDto;
 import com.connectbridge.connect_bridge_BE.projectpage.data.dto.SubmitDto;
+import com.connectbridge.connect_bridge_BE.projectpage.data.entity.ProjectEntity;
 import com.connectbridge.connect_bridge_BE.projectpage.service.ProjectLikeService;
 import com.connectbridge.connect_bridge_BE.projectpage.service.ProjectService;
 import org.springframework.data.domain.Pageable;
@@ -37,13 +38,28 @@ public class ProjectController {
 
     // 무한 스크롤
     @GetMapping("/project/page/{page}")
-    public ResponseEntity<List<ProjectDto>> projectPage(@PathVariable("page") int page, Pageable pageable){
+    public ResponseEntity<List<ProjectDto>> projectPage(@PathVariable("page") int page, Pageable pageable) {
         System.out.println("input page: " + page);
-        List<ProjectDto> list = projectService.pagingProject(pageable,page);
+        List<ProjectDto> list = projectService.pagingProject(pageable, page);
         if (list.isEmpty()) {
             return new ResponseEntity<>(list, HttpStatus.OK);
         }
         return ResponseEntity.ok(list);
+    }
+
+    // 최신 게시글 4개
+    @GetMapping("/project/page/new")
+    public ResponseEntity<List<ProjectDto>> projectNew() {
+        try {
+            List<ProjectDto> page = projectService.newProject();
+            if (page.isEmpty()) {
+                return new ResponseEntity<>(page, HttpStatus.OK);
+            }
+            return new ResponseEntity<>(page, HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println(e);
+            return new ResponseEntity(new Message("no"), HttpStatus.BAD_REQUEST);
+        }
     }
 
     // 생성
@@ -66,21 +82,16 @@ public class ProjectController {
     // 카드 클릭
     @GetMapping("project/{projectID}")
     public ResponseEntity<?> projectDetail(@PathVariable("projectID") Long projectID,
-                                           @RequestHeader(value = "Authorization",required = false) String token) {
+                                           @RequestHeader(value = "Authorization", required = false) String token) {
         try {
             Long userID = Long.valueOf(0);
-
-            if (token != null){
+            // token =  "Bearer null"
+            if (!jwtProvider.extractToken(token).equals("null")) {
                 TokenResDto dto = jwtProvider.tokenManager(token);
                 userID = jwtProvider.getTokenID(dto.getAccessToken());
-                System.out.println("Cont1 userID : "+ userID);
-
             }
-            System.out.println("Cont2 userID : "+userID);
-
             return new ResponseEntity<>(projectService.detailProject(projectID, userID), HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println("그곳이 여기인가?: "+e);
             return new ResponseEntity<>(new Message("no"), HttpStatus.BAD_REQUEST);
         }
     }
@@ -101,40 +112,38 @@ public class ProjectController {
 
     // 삭제
     @DeleteMapping("/project/{projectID}")
-    public ResponseEntity<?> projectDelete(@PathVariable("projectID") Long projectID){
-        if(projectService.deleteProject(projectID)){
+    public ResponseEntity<?> projectDelete(@PathVariable("projectID") Long projectID) {
+        if (projectService.deleteProject(projectID)) {
             return new ResponseEntity<>(new Message("ok"), HttpStatus.OK);
         }
-            return new ResponseEntity<>(new Message("no"),HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new Message("no"), HttpStatus.BAD_REQUEST);
     }
 
     //프로젝트 지원
     @PatchMapping("/project/apply")
     public ResponseEntity<?> submitProject(@RequestBody SubmitDto submitDto) {
-            if(projectService.submitProject(submitDto)){
-                return new ResponseEntity<>(new Message("ok"),HttpStatus.OK);
-            }
-            return new ResponseEntity<>(new Message("no"),HttpStatus.BAD_REQUEST);
+        if (projectService.submitProject(submitDto)) {
+            return new ResponseEntity<>(new Message("ok"), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(new Message("no"), HttpStatus.BAD_REQUEST);
     }
 
     //좋아요 통신
     @GetMapping("/project/like")
     public ResponseEntity<?> projectLike(@RequestParam(value = "projectID") Long projectID,
-                                         @RequestHeader("Authorization") String token){
+                                         @RequestHeader("Authorization") String token) {
 
-        try{
+        try {
             TokenResDto tokenResDto = jwtProvider.tokenManager(token);
             Long userID = jwtProvider.getTokenID(tokenResDto.getAccessToken());
 
-            if(projectLikeService.likeChk(userID, projectID)){
-                System.out.println("P likeOn Start");
-                projectLikeService.likeOn(userID,projectID);
-            }else{
-                System.out.println("P likeOff Start");
-                projectLikeService.likeOff(userID,projectID);
+            if (projectLikeService.likeChk(userID, projectID)) {
+                projectLikeService.likeOn(userID, projectID);
+            } else {
+                projectLikeService.likeOff(userID, projectID);
             }
             return new ResponseEntity<>(new Message("ok"), HttpStatus.OK);
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
             return new ResponseEntity<>(new Message("no"), HttpStatus.BAD_REQUEST);
         }
@@ -143,19 +152,17 @@ public class ProjectController {
     //좋아요 구분 통신
     @GetMapping("/project/islike/{projectID}")
     public Boolean projectLike(@RequestHeader(value = "Authorization") String token,
-                               @PathVariable(value = "projectID") Long projectID){
-        try{
+                               @PathVariable(value = "projectID") Long projectID) {
+        try {
             TokenResDto tokenResDto = jwtProvider.tokenManager(token);
             Long userID = jwtProvider.getTokenID(tokenResDto.getAccessToken());
 
-            if (projectLikeService.isLike(userID,projectID)) {
-                System.out.println("P isLike");
+            if (projectLikeService.isLike(userID, projectID)) {
                 return true;
             } else {
-                System.out.println("P noLike");
                 return false;
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
             return false;
         }

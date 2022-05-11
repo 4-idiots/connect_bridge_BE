@@ -30,10 +30,8 @@ public class OutActLikeController {
             Long userID = jwtProvider.getTokenID(tokenResDto.getAccessToken());
 
             if (likeService.likeChk(userID, outActID)) {
-                System.out.println("O likeOn Start");
                 likeService.likeOn(userID, outActID);
             } else {
-                System.out.println("O likeOff Start");
                 likeService.likeOff(userID, outActID);
             }
             return new ResponseEntity<>(new Message("ok"), HttpStatus.OK);
@@ -53,10 +51,8 @@ public class OutActLikeController {
             Long userID = jwtProvider.getTokenID(tokenResDto.getAccessToken());
 
             if (likeService.isLike(userID, outActID)) {
-                System.out.println("isLike");
                 return true;
             } else {
-                System.out.println("noLike");
                 return false;
             }
         } catch (Exception e) {

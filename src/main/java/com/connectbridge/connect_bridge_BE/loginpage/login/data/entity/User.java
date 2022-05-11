@@ -14,8 +14,8 @@ import javax.persistence.*;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "users")
 @DynamicUpdate
+@Table(name = "users")
 public class User {
     @Id
     private Long id;
@@ -42,6 +42,19 @@ public class User {
 
     @Column(name = "user_picture")
     private String picture;
+
+
+    @Column(name = "user_ability")
+    private String userAbility;
+
+    @Column(name = "user_nickname")
+    private String userNickName;
+
+    @Column(name = "user_interest_sub")
+    private String userInterestSub;
+
+    //@Column(name = "user_interest_sub")
+    //private String userInterestSub;
 
     //토큰 갱신
     public void updateToken(String refreshToken){

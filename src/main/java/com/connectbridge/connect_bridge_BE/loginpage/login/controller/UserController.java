@@ -27,12 +27,11 @@ public class UserController {
         try {
 
             TokenResDto loginResDto = userService.login(reqDto);
-            System.out.println("controller-login 동작");
 
             return new ResponseEntity<>(loginResDto, HttpStatus.OK);
 
         } catch (Exception e){
-            System.out.println("controller-login 실패: " + e);
+            System.out.println("login failed: " + e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

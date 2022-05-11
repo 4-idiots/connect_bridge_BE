@@ -3,8 +3,6 @@ package com.connectbridge.connect_bridge_BE.projectpage.controller;
 import com.connectbridge.connect_bridge_BE.loginpage.login.data.dto.Message;
 import com.connectbridge.connect_bridge_BE.loginpage.login.data.dto.TokenResDto;
 import com.connectbridge.connect_bridge_BE.loginpage.login.jwt.JwtProvider;
-import com.connectbridge.connect_bridge_BE.projectpage.data.dto.SubmitDto;
-import com.connectbridge.connect_bridge_BE.projectpage.data.entity.SubmitEntity;
 import com.connectbridge.connect_bridge_BE.projectpage.service.ProjectManageService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,7 +48,6 @@ public class ProjectManageController {
             Long userID = jwtProvider.getTokenID(tokenResDto.getAccessToken());
 
             boolean input = true;
-
             // service run
             boolean result = projectManageService.manageSub(projectID, submitID, userID,input);
 
@@ -70,15 +67,12 @@ public class ProjectManageController {
             TokenResDto tokenResDto = jwtProvider.tokenManager(token);
             Long userID = jwtProvider.getTokenID(tokenResDto.getAccessToken());
             boolean input = false;
-            System.out.println("확인1");
             // service run
             boolean result = projectManageService.manageSub(projectID, submitID, userID,input);
-            System.out.println("확인2");
 
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception e) {
             System.out.println(e);
-            System.out.println("확인3");
 
             return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
         }
