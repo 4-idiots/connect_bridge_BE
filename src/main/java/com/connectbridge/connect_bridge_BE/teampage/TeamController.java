@@ -28,9 +28,9 @@ public class TeamController {
 
 
     @GetMapping("/team{page}")
-    public ResponseEntity<List<TeamProfileDto>> getPageList(@PathVariable("page") int page, Pageable pageable) {
+    public ResponseEntity<List<TeamMainDto>> getPageList(@PathVariable("page") int page, Pageable pageable) {
         System.out.println("페이지 번호" + page);
-        List<TeamProfileDto> list = teamService.getList(pageable, page);
+        List<TeamMainDto> list = teamService.getList(pageable, page);
         if(list.isEmpty()){
             return new ResponseEntity<>(list,HttpStatus.OK);
         }

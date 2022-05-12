@@ -23,6 +23,7 @@ public class TeamProfileDto  {
     private String userInterestMain;
     private String userInterestSub;
     private String userIntroduce;
+    private String userPicture;
     private Long follow;
     private String color;
 
@@ -36,6 +37,7 @@ public class TeamProfileDto  {
         this.userTime = registerEntity.getUserTime();
         this.userIntroduce = registerEntity.getUserIntroduce();
         this.userArea = registerEntity.getUserArea();
+        this.userPicture = registerEntity.getUserPicture();
     }
 
 

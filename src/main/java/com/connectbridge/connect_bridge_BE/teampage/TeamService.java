@@ -38,7 +38,7 @@ public class TeamService {
         teamProfileDto.setUserArea(registerEntity.getUserArea());
         teamProfileDto.setUserInterestMain(registerEntity.getUserInterestMain());
         teamProfileDto.setUserInterestSub(registerEntity.getUserInterestSub());
-
+        teamProfileDto.setUserPicture(registerEntity.getUserPicture());
         teamProfileDto.setUserIntroduce(registerEntity.getUserIntroduce());
         teamProfileDto.setUserTime(registerEntity.getUserTime());
         if (fromUserId != 0){
@@ -55,14 +55,14 @@ public class TeamService {
 
     }
 
-    public List<TeamProfileDto> getList(Pageable pageable, int reqPage){
+    public List<TeamMainDto> getList(Pageable pageable, int reqPage){
 
         // Pageable 설정
         pageable = PageRequest.of(reqPage,3, Sort.by(Sort.Direction.DESC,"id"));
 
         Page<RegisterEntity> page = teamRepository.findAll(pageable); // DB값 불러옴.
 
-        List<TeamProfileDto> pageDto = page.map(TeamProfileDto::new).getContent(); // List로 받게 바꿔봄 ㅋ
+        List<TeamMainDto> pageDto = page.map(TeamMainDto::new).getContent(); // List로 받게 바꿔봄 ㅋ
 
         System.out.println("Service getList 동작 됨" + page);
 
