@@ -120,9 +120,8 @@ public class ProjectController {
     //프로젝트 지원
     @PatchMapping("/project/apply")
     public ResponseEntity<?> submitProject(@RequestBody SubmitDto submitDto) {
-        System.out.println("sub userID= "+submitDto.getUserID()+", sub proID= "+ submitDto.getProjectID() + ", sub field= "+ submitDto.getField());
+        //누가 어떤 프로젝트에 어떤 필드로 지원했는가?
         if (projectService.submitProject(submitDto)) {
-            System.out.println("subPro 종료됨.");
             return new ResponseEntity<>(new Message("ok"), HttpStatus.OK);
         }
         return new ResponseEntity<>(new Message("no"), HttpStatus.BAD_REQUEST);
