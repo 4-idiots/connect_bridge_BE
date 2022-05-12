@@ -102,11 +102,11 @@ public class DetailDto {
     int projectView;
     int projectLike;
     Long userID; // 4.18 추가
+
     List memberID; // 지원한 유저들정보
     HashMap leaderInfo;
     List memberList;
-    //HashMap projectSub;
-    boolean projectSub; // hashmap 안하고 줄 수 있음.
+    boolean projectSub;
 
     public List jacksonMap(String json) {
         ObjectMapper mapper = new ObjectMapper();

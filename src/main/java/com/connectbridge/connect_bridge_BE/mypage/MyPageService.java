@@ -124,14 +124,6 @@ public class MyPageService {
         // 1안. findByOnOff(true).getID ->
         //->완료된 프로젝트 목록 챙김.
 
-        Long aID = Long.valueOf(1);
-        List member =new ArrayList<>();
-
-        for(int i=0;i<2;i++){
-            member.add(aID);
-            System.out.println(member);
-        }
-
 
     }
 

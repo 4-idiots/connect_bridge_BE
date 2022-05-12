@@ -45,7 +45,6 @@ public class ProjectService {
     }
 
     public List<ProjectDto> newProject(){
-        //Pageable pageable = PageRequest.of(0, 4, Sort.by(Sort.Direction.DESC,"id"));
         List<ProjectEntity> page = projectRepository.findTop4ByOrderById();
         List<ProjectDto> pageDto = page.stream().map(ProjectDto::new).collect(Collectors.toList());
         return pageDto;
@@ -171,14 +170,9 @@ public class ProjectService {
     // 지원 신청
     public boolean submitProject(SubmitDto submitDto) {
         try {
-            System.out.println("subpro 동작시작.");
-            System.out.println("sub userID= "+submitDto.getUserID()+", sub proID = "+ submitDto.getProjectID() + ", sub field= "+ submitDto.getField());
             // 이미 지원을 했는가?
             boolean chker = submitRepository.existsByUserIDAndProjectID(submitDto.getUserID(), submitDto.getProjectID());
-            System.out.println("지원되있는 사람인가?: "+ chker);
             if (!chker) {
-                System.out.println("지원 안되있는 사람임!");
-
                 SubmitEntity submitEntity = new SubmitEntity().createSubmit(submitDto);
                 submitRepository.save(submitEntity);
                 return true;

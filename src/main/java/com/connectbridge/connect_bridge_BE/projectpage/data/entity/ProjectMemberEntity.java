@@ -1,8 +1,14 @@
 package com.connectbridge.connect_bridge_BE.projectpage.data.entity;
 
-import javax.persistence.*;
+import lombok.Getter;
+import org.hibernate.annotations.DynamicUpdate;
 
+import javax.persistence.*;
+import java.util.List;
+
+@Getter
 @Entity
+@DynamicUpdate
 @Table(name = "projectmember")
 public class ProjectMemberEntity {
 
@@ -14,4 +20,8 @@ public class ProjectMemberEntity {
     private Long projectID;
 
     private String member;
+
+    public void addMember(int memID){
+        this.member +=memID;
+    }
 }
