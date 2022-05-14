@@ -64,7 +64,7 @@ public class StudyController {
     // study post
     @PostMapping("/study")
     public ResponseEntity<?> studyPost(
-            StudyCreateDto studyCreateDto,
+            @RequestBody StudyCreateDto studyCreateDto,
             @RequestHeader("Authorization") String token) {
         try {
             TokenResDto dto = jwtProvider.tokenManager(token);
