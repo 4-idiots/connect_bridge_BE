@@ -12,6 +12,7 @@ import java.util.List;
 public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
     ProjectEntity findByid(Long id);
     ProjectEntity findByUserID(Long userID);
+    ProjectEntity findByidAndUserID(Long id,Long projectID);
     List<ProjectEntity> findTop4ByOrderByIdDesc(); // 역순 4개 전달.
     List<ProjectEntity> findTop4ByOrderById();
 

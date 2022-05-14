@@ -217,10 +217,6 @@ public class MyPageService {
         // 완료현황 체크를 어떻게 할 것인가?
         // 조건 : onoff=1(종료)
         // 1안. findByOnOff(true).getID ->
-        //->완료된 프로젝트 목록 챙김.
-
-
+        //-> 완료된 프로젝트 목록 챙김.
     }
-
-
 }

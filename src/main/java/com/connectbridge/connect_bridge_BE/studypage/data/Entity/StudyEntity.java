@@ -37,7 +37,7 @@ public class StudyEntity extends BaseTimeEntity {
     private String studyArea;
 
     @Column(name = "study_onoff")
-    private String studyOnOff;
+    private boolean studyOnOff;
 
     @Column(name = "study_member")
     private String studyMember;
@@ -56,31 +56,45 @@ public class StudyEntity extends BaseTimeEntity {
 
     private String content;
 
+    @Column(name = "study_img")
+    private String studyImg;
 
     public StudyEntity() {
 
     }
 
     public StudyEntity createStudy(StudyCreateDto createDto){
-        return StudyEntity.builder()
+        return builder()
                 .userID(createDto.getUserID())
                 .studyName(createDto.getStudyName())
                 .studyKeyward(createDto.getStudyKeyward())
                 .studyField(createDto.getStudyField())
                 .studyArea(createDto.getStudyArea())
-                .studyOnOff(createDto.getStudyOnOff())
                 .studyMember(createDto.getStudyMember())
                 .content(createDto.getContent())
+                .studyImg(createDto.getStudyStrImg())
                 .build();
     }
 
-/*
+    public void stuEntUpdate(StudyCreateDto createDto){
+        this.studyName = createDto.getStudyName();
+        this.studyKeyward = createDto.getStudyKeyward();
+        this.studyField = createDto.getStudyField();
+        this.studyArea = createDto.getStudyArea();
+        this.studyMember = createDto.getStudyMember();// 아마 삭제할듯
+        this.studyStart = createDto.getStudyStart();
+        this.studyEnd = createDto.getStudyEnd();
+        this.content = createDto.getContent();
+        this.studyImg = createDto.getStudyStrImg();
+    }
+
+
     public void updateLike(int studyLike){
         this.studyLike = studyLike;
     }
     public void updateView(int studyView){
         this.studyView = studyView;
     }
+    public void updateOnOff(boolean studyOnOff){this.studyOnOff = studyOnOff;}
 
- */
 }

@@ -38,7 +38,6 @@ public class ProjectController {
     // 무한 스크롤
     @GetMapping("/project/page/{page}")
     public ResponseEntity<List<ProjectDto>> projectPage(@PathVariable("page") int page, Pageable pageable) {
-        System.out.println("input page: " + page);
         List<ProjectDto> list = projectService.pagingProject(pageable, page);
         if (list.isEmpty()) {
             return new ResponseEntity<>(list, HttpStatus.OK);
@@ -91,6 +90,7 @@ public class ProjectController {
             }
             return new ResponseEntity<>(projectService.detailProject(projectID, userID), HttpStatus.OK);
         } catch (Exception e) {
+            System.out.println(e);
             return new ResponseEntity<>(new Message("no"), HttpStatus.BAD_REQUEST);
         }
     }
@@ -108,9 +108,11 @@ public class ProjectController {
         }
         return new ResponseEntity<>(new Message("no"), HttpStatus.BAD_REQUEST);
     }
+
     // 삭제
     @DeleteMapping("/project/{projectID}")
-    public ResponseEntity<?> projectDelete(@PathVariable("projectID") Long projectID) {
+    public ResponseEntity<?> projectDelete(@PathVariable("projectID") Long projectID,
+                                           @RequestHeader("Authorization")String token) {
         if (projectService.deleteProject(projectID)) {
             return new ResponseEntity<>(new Message("ok"), HttpStatus.OK);
         }
@@ -150,7 +152,7 @@ public class ProjectController {
 
     //좋아요 구분 통신
     @GetMapping("/project/islike/{projectID}")
-    public Boolean projectLike(@RequestHeader(value = "Authorization") String token,
+    public Boolean projectIsLike(@RequestHeader(value = "Authorization") String token,
                                @PathVariable(value = "projectID") Long projectID) {
         try {
             TokenResDto tokenResDto = jwtProvider.tokenManager(token);

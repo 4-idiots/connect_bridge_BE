@@ -41,12 +41,12 @@ public class ProjectManageService {
             subInfo.put("userID", submitEntityList.get(i).getUserID());
             //user에 있는 정보 호출,introduce,nickname,img,ability,interestSub
             List<User> user = userRepository.getByid(submitEntityList.get(i).getUserID());
-            for(int j = 0; j< user.size();j++){
-                subInfo.put("introduce",user.get(j).getIntroduce());
-                subInfo.put("nickname",user.get(j).getUserNickName());
-                subInfo.put("img",user.get(j).getPicture());
-                subInfo.put("ability",user.get(j).getUserAbility());
-                subInfo.put("interestSub",user.get(j).getUserInterestSub());
+            for (int j = 0; j < user.size(); j++) {
+                subInfo.put("introduce", user.get(j).getIntroduce());
+                subInfo.put("nickname", user.get(j).getUserNickName());
+                subInfo.put("img", user.get(j).getPicture());
+                subInfo.put("ability", user.get(j).getUserAbility());
+                subInfo.put("interestSub", user.get(j).getUserInterestSub());
             }
             submitList.add(i, subInfo);
         }
@@ -60,16 +60,16 @@ public class ProjectManageService {
         // input apply = true, input reject = false
         //project leader가 token user와 같은가?
         if (userID.equals(projectEntity.getUserID())) {
-            System.out.println("in the if userID: "+userID+" proUID: "+projectEntity.getUserID());
+            System.out.println("in the if userID: " + userID + " proUID: " + projectEntity.getUserID());
             System.out.println("이 사람은 리더가 맞습니다.");
 
             SubmitEntity submitEntity = submitRepository.findByid(submitID);
             // true => apply
-            if(input){
+            if (input) {
 
                 String target = submitEntity.getField();
-                System.out.println("Field: "+ target);
-                controll(target,projectEntity);
+                System.out.println("Field: " + target);
+                controll(target, projectEntity);
                 submitEntity.updateAccept(true);
                 submitRepository.save(submitEntity);
 
@@ -85,15 +85,15 @@ public class ProjectManageService {
         return false;
     }
 
-    private void controll(String target,ProjectEntity projectEntity){
-        int now =0;
-        int max= 0;
-        switch (target){
+    private void controll(String target, ProjectEntity projectEntity) {
+        int now = 0;
+        int max = 0;
+        switch (target) {
             case "uiux_plan":
                 now = projectEntity.getUiuxPlanNow();
                 max = projectEntity.getUiuxPlan();
 
-                if(now<max){
+                if (now < max) {
                     now += 1;
                     projectEntity.setUiuxPlanNow(now);
                     projectRepository.save(projectEntity);
@@ -104,7 +104,7 @@ public class ProjectManageService {
                 now = projectEntity.getGamePlanNow();
                 max = projectEntity.getGamePlan();
 
-                if(now<max){
+                if (now < max) {
                     now += 1;
                     projectEntity.setGamePlanNow(now);
                     projectRepository.save(projectEntity);
@@ -114,7 +114,7 @@ public class ProjectManageService {
                 now = projectEntity.getManagerPlanNow();
                 max = projectEntity.getManagerPlan();
 
-                if(now<max){
+                if (now < max) {
                     now += 1;
                     projectEntity.setManagerPlanNow(now);
                     projectRepository.save(projectEntity);
@@ -124,7 +124,7 @@ public class ProjectManageService {
                 now = projectEntity.getHwPlanNow();
                 max = projectEntity.getHwPlan();
 
-                if(now<max){
+                if (now < max) {
                     now += 1;
                     projectEntity.setHwPlanNow(now);
                     projectRepository.save(projectEntity);
@@ -135,7 +135,7 @@ public class ProjectManageService {
                 now = projectEntity.getIosFrNow();
                 max = projectEntity.getIosFr();
 
-                if(now<max){
+                if (now < max) {
                     now += 1;
                     projectEntity.setIosFrNow(now);
                     projectRepository.save(projectEntity);
@@ -145,7 +145,7 @@ public class ProjectManageService {
                 now = projectEntity.getAndroidFrNow();
                 max = projectEntity.getAndroidFr();
 
-                if(now<max){
+                if (now < max) {
                     now += 1;
                     projectEntity.setAndroidFrNow(now);
                     projectRepository.save(projectEntity);
@@ -155,87 +155,87 @@ public class ProjectManageService {
                 now = projectEntity.getWebFrontFrNow();
                 max = projectEntity.getWebFrontFr();
 
-                if(now<max){
+                if (now < max) {
                     now += 1;
                     projectEntity.setWebFrontFrNow(now);
                     projectRepository.save(projectEntity);
                 }
                 break;
             case "webPublic_fr":
-                 now = projectEntity.getWebPublicFrNow();
-                 max = projectEntity.getWebPublicFr();
+                now = projectEntity.getWebPublicFrNow();
+                max = projectEntity.getWebPublicFr();
 
-                if(now<max){
+                if (now < max) {
                     now += 1;
                     projectEntity.setWebPublicFrNow(now);
                     projectRepository.save(projectEntity);
                 }
                 break;
             case "cross_fr":
-                 now = projectEntity.getCrossFrNow();
-                 max = projectEntity.getCrossFr();
+                now = projectEntity.getCrossFrNow();
+                max = projectEntity.getCrossFr();
 
-                if(now<max){
+                if (now < max) {
                     now += 1;
                     projectEntity.setCrossFrNow(now);
                     projectRepository.save(projectEntity);
                 }
                 break;
             case "uiux_de":
-                 now = projectEntity.getUiuxDeNow();
-                 max = projectEntity.getUiuxDe();
+                now = projectEntity.getUiuxDeNow();
+                max = projectEntity.getUiuxDe();
 
-                if(now<max){
+                if (now < max) {
                     now += 1;
                     projectEntity.setUiuxDeNow(now);
                     projectRepository.save(projectEntity);
                 }
                 break;
             case "graphic_de":
-                 now = projectEntity.getGraphicDeNow();
-                 max = projectEntity.getGraphicDe();
+                now = projectEntity.getGraphicDeNow();
+                max = projectEntity.getGraphicDe();
 
-                if(now<max){
+                if (now < max) {
                     now += 1;
                     projectEntity.setGraphicDeNow(now);
                     projectRepository.save(projectEntity);
                 }
                 break;
             case "thrd_de":
-                 now = projectEntity.getThrdDeNow();
-                 max = projectEntity.getThrdDe();
+                now = projectEntity.getThrdDeNow();
+                max = projectEntity.getThrdDe();
 
-                if(now<max){
+                if (now < max) {
                     now += 1;
                     projectEntity.setThrdDeNow(now);
                     projectRepository.save(projectEntity);
                 }
                 break;
             case "hw_de":
-                 now = projectEntity.getHwDeNow();
-                 max = projectEntity.getHwDe();
+                now = projectEntity.getHwDeNow();
+                max = projectEntity.getHwDe();
 
-                if(now<max){
+                if (now < max) {
                     now += 1;
                     projectEntity.setHwDeNow(now);
                     projectRepository.save(projectEntity);
                 }
                 break;
             case "etc_de":
-                 now = projectEntity.getEtcDeNow();
-                 max = projectEntity.getEtcDe();
+                now = projectEntity.getEtcDeNow();
+                max = projectEntity.getEtcDe();
 
-                if(now<max){
+                if (now < max) {
                     now += 1;
                     projectEntity.setEtcDeNow(now);
                     projectRepository.save(projectEntity);
                 }
                 break;
             case "web_bk":
-                 now = projectEntity.getWebBkNow();
-                 max = projectEntity.getWebBk();
+                now = projectEntity.getWebBkNow();
+                max = projectEntity.getWebBk();
 
-                if(now<max){
+                if (now < max) {
                     now += 1;
                     projectEntity.setWebBkNow(now);
                     projectRepository.save(projectEntity);
@@ -244,20 +244,20 @@ public class ProjectManageService {
                 }
                 break;
             case "blch_bk":
-                 now = projectEntity.getBlchBkNow();
-                 max = projectEntity.getBlchBk();
+                now = projectEntity.getBlchBkNow();
+                max = projectEntity.getBlchBk();
 
-                if(now<max){
+                if (now < max) {
                     now += 1;
                     projectEntity.setBlchBkNow(now);
                     projectRepository.save(projectEntity);
                 }
                 break;
             case "ai_bk":
-                 now = projectEntity.getAiBkNow();
-                 max = projectEntity.getAiBk();
+                now = projectEntity.getAiBkNow();
+                max = projectEntity.getAiBk();
 
-                if(now<max){
+                if (now < max) {
                     now += 1;
                     projectEntity.setAiBkNow(now);
                     projectRepository.save(projectEntity);
@@ -266,120 +266,120 @@ public class ProjectManageService {
                 }
                 break;
             case "ds_bk":
-                 now = projectEntity.getDsBkNow();
-                 max = projectEntity.getDsBk();
+                now = projectEntity.getDsBkNow();
+                max = projectEntity.getDsBk();
 
-                if(now<max){
+                if (now < max) {
                     now += 1;
                     projectEntity.setDsBkNow(now);
                     projectRepository.save(projectEntity);
                 }
                 break;
             case "game_bk":
-                 now = projectEntity.getGameBkNow();
-                 max = projectEntity.getGameBk();
+                now = projectEntity.getGameBkNow();
+                max = projectEntity.getGameBk();
 
-                if(now<max){
+                if (now < max) {
                     now += 1;
                     projectEntity.setGameBkNow(now);
                     projectRepository.save(projectEntity);
                 }
                 break;
             case "plan_bu":
-                 now = projectEntity.getPlanBuNow();
-                 max = projectEntity.getPlanBu();
+                now = projectEntity.getPlanBuNow();
+                max = projectEntity.getPlanBu();
 
-                if(now<max){
+                if (now < max) {
                     now += 1;
                     projectEntity.setPlanBuNow(now);
                     projectRepository.save(projectEntity);
                 }
                 break;
             case "marketing_bu":
-                 now = projectEntity.getMarketingBuNow();
-                 max = projectEntity.getMarketingBu();
+                now = projectEntity.getMarketingBuNow();
+                max = projectEntity.getMarketingBu();
 
-                if(now<max){
+                if (now < max) {
                     now += 1;
                     projectEntity.setMarketingBuNow(now);
                     projectRepository.save(projectEntity);
                 }
                 break;
             case "finance_bu":
-                 now = projectEntity.getFinanceBuNow();
-                 max = projectEntity.getFinanceBu();
+                now = projectEntity.getFinanceBuNow();
+                max = projectEntity.getFinanceBu();
 
-                if(now<max){
+                if (now < max) {
                     now += 1;
                     projectEntity.setFinanceBuNow(now);
                     projectRepository.save(projectEntity);
                 }
                 break;
             case "sales_bu":
-                 now = projectEntity.getSalesBuNow();
-                 max = projectEntity.getSalesBu();
+                now = projectEntity.getSalesBuNow();
+                max = projectEntity.getSalesBu();
 
-                if(now<max){
+                if (now < max) {
                     now += 1;
                     projectEntity.setSalesBuNow(now);
                     projectRepository.save(projectEntity);
                 }
                 break;
             case "consult_bu":
-                 now = projectEntity.getConsultBuNow();
-                 max = projectEntity.getConsultBu();
+                now = projectEntity.getConsultBuNow();
+                max = projectEntity.getConsultBu();
 
-                if(now<max){
+                if (now < max) {
                     now += 1;
                     projectEntity.setConsultBuNow(now);
                     projectRepository.save(projectEntity);
                 }
                 break;
             case "invest_bu":
-                 now = projectEntity.getInvestBuNow();
-                 max = projectEntity.getInvestBu();
+                now = projectEntity.getInvestBuNow();
+                max = projectEntity.getInvestBu();
 
-                if(now<max){
+                if (now < max) {
                     now += 1;
                     projectEntity.setInvestBuNow(now);
                     projectRepository.save(projectEntity);
                 }
                 break;
             case "etc_bu":
-                 now = projectEntity.getEtcBuNow();
-                 max = projectEntity.getEtcBu();
+                now = projectEntity.getEtcBuNow();
+                max = projectEntity.getEtcBu();
 
-                if(now<max){
+                if (now < max) {
                     now += 1;
                     projectEntity.setEtcBuNow(now);
                     projectRepository.save(projectEntity);
                 }
                 break;
             case "blog_etc":
-                 now = projectEntity.getBlogEtcNow();
-                 max = projectEntity.getBlogEtc();
+                now = projectEntity.getBlogEtcNow();
+                max = projectEntity.getBlogEtc();
 
-                if(now<max){
+                if (now < max) {
                     now += 1;
                     projectEntity.setBlogEtcNow(now);
                     projectRepository.save(projectEntity);
                 }
                 break;
             case "influ_etc":
-                 now = projectEntity.getInfluEtcNow();
-                 max = projectEntity.getInfluEtc();
+                now = projectEntity.getInfluEtcNow();
+                max = projectEntity.getInfluEtc();
 
-                if(now<max){
+                if (now < max) {
                     now += 1;
                     projectEntity.setInfluEtcNow(now);
                     projectRepository.save(projectEntity);
                 }
                 break;
             case "comp_etc":
-                 now = projectEntity.getCompEtc();
-                 max = projectEntity.getCompEtc();
+                now = projectEntity.getCompEtc();
+                max = projectEntity.getCompEtc();
 
-                if(now<max){
+                if (now < max) {
                     now += 1;
                     projectEntity.setCompEtcNow(now);
                     projectRepository.save(projectEntity);
@@ -388,5 +388,243 @@ public class ProjectManageService {
         }
     }
 
+    public void endProject(Long userID, Long projectID) {
+        ProjectEntity project = projectRepository.findByidAndUserID(projectID, userID);
+        System.out.println("currnet onoff : "+ project.isProjectOnOff());
+        boolean status = project.isProjectOnOff();
 
+        if(status){
+            project.updateOnOff(false); // on->false
+        }else{
+            project.updateOnOff(true); // false -> on
+        }
+        System.out.println("currnet onoff2 : "+ project.isProjectOnOff());
+        projectRepository.save(project);
+    }
+
+    public boolean fireMember(Long userID, Long projectID, Long memberID) {
+        ProjectEntity projectEntity = projectRepository.findByid(projectID);
+
+        if (userID.equals(projectEntity.getUserID())) {
+            SubmitEntity submit = submitRepository.findByProjectIDAndUserIDAndAccept(projectID, memberID, true); // submit에 있으면 프로젝트에 참여된 것.
+
+            String field = submit.getField();
+            Long targetID = submit.getId();
+            submitRepository.deleteById(targetID);
+
+            fire(field,projectEntity);
+            return true;
+        }
+        return false;
+    }
+
+    private void fire(String field, ProjectEntity projectEntity) {
+        int now = 0;
+        switch (field) {
+            case "uiux_plan":
+                now = projectEntity.getUiuxPlanNow();
+                now = now - 1;
+                projectEntity.setUiuxPlanNow(now);
+                projectRepository.save(projectEntity);
+                break;
+            case "game_plan":
+                now = projectEntity.getGamePlanNow();
+
+                now -= 1;
+                projectEntity.setGamePlanNow(now);
+                projectRepository.save(projectEntity);
+                break;
+            case "manager_plan":
+                now = projectEntity.getManagerPlanNow();
+
+                now -= 1;
+                projectEntity.setManagerPlanNow(now);
+                projectRepository.save(projectEntity);
+                break;
+            case "hw_plan":
+                now = projectEntity.getHwPlanNow();
+
+                now -= 1;
+                projectEntity.setHwPlanNow(now);
+                projectRepository.save(projectEntity);
+                break;
+            case "ios_fr":
+                now = projectEntity.getIosFrNow();
+
+                now -= 1;
+                projectEntity.setIosFrNow(now);
+                projectRepository.save(projectEntity);
+                break;
+            case "android_fr":
+                now = projectEntity.getAndroidFrNow();
+
+                now -= 1;
+                projectEntity.setAndroidFrNow(now);
+                projectRepository.save(projectEntity);
+                break;
+            case "webFront_fr":
+                now = projectEntity.getWebFrontFrNow();
+
+                now -= 1;
+                projectEntity.setWebFrontFrNow(now);
+                projectRepository.save(projectEntity);
+                break;
+            case "webPublic_fr":
+                now = projectEntity.getWebPublicFrNow();
+
+                now -= 1;
+                projectEntity.setWebPublicFrNow(now);
+                projectRepository.save(projectEntity);
+                break;
+            case "cross_fr":
+                now = projectEntity.getCrossFrNow();
+
+                now -= 1;
+                projectEntity.setCrossFrNow(now);
+                projectRepository.save(projectEntity);
+                break;
+            case "uiux_de":
+                now = projectEntity.getUiuxDeNow();
+
+                now -= 1;
+                projectEntity.setUiuxDeNow(now);
+                projectRepository.save(projectEntity);
+                break;
+            case "graphic_de":
+                now = projectEntity.getGraphicDeNow();
+
+                now -= 1;
+                projectEntity.setGraphicDeNow(now);
+                projectRepository.save(projectEntity);
+                break;
+            case "thrd_de":
+                now = projectEntity.getThrdDeNow();
+
+                now -= 1;
+                projectEntity.setThrdDeNow(now);
+                projectRepository.save(projectEntity);
+                break;
+            case "hw_de":
+                now = projectEntity.getHwDeNow();
+
+                now -= 1;
+                projectEntity.setHwDeNow(now);
+                projectRepository.save(projectEntity);
+                break;
+            case "etc_de":
+                now = projectEntity.getEtcDeNow();
+
+                now -= 1;
+                projectEntity.setEtcDeNow(now);
+                projectRepository.save(projectEntity);
+                break;
+            case "web_bk":
+                now = projectEntity.getWebBkNow();
+
+                now -= 1;
+                projectEntity.setWebBkNow(now);
+                projectRepository.save(projectEntity);
+
+                break;
+            case "blch_bk":
+                now = projectEntity.getBlchBkNow();
+
+                now -= 1;
+                projectEntity.setBlchBkNow(now);
+                projectRepository.save(projectEntity);
+                break;
+            case "ai_bk":
+                now = projectEntity.getAiBkNow();
+
+                now -= 1;
+                projectEntity.setAiBkNow(now);
+                projectRepository.save(projectEntity);
+
+                break;
+            case "ds_bk":
+                now = projectEntity.getDsBkNow();
+
+                now -= 1;
+                projectEntity.setDsBkNow(now);
+                projectRepository.save(projectEntity);
+                break;
+            case "game_bk":
+                now = projectEntity.getGameBkNow();
+
+                now -= 1;
+                projectEntity.setGameBkNow(now);
+                projectRepository.save(projectEntity);
+                break;
+            case "plan_bu":
+                now = projectEntity.getPlanBuNow();
+                now -= 1;
+                projectEntity.setPlanBuNow(now);
+                projectRepository.save(projectEntity);
+                break;
+            case "marketing_bu":
+                now = projectEntity.getMarketingBuNow();
+
+                now -= 1;
+                projectEntity.setMarketingBuNow(now);
+                projectRepository.save(projectEntity);
+                break;
+            case "finance_bu":
+                now = projectEntity.getFinanceBuNow();
+
+                now -= 1;
+                projectEntity.setFinanceBuNow(now);
+                projectRepository.save(projectEntity);
+                break;
+            case "sales_bu":
+                now = projectEntity.getSalesBuNow();
+
+                now -= 1;
+                projectEntity.setSalesBuNow(now);
+                projectRepository.save(projectEntity);
+                break;
+            case "consult_bu":
+                now = projectEntity.getConsultBuNow();
+
+                now -= 1;
+                projectEntity.setConsultBuNow(now);
+                projectRepository.save(projectEntity);
+                break;
+            case "invest_bu":
+                now = projectEntity.getInvestBuNow();
+
+                now -= 1;
+                projectEntity.setInvestBuNow(now);
+                projectRepository.save(projectEntity);
+                break;
+            case "etc_bu":
+                now = projectEntity.getEtcBuNow();
+
+                now -= 1;
+                projectEntity.setEtcBuNow(now);
+                projectRepository.save(projectEntity);
+                break;
+            case "blog_etc":
+                now = projectEntity.getBlogEtcNow();
+
+                now -= 1;
+                projectEntity.setBlogEtcNow(now);
+                projectRepository.save(projectEntity);
+                break;
+            case "influ_etc":
+                now = projectEntity.getInfluEtcNow();
+
+                now -= 1;
+                projectEntity.setInfluEtcNow(now);
+                projectRepository.save(projectEntity);
+                break;
+            case "comp_etc":
+                now = projectEntity.getCompEtc();
+
+                now -= 1;
+                projectEntity.setCompEtcNow(now);
+                projectRepository.save(projectEntity);
+                break;
+        }
+    }
 }
+

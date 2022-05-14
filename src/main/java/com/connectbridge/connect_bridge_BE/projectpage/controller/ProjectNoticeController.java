@@ -28,6 +28,7 @@ public class ProjectNoticeController {
     @PostMapping("/project/notice")
     public ResponseEntity<?> noticePost(@RequestHeader("Authorization") String token, @RequestBody NoticeDto noticeDto) {
         System.out.println(noticeDto.getContent() + " " + noticeDto.getProjectID());
+
         try {
             TokenResDto tokenResDto = jwtProvider.tokenManager(token);
             Long userID = jwtProvider.getTokenID(tokenResDto.getAccessToken());
