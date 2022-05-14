@@ -163,11 +163,14 @@ public class ProjectController {
 
     //좋아요 구분 통신
     @GetMapping("/project/islike/{projectID}")
-    public Boolean projectIsLike(@RequestHeader(value = "Authorization") String token,
+    public Boolean projectIsLike(@RequestHeader(value = "Authorization",required = false) String token,
                                  @PathVariable(value = "projectID") Long projectID) {
         try {
-            TokenResDto tokenResDto = jwtProvider.tokenManager(token);
-            Long userID = jwtProvider.getTokenID(tokenResDto.getAccessToken());
+            Long userID = Long.valueOf(0);
+            if (!jwtProvider.extractToken(token).equals("null")) {
+                TokenResDto tokenResDto = jwtProvider.tokenManager(token);
+                userID = jwtProvider.getTokenID(tokenResDto.getAccessToken());
+            }
 
             if (projectLikeService.isLike(userID, projectID)) {
                 return true;

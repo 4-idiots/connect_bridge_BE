@@ -147,9 +147,11 @@ public class StudyController {
     public ResponseEntity<Boolean> studyIsLike(@RequestHeader(value = "Authorization") String token,
                                                @PathVariable(value = "studyID") Long studyID) {
         try {
-            TokenResDto tokenResDto = jwtProvider.tokenManager(token);
-            Long userID = jwtProvider.getTokenID(tokenResDto.getAccessToken());
-
+            Long userID = Long.valueOf(0);
+            if (!jwtProvider.extractToken(token).equals("null")) {
+                TokenResDto tokenResDto = jwtProvider.tokenManager(token);
+                userID = jwtProvider.getTokenID(tokenResDto.getAccessToken());
+            }
             return new ResponseEntity<>(studyLikeService.isLike(userID, studyID), HttpStatus.OK);
         } catch (Exception e) {
             System.out.println(e);
@@ -158,7 +160,7 @@ public class StudyController {
     }
 
     // study apply
-    @GetMapping("/study/apply")
+    @PatchMapping("/study/apply")
     public ResponseEntity<?> studySubmit(@RequestBody StudySubmitDto submitDto,
                                          @RequestHeader("Authorization") String token) {
         try {
