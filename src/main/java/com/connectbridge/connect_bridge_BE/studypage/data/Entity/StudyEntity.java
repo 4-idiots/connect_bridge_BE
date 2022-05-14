@@ -40,7 +40,10 @@ public class StudyEntity extends BaseTimeEntity {
     private boolean studyOnOff;
 
     @Column(name = "study_member")
-    private String studyMember;
+    private int studyMember;
+
+    @Column(name = "study_member_now")
+    private int studyMemberNow;
 
     @Column(name = "study_end")
     private String studyEnd;
@@ -72,7 +75,7 @@ public class StudyEntity extends BaseTimeEntity {
                 .studyArea(createDto.getStudyArea())
                 .studyMember(createDto.getStudyMember())
                 .content(createDto.getContent())
-                .studyImg(createDto.getStudyStrImg())
+                .studyImg(createDto.getStudyImg())
                 .build();
     }
 
@@ -85,7 +88,7 @@ public class StudyEntity extends BaseTimeEntity {
         this.studyStart = createDto.getStudyStart();
         this.studyEnd = createDto.getStudyEnd();
         this.content = createDto.getContent();
-        this.studyImg = createDto.getStudyStrImg();
+        this.studyImg = createDto.getStudyImg();
     }
 
 
@@ -96,5 +99,7 @@ public class StudyEntity extends BaseTimeEntity {
         this.studyView = studyView;
     }
     public void updateOnOff(boolean studyOnOff){this.studyOnOff = studyOnOff;}
-
+    public void updateMemNow(int studyMemberNow){
+        this.studyMemberNow = studyMemberNow;
+    }
 }

@@ -14,9 +14,10 @@ public class StudyCreateDto {
     private String studyKeyward;
     private String studyField;
     private String studyArea;
-    private String studyMember; // 이거 안받음 지워야함.
+    private int studyMember; // 이거 안받음 지워야함.
     private String studyStart;
     private String studyEnd;
     private String content;
-    private String studyStrImg; //Img받아서 변환후 set받음.
+    private String studyImg; //s3업로드 x
+    private int studyMemberNow;
 }

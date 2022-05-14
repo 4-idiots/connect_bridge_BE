@@ -64,10 +64,18 @@ public class ProjectController {
     @PostMapping("/project")
     public ResponseEntity<Message> projectCreate(
             @RequestParam("projectImg") MultipartFile img,
-            CreateDto createDto
-    ) throws IOException {
+            CreateDto createDto,@RequestHeader("Authorization")String token) throws IOException {
+
         try {
-            String url = s3Service.upload(img, "project");
+
+            TokenResDto dto = jwtProvider.tokenManager(token);
+            createDto.setUserID(jwtProvider.getTokenID(dto.getAccessToken()));
+
+            String url = "https://cdn.discordapp.com/attachments/885739536301318169/974292656920363048/hama.jpeg";
+
+            if(!img.isEmpty()) {
+                url = s3Service.upload(img, "project");
+            }
             createDto.setProjectStrImg(url);
             projectService.createProject(createDto);
             return new ResponseEntity<>(new Message("ok"), HttpStatus.OK);

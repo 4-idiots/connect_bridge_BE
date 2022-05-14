@@ -19,7 +19,7 @@ public class StudyDto {
     String studyField;
     String studyArea;
     boolean studyOnOff;
-    String studyMember;
+    int studyMember;
     String studyEnd;
     String studyStart;
     List content;

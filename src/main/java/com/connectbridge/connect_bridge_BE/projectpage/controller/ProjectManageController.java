@@ -83,7 +83,6 @@ public class ProjectManageController {
     ResponseEntity<?> projectEnd(@RequestHeader("Authorization") String token,
                                  @PathVariable("projectID") Long projectID) {
         try {
-
             TokenResDto tokenResDto = jwtProvider.tokenManager(token);
             Long userID = jwtProvider.getTokenID(tokenResDto.getAccessToken());
             projectManageService.endProject(userID, projectID);

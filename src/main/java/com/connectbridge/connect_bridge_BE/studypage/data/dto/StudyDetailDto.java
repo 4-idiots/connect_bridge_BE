@@ -18,15 +18,19 @@ public class StudyDetailDto {
     String studyField;
     String studyArea;
     boolean studyOnOff;
-    String studyMember;//List로 줘야하고 Entity에는?
+    int studyMember;//List로 줘야하고 Entity에는?
+    int studyMemberNow;
     String studyEnd;
     String studyStart;
     String content;
+    String studyImg;
+    int studyLike;
+    int studyView;
+    boolean studySub;
 
     List memberID;
     HashMap leaderInfo;
     List memberList;
-    boolean studySub;
 
     public StudyDetailDto(StudyEntity studyEntity){
         this.studyID = studyEntity.getId();
@@ -36,8 +40,12 @@ public class StudyDetailDto {
         this.studyArea = studyEntity.getStudyArea();
         this.studyOnOff = studyEntity.isStudyOnOff();
         this.studyMember = studyEntity.getStudyMember();
+        this.studyMemberNow = studyEntity.getStudyMemberNow();
         this.studyEnd = studyEntity.getStudyEnd();
         this.studyStart =studyEntity.getStudyStart();
         this.content =studyEntity.getContent();
+        this.studyImg = studyEntity.getStudyImg();
+        this.studyLike = studyEntity.getStudyLike();
+        this.studyView = studyEntity.getStudyView();
     }
 }

@@ -64,17 +64,13 @@ public class StudyController {
     // study post
     @PostMapping("/study")
     public ResponseEntity<?> studyPost(
-            @RequestParam(value = "studyImg", required = false) MultipartFile img,
             StudyCreateDto studyCreateDto,
             @RequestHeader("Authorization") String token) {
         try {
-            TokenResDto dto = jwtProvider.tokenManager(token);
-            studyCreateDto.setUserID(jwtProvider.getTokenID(dto.getAccessToken()));
+                TokenResDto dto = jwtProvider.tokenManager(token);
+                studyCreateDto.setUserID(jwtProvider.getTokenID(dto.getAccessToken()));
 
-            String url = s3Service.upload(img, "study");
-            studyCreateDto.setStudyStrImg(url);
-            studyService.createStudy(studyCreateDto);
-
+                studyService.createStudy(studyCreateDto);
             return new ResponseEntity<>(new Message("ok"), HttpStatus.OK);
         } catch (Exception e) {
             System.out.println(e);
@@ -104,9 +100,9 @@ public class StudyController {
     //study update
     @PatchMapping("/study")
     public ResponseEntity<?> studyUpdate(@RequestParam("studyID") Long studyID,
-                                         @RequestParam("studyImg") MultipartFile studyImg, StudyCreateDto createDto) throws IOException {
+                                         StudyCreateDto createDto) throws IOException {
 
-        if (studyService.updateStudy(studyID, studyImg, createDto)) {
+        if (studyService.updateStudy(studyID, createDto)) {
             return new ResponseEntity<>(new Message("ok"), HttpStatus.OK);
         }
         return new ResponseEntity<>(new Message("no"), HttpStatus.BAD_REQUEST);
