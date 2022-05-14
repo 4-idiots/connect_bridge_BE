@@ -117,6 +117,7 @@ public class CommunityService {
             communityDto.setCommentCount(communityEntity.getCommentCount());
             communityDto.setCommentList(communityEntity.getCommentList());
             communityDto.setUserID(communityEntity.getUserID());
+            communityDto.setCreateDate(communityEntity.getCreateDate());
         }
         else {
 
@@ -135,6 +136,7 @@ public class CommunityService {
             communityDto.setCommentCount(communityEntity.getCommentCount());
             communityDto.setCommentList(communityEntity.getCommentList());
             communityDto.setUserID(communityEntity.getUserID());
+            communityDto.setCreateDate(communityEntity.getCreateDate());
         }
         if (fromUserId != 0){
             if (communityLikeRepository.findByFromUserIdAndToPostId(fromUserId, communityID) != null){

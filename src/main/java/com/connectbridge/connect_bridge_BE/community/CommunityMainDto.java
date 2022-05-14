@@ -1,4 +1,4 @@
-package com.connectbridge.connect_bridge_BE.community.comment;
+package com.connectbridge.connect_bridge_BE.community;
 
 import com.connectbridge.connect_bridge_BE.community.CommunityEntity;
 import com.fasterxml.jackson.core.JsonProcessingException;

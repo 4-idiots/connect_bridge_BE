@@ -4,14 +4,17 @@ import com.connectbridge.connect_bridge_BE.community.CommunityEntity;
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.entity.RegisterEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-@Builder
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "comment")
 public class CommentEntity {
     @Id
@@ -32,6 +35,11 @@ public class CommentEntity {
     @Column(name = "user_nickname")
     private String userNickname;
 
+    @Column(name = "create_date")
+    @CreatedDate
+    private LocalDateTime createDate;
+
+    @Builder
     public CommentEntity(long id, String comment, CommunityEntity postID, long userID, String userNickname) {
         this.id = id;
         this.comment = comment;
@@ -39,6 +47,7 @@ public class CommentEntity {
         this.userID = userID;
         this.userNickname = userNickname;
     }
+
     public void updateComment(long id, String comment){
         this.id = id;
         this.comment = comment;

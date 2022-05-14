@@ -1,8 +1,8 @@
 package com.connectbridge.connect_bridge_BE.community;
 
-import com.connectbridge.connect_bridge_BE.community.CommunityEntity;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,6 +26,7 @@ public class CommunityCreateDto {
     private String userNickname; //fromUserId
     private long fromUserId;
     private long userID;
+    private LocalDateTime createDate;
 
     public String convertStr(List<String> hashtag) { //DB에 저장
         String str = String.join(",", hashtag);
@@ -46,6 +47,7 @@ public class CommunityCreateDto {
                 .commentCount(commentCount)
                 .userNickname(userNickname)
                 .userID(userID)
+                .createDate(createDate)
                 .build();
     }
 

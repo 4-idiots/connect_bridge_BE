@@ -1,24 +1,19 @@
 package com.connectbridge.connect_bridge_BE.main;
 
-import com.connectbridge.connect_bridge_BE.community.CommunityDto;
 import com.connectbridge.connect_bridge_BE.community.CommunityEntity;
 import com.connectbridge.connect_bridge_BE.community.CommunityRepository;
-import com.connectbridge.connect_bridge_BE.community.comment.CommunityMainDto;
+import com.connectbridge.connect_bridge_BE.community.CommunityMainDto;
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.entity.RegisterEntity;
-import com.connectbridge.connect_bridge_BE.outactpage.repository.OutActLikeRepository;
 import com.connectbridge.connect_bridge_BE.projectpage.data.dto.ProjectDto;
 import com.connectbridge.connect_bridge_BE.projectpage.data.entity.ProjectEntity;
 import com.connectbridge.connect_bridge_BE.projectpage.repository.ProjectRepository;
 import com.connectbridge.connect_bridge_BE.studypage.data.Entity.StudyEntity;
 import com.connectbridge.connect_bridge_BE.studypage.repository.StudyRepository;
 import com.connectbridge.connect_bridge_BE.teampage.TeamMainDto;
-import com.connectbridge.connect_bridge_BE.teampage.TeamProfileDto;
 import com.connectbridge.connect_bridge_BE.teampage.TeamRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,9 +1,8 @@
 package com.connectbridge.connect_bridge_BE.mypage;
 
-import com.amazonaws.services.ec2.model.CpuOptionsRequest;
 import com.connectbridge.connect_bridge_BE.amazonS3.S3Service;
 import com.connectbridge.connect_bridge_BE.community.*;
-import com.connectbridge.connect_bridge_BE.community.comment.CommunityMainDto;
+import com.connectbridge.connect_bridge_BE.community.CommunityMainDto;
 import com.connectbridge.connect_bridge_BE.community.like.CommunityLikeRepository;
 
 import com.connectbridge.connect_bridge_BE.follow.FollowRepository;
@@ -13,11 +12,7 @@ import com.connectbridge.connect_bridge_BE.loginpage.register.data.dto.UpdateReg
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.entity.RegisterEntity;
 import com.connectbridge.connect_bridge_BE.loginpage.register.repository.RegisterRepository;
 import com.connectbridge.connect_bridge_BE.outactpage.data.dto.OutActDto;
-import com.connectbridge.connect_bridge_BE.outactpage.repository.OutActLikeRepository;
 import com.connectbridge.connect_bridge_BE.projectpage.data.dto.ProjectDto;
-import com.connectbridge.connect_bridge_BE.projectpage.repository.ProjectLikeRepository;
-import com.connectbridge.connect_bridge_BE.projectpage.repository.ProjectRepository;
-import com.connectbridge.connect_bridge_BE.studypage.repository.StudyRepository;
 import com.connectbridge.connect_bridge_BE.teampage.TeamMainDto;
 import lombok.RequiredArgsConstructor;
 import org.qlrm.mapper.JpaResultMapper;

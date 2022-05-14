@@ -58,7 +58,7 @@ public class TeamService {
     public List<TeamMainDto> getList(Pageable pageable, int reqPage){
 
         // Pageable 설정
-        pageable = PageRequest.of(reqPage,3, Sort.by(Sort.Direction.DESC,"id"));
+        pageable = PageRequest.of(reqPage,10, Sort.by(Sort.Direction.DESC,"id"));
 
         Page<RegisterEntity> page = teamRepository.findAll(pageable); // DB값 불러옴.
 

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -37,6 +38,7 @@ public class CommunityDto {
     private long state;
     private String color;
     private List<CommentEntity> commentList;
+    private LocalDateTime createDate;
 
     public List jacksonMap(String json) {
         ObjectMapper mapper = new ObjectMapper();
@@ -68,6 +70,7 @@ public class CommunityDto {
         this.commentCount = communityEntity.getCommentCount();
         this.userNickname = communityEntity.getUserNickname();
         this.setCommentList(communityEntity.getCommentList());
+        this.createDate = communityEntity.getCreateDate();
     }
 
 

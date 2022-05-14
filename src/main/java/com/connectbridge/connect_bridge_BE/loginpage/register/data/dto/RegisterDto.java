@@ -59,6 +59,7 @@ public class RegisterDto {
                 .userInterestMain(userInterestMain)
                 .userInterestSub(userInterestSub)
                 .userIntroduce(userIntroduce)
+                .userPicture(userPicture)
                 .createDate(registerDate)
                 .build();
     }
