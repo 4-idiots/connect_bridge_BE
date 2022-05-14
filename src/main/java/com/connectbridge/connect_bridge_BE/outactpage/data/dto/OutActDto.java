@@ -1,14 +1,15 @@
 package com.connectbridge.connect_bridge_BE.outactpage.data.dto;
 
 import com.connectbridge.connect_bridge_BE.outactpage.data.entity.OutAct;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigInteger;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 
-@Builder
+
 @Getter
 @Setter
 public class OutActDto {
@@ -21,17 +22,17 @@ public class OutActDto {
     String outActLink;
     Boolean outActSub;
 
-    @Builder
-    public OutActDto(Long outActID, String outActName,String outActImg, LocalDateTime outActDate, int outActView, int outActLike, String outActLink, Boolean outActSub) {
-        this.outActID = outActID;
+    public OutActDto(BigInteger outActID, String outActName, String outActImg, int outActView, int outActLike, String outActLink, Boolean outActSub, Timestamp outActDate) {
+        this.outActID = outActID.longValue();
         this.outActName = outActName;
         this.outActImg = outActImg;
-        this.outActDate = outActDate;
         this.outActView = outActView;
         this.outActLike = outActLike;
         this.outActLink = outActLink;
         this.outActSub = outActSub;
+        this.outActDate = outActDate.toLocalDateTime();
     }
+
 
     public OutActDto(OutAct outAct){
         this.outActID = outAct.getId();

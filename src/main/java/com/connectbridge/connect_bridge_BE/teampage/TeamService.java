@@ -42,7 +42,7 @@ public class TeamService {
         teamProfileDto.setUserIntroduce(registerEntity.getUserIntroduce());
         teamProfileDto.setUserTime(registerEntity.getUserTime());
         if (fromUserId != 0){
-            if (followRepository.findFollowByFromUserIdAndToUserId(fromUserId, toUserId) != null){
+            if (followRepository.findByFromUserIdAndToUserId(fromUserId, toUserId) != null){
                 teamProfileDto.setFollow(Long.valueOf(2));
                 teamProfileDto.setColor("danger");//팔로우 함
             }else {teamProfileDto.setFollow(Long.valueOf(1));
@@ -63,8 +63,6 @@ public class TeamService {
         Page<RegisterEntity> page = teamRepository.findAll(pageable); // DB값 불러옴.
 
         List<TeamMainDto> pageDto = page.map(TeamMainDto::new).getContent(); // List로 받게 바꿔봄 ㅋ
-
-        System.out.println("Service getList 동작 됨" + page);
 
         return pageDto;
     }

@@ -18,5 +18,10 @@ public interface CommunityLikeRepository extends JpaRepository<CommunityLike, Lo
     @Query(value = "SELECT COUNT(*) FROM communitylike WHERE to_post_id = :postId", nativeQuery = true)
     int findCommunityLikeCountById(@Param("postId")long postId);
 
+    Boolean existsByFromUserIdAndToPostId(long fromUserId, long communityID);
+
+    CommunityLike findByFromUserIdAndToPostId(Long fromUserId, Long toPostId);
+
+
     //List<CommunityEntity> findByUserIDOrderByIdDesc(long fromUserId);
 }

@@ -1,17 +1,16 @@
 package com.connectbridge.connect_bridge_BE.follow;
 
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.entity.RegisterEntity;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@Builder
 @Table(name = "follow")
 public class Follow {
 
@@ -19,19 +18,19 @@ public class Follow {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @JoinColumn(name = "from_user_id")
-    @ManyToOne
-    private RegisterEntity fromUser;
+    @Column(name = "from_user_id")
+    private Long fromUserId;
 
 
-    @JoinColumn(name = "to_user_id")
-    @ManyToOne
-    private RegisterEntity toUser;
+    @Column(name = "to_user_id")
+    private Long toUserId;
 
-    @Builder
-    public Follow(RegisterEntity fromUser, RegisterEntity toUser) {
-        this.fromUser = fromUser;
-        this.toUser = toUser;
+
+
+    public Follow createFollowLike(Long fromUserId, Long toUserId) {
+        return Follow.builder()
+                .fromUserId(fromUserId)
+                .toUserId(toUserId)
+                .build();
     }
-
 }

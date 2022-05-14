@@ -23,7 +23,6 @@ public class TokenController {
     public ResponseEntity<TokenResDto> tokenChk(@RequestHeader("Authorization") String token){
         try {
             TokenResDto chk = jwtProvider.tokenManager(token);
-
             if (chk.getAccessToken().equals("Err")) {
 
                 return ResponseEntity.badRequest().build();

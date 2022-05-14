@@ -2,6 +2,7 @@ package com.connectbridge.connect_bridge_BE.community.like;
 
 import com.connectbridge.connect_bridge_BE.community.CommunityEntity;
 import com.connectbridge.connect_bridge_BE.community.CommunityRepository;
+import com.connectbridge.connect_bridge_BE.follow.Follow;
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.entity.RegisterEntity;
 import com.connectbridge.connect_bridge_BE.loginpage.register.repository.RegisterRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,27 +17,29 @@ public class CommunityLikeService {
     private final CommunityRepository communityRepository;
     private final RegisterRepository registerRepository;
 
-    @Transactional
-    public long unLike(long fromUserId, long toPostId) {
-        CommunityLike communityLike = communityLikeRepository.findByFromUserIdAndToPostId(fromUserId, toPostId);
-        if(communityLike != null) return communityLike.getId();
-        else return -1;
+
+    public boolean likeChk(Long fromUserId, Long toPostId) {
+        if (null == communityLikeRepository.findByFromUserIdAndToPostId(fromUserId, toPostId)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    @Transactional
-    public void save(Long fromUserId, Long toPostId){
-        RegisterEntity fromUser = registerRepository.findById(fromUserId).get();
-        CommunityEntity topost = communityRepository.findById(toPostId).get();
+    public void likeOff(Long fromUserId, Long toPostId){
+        CommunityLike communityLike = communityLikeRepository.findByFromUserIdAndToPostId(fromUserId, toPostId);
+        communityLikeRepository.deleteById(communityLike.getId());
+        likecounting(toPostId);
+    }
 
-        communityLikeRepository.save(
-                CommunityLike.builder()
-                        .fromUser(fromUser)
-                        .toPost(topost)
-                        .build());
+    public void likeOn(Long fromUserId, Long toPostId){
+        CommunityLike communityLike = new CommunityLike().createCommunityLike(fromUserId, toPostId);
+        communityLikeRepository.save(communityLike);
+        likecounting(toPostId);
     }
     @Transactional
     public void likecounting(long toPostId) {
-        CommunityEntity communityEntity = communityRepository.getById(toPostId);
+        CommunityEntity communityEntity = communityRepository.findByid(toPostId);
         int likecount = communityLikeRepository.findCommunityLikeCountById(toPostId);
         communityEntity.likecountup(toPostId, likecount);
         communityRepository.save(communityEntity);

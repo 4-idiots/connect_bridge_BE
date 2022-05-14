@@ -15,7 +15,7 @@ public interface CommunityRepository extends JpaRepository<CommunityEntity, Long
     List<CommunityEntity> searchResultByTitleContainingOrderByIdDesc(String keyword);
 
 
-    List<CommunityEntity> findAllCommunityByUserNicknameOrderByIdDesc(@Param("userNickname")String userNickname);
+    List<CommunityEntity> findAllByUserIDOrderByIdDesc(long userID);
 
     List<CommunityEntity> findTop4ByOrderByIdDesc(); // main page get.
 }

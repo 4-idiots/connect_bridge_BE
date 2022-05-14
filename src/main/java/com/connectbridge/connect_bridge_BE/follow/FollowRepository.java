@@ -9,7 +9,6 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 public interface FollowRepository extends JpaRepository<Follow, Long> {
-    Follow findFollowByFromUserIdAndToUserId(long from_user_id, long to_user_id);
-
-
+    Follow findByFromUserIdAndToUserId(long fromUserId, long toUserId);
+    Boolean existsByFromUserIdAndToUserId(long fromUserId, long teamID);
 }

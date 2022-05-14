@@ -1,14 +1,13 @@
 package com.connectbridge.connect_bridge_BE.teampage;
 
 import com.connectbridge.connect_bridge_BE.follow.FollowRepository;
+import com.connectbridge.connect_bridge_BE.loginpage.login.data.dto.TokenResDto;
+import com.connectbridge.connect_bridge_BE.loginpage.login.jwt.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,10 +17,15 @@ import java.util.List;
 public class TeamController {
 
     private final TeamService teamService;
+    private final JwtProvider jwtProvider;
 
-
-    @GetMapping("/team/info/{fromUserId}/{toUserId}")
-    public ResponseEntity<?> team(@PathVariable long fromUserId, @PathVariable long toUserId) throws Exception{
+    @GetMapping("/team/info/{toUserId}")
+    public ResponseEntity<?> team(@RequestHeader(value = "Authorization", required = false)String token, @PathVariable long toUserId) throws Exception{
+        Long fromUserId = Long.valueOf(0);
+        if (!jwtProvider.extractToken(token).equals("null")) {
+            TokenResDto dto = jwtProvider.tokenManager(token);
+            fromUserId = jwtProvider.getTokenID(dto.getAccessToken());
+        }
         TeamProfileDto getteampage = teamService.getTeamProfile(fromUserId, toUserId);
         return ResponseEntity.ok(getteampage);
     }
@@ -29,7 +33,6 @@ public class TeamController {
 
     @GetMapping("/team{page}")
     public ResponseEntity<List<TeamMainDto>> getPageList(@PathVariable("page") int page, Pageable pageable) {
-        System.out.println("페이지 번호" + page);
         List<TeamMainDto> list = teamService.getList(pageable, page);
         if(list.isEmpty()){
             return new ResponseEntity<>(list,HttpStatus.OK);

@@ -12,6 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @AllArgsConstructor
+@Builder
 @Table(name = "communitylike")
 public class CommunityLike {
 
@@ -19,19 +20,16 @@ public class CommunityLike {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @JoinColumn(name = "from_user_id")
-    @ManyToOne
-    private RegisterEntity fromUser;
+    @Column(name = "from_user_id")
+    private Long fromUserId;
 
-    @JoinColumn(name = "to_post_id")
-    @ManyToOne
-    private CommunityEntity toPost;
+    @Column(name = "to_post_id")
+    private Long toPostId;
 
-    @Builder
-    public CommunityLike(RegisterEntity fromUser, CommunityEntity toPost) {
-        this.fromUser = fromUser;
-        this.toPost = toPost;
+    public CommunityLike createCommunityLike(Long fromUserId, Long toPostId) {
+        return CommunityLike.builder()
+                .fromUserId(fromUserId)
+                .toPostId(toPostId)
+                .build();
     }
-
-
 }

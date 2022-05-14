@@ -1,8 +1,5 @@
 package com.connectbridge.connect_bridge_BE.community;
 
-import com.connectbridge.connect_bridge_BE.community.comment.CommentDto;
-import com.connectbridge.connect_bridge_BE.community.comment.CommentEntity;
-import com.connectbridge.connect_bridge_BE.community.comment.CommentRepository;
 import com.connectbridge.connect_bridge_BE.community.like.CommunityLikeRepository;
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.entity.RegisterEntity;
 import com.connectbridge.connect_bridge_BE.loginpage.register.repository.RegisterRepository;
@@ -103,25 +100,8 @@ public class CommunityService {
         CommunityDto communityDto = new CommunityDto();
 
         CommunityEntity communityEntity = communityRepository.getById(communityID);
-        System.out.println(communityEntity);
-
+        RegisterEntity id = registerRepository.findByid(communityEntity.getUserID());
         if(fromUserId == 0){
-            communityDto.setPostID(communityEntity.getId());
-            communityDto.setTitle(communityEntity.getTitle());
-            communityDto.setHashtag(communityDto.convertList(communityEntity.getHashtag()));
-            communityDto.setContents(jacksonMap(communityEntity.getContents()));
-            communityDto.setUserNickname(communityEntity.getUserNickname());
-            communityDto.setViewCount(communityEntity.getViewCount());
-            communityDto.setLikeCount(communityEntity.getLikeCount());
-            communityDto.setLikeCounta(communityEntity.getLikeCount());
-            communityDto.setCommentCount(communityEntity.getCommentCount());
-            communityDto.setCommentList(communityEntity.getCommentList());
-            communityDto.setUserID(communityEntity.getUserID());
-
-
-        }
-        else {
-            RegisterEntity id = registerRepository.findByid(communityEntity.getUserID());
             communityDto.setPostID(communityEntity.getId());
             communityDto.setTitle(communityEntity.getTitle());
             communityDto.setHashtag(communityDto.convertList(communityEntity.getHashtag()));
@@ -130,6 +110,25 @@ public class CommunityService {
             communityDto.setUserAbility(id.getUserAbility());
             communityDto.setUserInterestMain(id.getUserInterestMain());
             communityDto.setUserInterestSub(id.getUserInterestSub());
+            communityDto.setUserPicuture(id.getUserPicture());
+            communityDto.setViewCount(communityEntity.getViewCount());
+            communityDto.setLikeCount(communityEntity.getLikeCount());
+            communityDto.setLikeCounta(communityEntity.getLikeCount());
+            communityDto.setCommentCount(communityEntity.getCommentCount());
+            communityDto.setCommentList(communityEntity.getCommentList());
+            communityDto.setUserID(communityEntity.getUserID());
+        }
+        else {
+
+            communityDto.setPostID(communityEntity.getId());
+            communityDto.setTitle(communityEntity.getTitle());
+            communityDto.setHashtag(communityDto.convertList(communityEntity.getHashtag()));
+            communityDto.setContents(jacksonMap(communityEntity.getContents()));
+            communityDto.setUserNickname(communityEntity.getUserNickname());
+            communityDto.setUserAbility(id.getUserAbility());
+            communityDto.setUserInterestMain(id.getUserInterestMain());
+            communityDto.setUserInterestSub(id.getUserInterestSub());
+            communityDto.setUserPicuture(id.getUserPicture());
             communityDto.setViewCount(communityEntity.getViewCount());
             communityDto.setLikeCount(communityEntity.getLikeCount());
             communityDto.setLikeCounta(communityEntity.getLikeCount());

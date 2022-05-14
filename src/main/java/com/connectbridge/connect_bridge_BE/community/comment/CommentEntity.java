@@ -32,9 +32,6 @@ public class CommentEntity {
     @Column(name = "user_nickname")
     private String userNickname;
 
-
-
-
     public CommentEntity(long id, String comment, CommunityEntity postID, long userID, String userNickname) {
         this.id = id;
         this.comment = comment;

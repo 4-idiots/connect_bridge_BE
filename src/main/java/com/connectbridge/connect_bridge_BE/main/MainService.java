@@ -3,6 +3,7 @@ package com.connectbridge.connect_bridge_BE.main;
 import com.connectbridge.connect_bridge_BE.community.CommunityDto;
 import com.connectbridge.connect_bridge_BE.community.CommunityEntity;
 import com.connectbridge.connect_bridge_BE.community.CommunityRepository;
+import com.connectbridge.connect_bridge_BE.community.comment.CommunityMainDto;
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.entity.RegisterEntity;
 import com.connectbridge.connect_bridge_BE.outactpage.repository.OutActLikeRepository;
 import com.connectbridge.connect_bridge_BE.projectpage.data.dto.ProjectDto;
@@ -10,6 +11,7 @@ import com.connectbridge.connect_bridge_BE.projectpage.data.entity.ProjectEntity
 import com.connectbridge.connect_bridge_BE.projectpage.repository.ProjectRepository;
 import com.connectbridge.connect_bridge_BE.studypage.data.Entity.StudyEntity;
 import com.connectbridge.connect_bridge_BE.studypage.repository.StudyRepository;
+import com.connectbridge.connect_bridge_BE.teampage.TeamMainDto;
 import com.connectbridge.connect_bridge_BE.teampage.TeamProfileDto;
 import com.connectbridge.connect_bridge_BE.teampage.TeamRepository;
 import lombok.RequiredArgsConstructor;
@@ -35,10 +37,10 @@ public class MainService {
         List<ProjectDto> dtoProjects = topProjects.stream().map(ProjectDto::new).collect(Collectors.toList());
 
         List<CommunityEntity> topCommunity = communityRepository.findTop4ByOrderByIdDesc();
-        List<CommunityDto> dtoCommunity = topCommunity.stream().map(CommunityDto::new).collect(Collectors.toList());
+        List<CommunityMainDto> dtoCommunity = topCommunity.stream().map(CommunityMainDto::new).collect(Collectors.toList());
 
         List<RegisterEntity> topRegister = teamRepository.findTop4ByOrderByIdDesc();
-        List<TeamProfileDto> dtoRegister = topRegister.stream().map(TeamProfileDto::new).collect(Collectors.toList());
+        List<TeamMainDto> dtoRegister = topRegister.stream().map(TeamMainDto::new).collect(Collectors.toList());
 
         List<StudyEntity> topStudy = studyRepository.findTop4ByOrderByIdDesc();
         HashMap<String,List> page = new HashMap<>();

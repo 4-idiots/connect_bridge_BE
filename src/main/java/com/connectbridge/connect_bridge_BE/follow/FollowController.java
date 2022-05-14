@@ -1,6 +1,8 @@
 package com.connectbridge.connect_bridge_BE.follow;
 
-import com.connectbridge.connect_bridge_BE.loginpage.register.data.dto.Message;
+import com.connectbridge.connect_bridge_BE.loginpage.login.data.dto.Message;
+import com.connectbridge.connect_bridge_BE.loginpage.login.data.dto.TokenResDto;
+import com.connectbridge.connect_bridge_BE.loginpage.login.jwt.JwtProvider;
 import com.connectbridge.connect_bridge_BE.loginpage.register.repository.RegisterRepository;
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.entity.RegisterEntity;
 import lombok.RequiredArgsConstructor;
@@ -18,25 +20,24 @@ import javax.validation.constraints.Null;
 public class FollowController {
     private final FollowService followService;
     private final FollowRepository followRepository;
+    private final JwtProvider jwtProvider;
 
-    @GetMapping("/follow/{fromUserId}/{toUserId}")
-    public ResponseEntity<Boolean> followUser(@PathVariable long fromUserId, @PathVariable long toUserId) {
-        if (fromUserId == toUserId){
-            return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+
+    @GetMapping("/follow")
+    public ResponseEntity<?> followUser(@RequestHeader (value = "Authorization", required = false)String token, @RequestParam(value = "toUserId") Long toUserId) {
+        try {
+            TokenResDto tokenResDto = jwtProvider.tokenManager(token);
+            Long fromUserId = jwtProvider.getTokenID(tokenResDto.getAccessToken());
+
+            if (followService.likeChk(fromUserId, toUserId)) {
+                followService.likeOn(fromUserId, toUserId);
+            } else {
+                followService.likeOff(fromUserId, toUserId);
+            }
+            return new ResponseEntity<>(new Message("ok"), HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println(e);
+            return new ResponseEntity<>(new Message("no"), HttpStatus.BAD_REQUEST);
         }
-        if(followRepository.findFollowByFromUserIdAndToUserId(fromUserId, toUserId) != null){
-            return new ResponseEntity<Boolean>(false, HttpStatus.OK);
-        }
-        followService.save(fromUserId, toUserId);
-        return new ResponseEntity<Boolean>(true, HttpStatus.OK);
-    }
-    @DeleteMapping("/follow/{fromUserId}/{toUserId}")
-    public ResponseEntity<?> unFollowUser(@PathVariable int fromUserId, @PathVariable long toUserId) {
-        Long id = followService.unFollow(fromUserId, toUserId);
-        followRepository.deleteById(id);
-        Message message = Message.builder()
-                .message("ok")
-                .build();
-        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 }

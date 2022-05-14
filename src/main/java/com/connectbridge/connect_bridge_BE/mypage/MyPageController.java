@@ -23,10 +23,11 @@ public class MyPageController {
     private final MyPageService myPageService;
     private final JwtProvider jwtProvider;
 
-    @GetMapping("/my/info/{fromUserId}") //내 정보 불러오기
-    public ResponseEntity<?> myinfoPage(@PathVariable long fromUserId) throws Exception{
+    @GetMapping("/my/info") //내 정보 불러오기
+    public ResponseEntity<?> myinfoPage(@RequestHeader (value = "Authorization", required = false)String token) throws Exception{
+        TokenResDto tokenResDto = jwtProvider.tokenManager(token);
+        Long fromUserId = jwtProvider.getTokenID(tokenResDto.getAccessToken());
         RegisterDto registerDto = myPageService.getMyPage(fromUserId);
-
         return new ResponseEntity<>(registerDto, HttpStatus.OK);
     }
 
@@ -53,8 +54,10 @@ public class MyPageController {
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
-    @GetMapping("/mycommunity/{fromUserId}")
-    public ResponseEntity<?> myCommunity(@PathVariable long fromUserId) throws Exception{
+    @GetMapping("/mycommunity")
+    public ResponseEntity<?> myCommunity(@RequestHeader (value = "Authorization", required = false)String token) throws Exception{
+        TokenResDto tokenResDto = jwtProvider.tokenManager(token);
+        Long fromUserId = jwtProvider.getTokenID(tokenResDto.getAccessToken());
         return new ResponseEntity<>(myPageService.getCommunityPage(fromUserId), HttpStatus.OK);
     }
 
@@ -66,9 +69,39 @@ public class MyPageController {
         // 참여해서 진행 중인 project & study.
         // 완료된 프로젝트, 스터디.
     }
-    @GetMapping("/myfollow/{fromUserId}")
-    public ResponseEntity<?> myFollow(@PathVariable long fromUserId) throws Exception{
+    @GetMapping("/myfollow")
+    public ResponseEntity<?> myFollow(@RequestHeader (value = "Authorization", required = false)String token) throws Exception{
+        TokenResDto tokenResDto = jwtProvider.tokenManager(token);
+        Long fromUserId = jwtProvider.getTokenID(tokenResDto.getAccessToken());
         return new ResponseEntity<>(myPageService.myPageSub(fromUserId), HttpStatus.OK);
+    }
+    @GetMapping("/team/islike/{teamID}")
+    public ResponseEntity<?> teamLike(@RequestHeader (value = "Authorization", required = false)String token, @PathVariable long teamID) throws Exception{
+        Long fromUserId = Long.valueOf(0);
+        if (!jwtProvider.extractToken(token).equals("null")) {
+            TokenResDto dto = jwtProvider.tokenManager(token);
+            fromUserId = jwtProvider.getTokenID(dto.getAccessToken());
+        }
+        if (fromUserId != 0){
+            Boolean checkIsLike = myPageService.checkTeamLike(fromUserId, teamID);
+            return new ResponseEntity<>(checkIsLike, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+    }
+    @GetMapping("/community/islike/{communityID}")
+    public ResponseEntity<?> communityLike(@RequestHeader (value = "Authorization", required = false)String token, @PathVariable long communityID) throws Exception{
+        Long fromUserId = Long.valueOf(0);
+        if (!jwtProvider.extractToken(token).equals("null")) {
+            TokenResDto dto = jwtProvider.tokenManager(token);
+            fromUserId = jwtProvider.getTokenID(dto.getAccessToken());
+        }
+        if (fromUserId != 0){
+            Boolean checkIsLike = myPageService.checkCoummintyLike(fromUserId, communityID);
+            return new ResponseEntity<>(checkIsLike, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
     }
 
 

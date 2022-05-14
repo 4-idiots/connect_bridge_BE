@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigInteger;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -22,6 +24,7 @@ public class ProjectDto {
     String projectField;
     boolean projectOnOff;
     String projectArea;
+
     String projectTotal;
     String projectReference;
     String projectStart;
@@ -116,7 +119,83 @@ public class ProjectDto {
         }
         return map;
     }
-
+    public ProjectDto(BigInteger projectID, BigInteger userID, String projectName, String projectImg, String content, String projectField, boolean projectOnOff, String projectArea, String projectTotal, String projectReference, String projectStart, String projectEnd, String projectPlatform, String projectSkill, int projectLike, int projectView, Timestamp createDate, int uiuxPlan, int gamePlan, int managerPlan, int hwPlan, int iosFr, int androidFr, int webFrontFr, int webPublicFr, int crossFr, int uiuxDe, int graphicDe, int thrdDe, int hwDe, int etcDe, int webBk, int blchBk, int aiBk, int dsBk, int gameBk, int planBu, int marketingBu, int financeBu, int salesBu, int consultBu, int investBu, int etcBu, int blogEtc, int influEtc, int compEtc, int uiuxPlanNow, int gamePlanNow, int managerPlanNow, int hwPlanNow, int iosFrNow, int androidFrNow, int webFrontFrNow, int webPublicFrNow, int crossFrNow, int uiuxDeNow, int graphicDeNow, int thrdDeNow, int hwDeNow, int etcDeNow, int webBkNow, int blchBkNow, int aiBkNow, int dsBkNow, int gameBkNow, int planBuNow, int marketingBuNow, int financeBuNow, int salesBuNow, int consultBuNow, int investBuNow, int etcBuNow, int blogEtcNow, int influEtcNow, int compEtcNow) {
+        this.projectID = projectID.longValue();
+        this.userID = userID.longValue();
+        this.projectName = projectName;
+        this.projectImg = projectImg;
+        this.content = jacksonMap(String.valueOf(content));
+        this.projectField = projectField;
+        this.projectOnOff = projectOnOff;
+        this.projectArea = projectArea;
+        this.projectTotal = projectTotal;
+        this.projectReference = projectReference;
+        this.projectStart = projectStart;
+        this.projectEnd = projectEnd;
+        this.projectPlatform = convertList(String.valueOf(projectPlatform));
+        this.projectSkill = projectSkill;
+        this.projectLike = projectLike;
+        this.projectView = projectView;
+        this.createDate = createDate.toLocalDateTime();
+        this.uiuxPlan = uiuxPlan;
+        this.gamePlan = gamePlan;
+        this.managerPlan = managerPlan;
+        this.hwPlan = hwPlan;
+        this.iosFr = iosFr;
+        this.androidFr = androidFr;
+        this.webFrontFr = webFrontFr;
+        this.webPublicFr = webPublicFr;
+        this.crossFr = crossFr;
+        this.uiuxDe = uiuxDe;
+        this.graphicDe = graphicDe;
+        this.thrdDe = thrdDe;
+        this.hwDe = hwDe;
+        this.etcDe = etcDe;
+        this.webBk = webBk;
+        this.blchBk = blchBk;
+        this.aiBk = aiBk;
+        this.dsBk = dsBk;
+        this.gameBk = gameBk;
+        this.planBu = planBu;
+        this.marketingBu = marketingBu;
+        this.financeBu = financeBu;
+        this.salesBu = salesBu;
+        this.consultBu = consultBu;
+        this.investBu = investBu;
+        this.etcBu = etcBu;
+        this.blogEtc = blogEtc;
+        this.influEtc = influEtc;
+        this.compEtc = compEtc;
+        this.uiuxPlanNow = uiuxPlanNow;
+        this.gamePlanNow = gamePlanNow;
+        this.managerPlanNow = managerPlanNow;
+        this.hwPlanNow = hwPlanNow;
+        this.iosFrNow = iosFrNow;
+        this.androidFrNow = androidFrNow;
+        this.webFrontFrNow = webFrontFrNow;
+        this.webPublicFrNow = webPublicFrNow;
+        this.crossFrNow = crossFrNow;
+        this.uiuxDeNow = uiuxDeNow;
+        this.graphicDeNow = graphicDeNow;
+        this.thrdDeNow = thrdDeNow;
+        this.hwDeNow = hwDeNow;
+        this.etcDeNow = etcDeNow;
+        this.webBkNow = webBkNow;
+        this.blchBkNow = blchBkNow;
+        this.aiBkNow = aiBkNow;
+        this.dsBkNow = dsBkNow;
+        this.gameBkNow = gameBkNow;
+        this.planBuNow = planBuNow;
+        this.marketingBuNow = marketingBuNow;
+        this.financeBuNow = financeBuNow;
+        this.salesBuNow = salesBuNow;
+        this.consultBuNow = consultBuNow;
+        this.investBuNow = investBuNow;
+        this.etcBuNow = etcBuNow;
+        this.blogEtcNow = blogEtcNow;
+        this.influEtcNow = influEtcNow;
+        this.compEtcNow = compEtcNow;
+    }
     public ProjectDto(ProjectEntity projectEntity){
         this.uiuxPlan=projectEntity.getUiuxPlan();
         this.gamePlan = projectEntity.getGamePlan();

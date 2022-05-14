@@ -1,5 +1,7 @@
 package com.connectbridge.connect_bridge_BE.community.comment;
 
+import com.connectbridge.connect_bridge_BE.loginpage.login.data.dto.TokenResDto;
+import com.connectbridge.connect_bridge_BE.loginpage.login.jwt.JwtProvider;
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.dto.Message;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,10 +15,12 @@ import org.springframework.web.bind.annotation.*;
 public class CommentController {
     private final CommentService commentService;
     private final CommentRepository commentRepository;
+    private final JwtProvider jwtProvider;
 
-
-    @PostMapping("/community/comment/{fromUserId}")
-    public ResponseEntity commentPost(@RequestBody CommentDto commentDto, @PathVariable long fromUserId)throws Exception{
+    @PostMapping("/community/comment")
+    public ResponseEntity commentPost(@RequestBody CommentDto commentDto, @RequestHeader (value = "Authorization", required = false)String token)throws Exception{
+        TokenResDto tokenResDto = jwtProvider.tokenManager(token);
+        Long fromUserId = jwtProvider.getTokenID(tokenResDto.getAccessToken());
         commentService.addComment(commentDto, fromUserId);
         commentService.commentcounting(commentDto.getPostID());
         Message message = Message.builder()

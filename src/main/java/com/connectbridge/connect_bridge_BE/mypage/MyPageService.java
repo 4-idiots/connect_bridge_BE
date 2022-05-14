@@ -1,20 +1,24 @@
 package com.connectbridge.connect_bridge_BE.mypage;
 
+import com.amazonaws.services.ec2.model.CpuOptionsRequest;
 import com.connectbridge.connect_bridge_BE.amazonS3.S3Service;
 import com.connectbridge.connect_bridge_BE.community.*;
+import com.connectbridge.connect_bridge_BE.community.comment.CommunityMainDto;
 import com.connectbridge.connect_bridge_BE.community.like.CommunityLikeRepository;
-import com.connectbridge.connect_bridge_BE.follow.Follow;
-import com.connectbridge.connect_bridge_BE.follow.FollowDto;
+
 import com.connectbridge.connect_bridge_BE.follow.FollowRepository;
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.dto.RegisterDto;
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.dto.UpdateRegisterDto;
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.dto.UpdateRegisterDto2;
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.entity.RegisterEntity;
 import com.connectbridge.connect_bridge_BE.loginpage.register.repository.RegisterRepository;
+import com.connectbridge.connect_bridge_BE.outactpage.data.dto.OutActDto;
 import com.connectbridge.connect_bridge_BE.outactpage.repository.OutActLikeRepository;
+import com.connectbridge.connect_bridge_BE.projectpage.data.dto.ProjectDto;
 import com.connectbridge.connect_bridge_BE.projectpage.repository.ProjectLikeRepository;
 import com.connectbridge.connect_bridge_BE.projectpage.repository.ProjectRepository;
 import com.connectbridge.connect_bridge_BE.studypage.repository.StudyRepository;
+import com.connectbridge.connect_bridge_BE.teampage.TeamMainDto;
 import lombok.RequiredArgsConstructor;
 import org.qlrm.mapper.JpaResultMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,7 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.io.IOException;
-import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,15 +36,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class MyPageService {
-    private final CommunityLikeRepository communityLikeRepository;
-    private final ProjectLikeRepository projectLikeRepository;
-    private final ProjectRepository projectRepository;
     private final FollowRepository followRepository;
-    private final OutActLikeRepository outActLikeRepository;
     private final RegisterRepository registerRepository;
-    private final CommunityService communityService;
     private final CommunityRepository communityRepository;
-    private final StudyRepository studyRepository;
+    private final CommunityLikeRepository communityLikeRepository;
     private final S3Service s3Service;
     private final PasswordEncoder passwordEncoder;
     private final EntityManager em;
@@ -116,7 +115,7 @@ public class MyPageService {
     public List<MyCommunityDto> getCommunityPage(long fromUserId){
         RegisterEntity registerEntity = registerRepository.findById(fromUserId).get();
 
-        List<MyCommunityDto> community = communityRepository.findAllCommunityByUserNicknameOrderByIdDesc(registerEntity.getUserNickname())
+        List<MyCommunityDto> community = communityRepository.findAllByUserIDOrderByIdDesc(registerEntity.getId())
                 .stream().map(MyCommunityDto::fromEntity2).collect(Collectors.toList());
 
         return community;
@@ -124,28 +123,22 @@ public class MyPageService {
 
     //구독 페이지
     public HashMap myPageSub(long fromUserId){
-        //List<ProjectEntity> likeProject = projectLikeRepository.findProjectIDByUserID(fromUserId);
-        //List<CommunityEntity> likeCommunity = communityLikeRepository.findByUserIDOrderByIdDesc(fromUserId);
-
-        //List<OutAct> likeOutact = outActLikeRepository.findIdByUserIDOrderByIdDesc(fromUserId);
         //List<StudyEntity> likeStudy = studyRepository.findIdByUserIDOrderByIdDesc(fromUserId);
 
-
         HashMap<String,List> page = new HashMap<>();
-        //page.put("project", likeProject);
-        //page.put("study", likeStudy);
-        //page.put("community",likeCommunity);
+        page.put("outact",getOutActLike(fromUserId));
         page.put("team",getFollowing(fromUserId));
-        //page.put("outact",likeOutact);
-
+        page.put("community",getCommunityLike(fromUserId));
+        //page.put("study", likeStudy);
+        page.put("project", getpProjectLike(fromUserId));
         return page;
     }
     @Transactional //구독페이지 사람 팔로우
-    public List<FollowDto> getFollowing(long profileId) {
+    public List<TeamMainDto> getFollowing(long profileId) {
         StringBuffer sb = new StringBuffer();
-        sb.append("SELECT u.id, u.user_name, u.user_nickname ");
+        sb.append("SELECT u.id, u.user_nickname, u.user_ability, u.user_interest_main, u.user_interest_sub, u.user_introduce,u.user_picture ");
         sb.append("FROM users u, follow f ");
-        sb.append("WHERE u.id = f.to_user_id AND f.from_user_id = ?");
+        sb.append("WHERE u.id = f.to_user_id AND f.from_user_id = ? ");
 
         // 쿼리 완성
         Query query = em.createNativeQuery(sb.toString())
@@ -153,9 +146,64 @@ public class MyPageService {
 
         //JPA 쿼리 매핑 - DTO에 매핑
         JpaResultMapper result = new JpaResultMapper();
-        List<FollowDto> followDtoList = result.list(query, FollowDto.class);
+        List<TeamMainDto> followDtoList = result.list(query, TeamMainDto.class);
         return followDtoList;
     }
+
+    @Transactional //구독페이지 커뮤니티 좋아요
+    public List<CommunityMainDto> getCommunityLike(long profileId){
+        StringBuffer sb = new StringBuffer();
+        sb.append("SELECT c.id, c.post_title, c.post_hashtag, c.post_contents, c.post_viewcount, c.post_likecount, c.post_commentcount ");
+        sb.append("FROM community c, communitylike cl ");
+        sb.append("WHERE c.id = cl.to_post_id AND cl.from_user_id = ?");
+        Query query = em.createNativeQuery(sb.toString())
+                .setParameter(1, profileId);
+
+        JpaResultMapper result = new JpaResultMapper();
+        List<CommunityMainDto> CommunityDtoList = result.list(query, CommunityMainDto.class);
+        return CommunityDtoList;
+    }
+
+    @Transactional //구독페이지 대외활동 좋아요
+    public List<OutActDto> getOutActLike(long profileId){
+        StringBuffer sb = new StringBuffer();
+        sb.append("SELECT p.id, p.post_name, p.post_image, p.post_view, p.post_likes, p.post_link, p.post_sub, p.create_date ");
+        sb.append("FROM post p, outactlike ol ");
+        sb.append("WHERE p.id = ol.outact_id AND ol.user_id = ?");
+
+        Query query = em.createNativeQuery(sb.toString())
+                .setParameter(1, profileId);
+
+        JpaResultMapper result = new JpaResultMapper();
+        List<OutActDto> outActDtoList = result.list(query, OutActDto.class);
+        return outActDtoList;
+    }
+
+    @Transactional //구독페이지 프로젝트 좋아요
+    public List<ProjectDto> getpProjectLike(long profileId){
+        StringBuffer sb = new StringBuffer();
+        sb.append("SELECT p.* ");
+        sb.append("FROM project p, projectlike pl ");
+        sb.append("WHERE p.id = pl.project_id AND pl.user_id = ?");
+        Query query = em.createNativeQuery(sb.toString())
+                .setParameter(1, profileId);
+
+        JpaResultMapper result = new JpaResultMapper();
+        List<ProjectDto> projectDtoList = result.list(query, ProjectDto.class);
+        return projectDtoList;
+    }
+
+    @Transactional
+    public Boolean checkTeamLike(long fromUserId, long teamID){
+        Boolean checkTeam = followRepository.existsByFromUserIdAndToUserId(fromUserId, teamID);
+        return checkTeam;
+    }
+    @Transactional
+    public Boolean checkCoummintyLike(long fromUserId, long communityID){
+        Boolean checkCommunity = communityLikeRepository.existsByFromUserIdAndToPostId(fromUserId, communityID);
+        return checkCommunity;
+    }
+
 
     // 유저가 지원한 projet & study.
     // 참여해서 진행 중인 project & study + 리더로 진행 중인 프로젝트.
