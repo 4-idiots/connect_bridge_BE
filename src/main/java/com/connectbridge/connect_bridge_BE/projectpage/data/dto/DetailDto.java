@@ -102,6 +102,8 @@ public class DetailDto {
     int projectView;
     int projectLike;
     Long userID; // 4.18 추가
+    String projectOnline;
+
 
     List memberID; // 지원한 유저들정보
     HashMap leaderInfo;
@@ -197,6 +199,7 @@ public class DetailDto {
          this.projectLike =projectEntity.getProjectLike();
          this.projectView = projectEntity.getProjectView();
          this.userID = projectEntity.getUserID();
+         this.projectOnline = projectEntity.getProjectOnline();
     }
 
 }

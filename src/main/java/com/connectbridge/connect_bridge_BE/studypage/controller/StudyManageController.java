@@ -90,10 +90,9 @@ public class StudyManageController {
             TokenResDto tokenResDto = jwtProvider.tokenManager(token);
             Long userID = jwtProvider.getTokenID(tokenResDto.getAccessToken());
             if(manageService.fireStudyMember(userID, studyID,memberID)){
-                return new ResponseEntity<>(new com.connectbridge.connect_bridge_BE.loginpage.login.data.dto.Message("ok"), HttpStatus.OK);
-
+                return new ResponseEntity<>(new Message("ok"), HttpStatus.OK);
             }
-            return new ResponseEntity<>(new com.connectbridge.connect_bridge_BE.loginpage.login.data.dto.Message("no"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new Message("no"), HttpStatus.BAD_REQUEST);
 
         }catch (Exception e) {
             System.out.println(e);

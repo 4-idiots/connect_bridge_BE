@@ -1,8 +1,11 @@
 package com.connectbridge.connect_bridge_BE.studypage.data.dto;
 
 import com.connectbridge.connect_bridge_BE.studypage.data.Entity.StudyEntity;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,17 +25,30 @@ public class StudyDetailDto {
     int studyMemberNow;
     String studyEnd;
     String studyStart;
-    String content;
+    List content;
     String studyImg;
     int studyLike;
     int studyView;
     boolean studySub;
+    String studyOnline;
+
 
     List memberID;
     HashMap leaderInfo;
     List memberList;
 
-    public StudyDetailDto(StudyEntity studyEntity){
+    public List jacksonMap(String json) {
+        ObjectMapper mapper = new ObjectMapper();
+        //List<Map<Object, Object>> map = mapper.readValue(json, List.class);
+        List map = null;
+        try {
+            map = mapper.readValue(json, List.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return map;
+    }
+    public StudyDetailDto(StudyEntity studyEntity) {
         this.studyID = studyEntity.getId();
         this.userID = studyEntity.getUserID();
         this.studyName = studyEntity.getStudyName();
@@ -42,10 +58,12 @@ public class StudyDetailDto {
         this.studyMember = studyEntity.getStudyMember();
         this.studyMemberNow = studyEntity.getStudyMemberNow();
         this.studyEnd = studyEntity.getStudyEnd();
-        this.studyStart =studyEntity.getStudyStart();
-        this.content =studyEntity.getContent();
+        this.studyStart = studyEntity.getStudyStart();
+        this.content = jacksonMap(studyEntity.getContent());
         this.studyImg = studyEntity.getStudyImg();
         this.studyLike = studyEntity.getStudyLike();
         this.studyView = studyEntity.getStudyView();
+        this.studyField = studyEntity.getStudyField();
+        this.studyOnline = studyEntity.getStudyOnline();
     }
 }

@@ -62,6 +62,9 @@ public class StudyEntity extends BaseTimeEntity {
     @Column(name = "study_img")
     private String studyImg;
 
+    @Column(name = "study_online")
+    private String studyOnline;
+
     public StudyEntity() {
 
     }
@@ -76,6 +79,7 @@ public class StudyEntity extends BaseTimeEntity {
                 .studyMember(createDto.getStudyMember())
                 .content(createDto.getContent())
                 .studyImg(createDto.getStudyImg())
+                .studyOnline(createDto.getStudyOnline())
                 .build();
     }
 
@@ -89,6 +93,7 @@ public class StudyEntity extends BaseTimeEntity {
         this.studyEnd = createDto.getStudyEnd();
         this.content = createDto.getContent();
         this.studyImg = createDto.getStudyImg();
+        this.studyOnline =createDto.getStudyOnline();
     }
 
 

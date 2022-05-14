@@ -139,11 +139,16 @@ public class StudyService {
         for(int i =0; i< memberID.size();i++){
 
             LeaderMapping user = userRepository.findByid((long) memberID.get(i).getUserID());
+            StudySubmitEntity member = submitRepository.findByUserIDAndStudyID((long) memberID.get(i).getUserID(),studyID);
+
             HashMap<String,Object> memberInfo = new HashMap<>();
             memberInfo.put("memberID",user.getId());
+            memberInfo.put("memberField",member.getField()); //no unique 발생해서 projectID 추가함.
             memberInfo.put("memberName",user.getUserNickName());
             memberInfo.put("memberImg",user.getPicture());
-            memberInfo.put("Introduce",user.getIntroduce());
+            memberInfo.put("memberIntroduce",user.getIntroduce());
+            memberInfo.put("memberInterestSub",user.getUserInterestSub());
+            memberInfo.put("memberAbility",user.getUserAbility());
 
             memList.add(i,memberInfo);
         }

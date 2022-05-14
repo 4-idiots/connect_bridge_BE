@@ -8,6 +8,7 @@ import com.connectbridge.connect_bridge_BE.projectpage.data.dto.ProjectDto;
 import com.connectbridge.connect_bridge_BE.projectpage.data.entity.ProjectEntity;
 import com.connectbridge.connect_bridge_BE.projectpage.repository.ProjectRepository;
 import com.connectbridge.connect_bridge_BE.studypage.data.Entity.StudyEntity;
+import com.connectbridge.connect_bridge_BE.studypage.data.dto.StudyDto;
 import com.connectbridge.connect_bridge_BE.studypage.repository.StudyRepository;
 import com.connectbridge.connect_bridge_BE.teampage.TeamMainDto;
 import com.connectbridge.connect_bridge_BE.teampage.TeamRepository;
@@ -38,11 +39,13 @@ public class MainService {
         List<TeamMainDto> dtoRegister = topRegister.stream().map(TeamMainDto::new).collect(Collectors.toList());
 
         List<StudyEntity> topStudy = studyRepository.findTop4ByOrderByIdDesc();
+        List<StudyDto> dtoStudy = topStudy.stream().map(StudyDto::new).collect(Collectors.toList());
+
         HashMap<String,List> page = new HashMap<>();
         page.put("project",dtoProjects);
         page.put("community",dtoCommunity);
         page.put("register",dtoRegister);
-        page.put("study",topStudy);
+        page.put("study",dtoStudy);
 
         return page;
     }
