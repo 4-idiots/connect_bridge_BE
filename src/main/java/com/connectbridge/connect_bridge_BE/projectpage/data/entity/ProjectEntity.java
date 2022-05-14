@@ -362,6 +362,9 @@ public class ProjectEntity extends BaseTimeEntity {
     public void updateView(int projectView){
         this.projectView = projectView;
     }
+    public void updateOnOff(boolean projectOnOff){
+        this.projectOnOff = projectOnOff;
+    }
 
     public void setUiuxPlanNow(int uiuxPlanNow) {
         this.uiuxPlanNow = uiuxPlanNow;

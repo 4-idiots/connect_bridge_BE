@@ -1,7 +1,14 @@
 package com.connectbridge.connect_bridge_BE.studypage.data.dto;
 
 import com.connectbridge.connect_bridge_BE.studypage.data.Entity.StudyEntity;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.util.HashMap;
+import java.util.List;
+
+@Getter
+@Setter
 public class StudyDetailDto {
 
     Long studyID;
@@ -10,11 +17,16 @@ public class StudyDetailDto {
     String studyKeyward;
     String studyField;
     String studyArea;
-    String studyOnOff;
+    boolean studyOnOff;
     String studyMember;//List로 줘야하고 Entity에는?
     String studyEnd;
     String studyStart;
     String content;
+
+    List memberID;
+    HashMap leaderInfo;
+    List memberList;
+    boolean studySub;
 
     public StudyDetailDto(StudyEntity studyEntity){
         this.studyID = studyEntity.getId();
@@ -22,7 +34,7 @@ public class StudyDetailDto {
         this.studyName = studyEntity.getStudyName();
         this.studyKeyward = studyEntity.getStudyKeyward();
         this.studyArea = studyEntity.getStudyArea();
-        this.studyOnOff = studyEntity.getStudyOnOff();
+        this.studyOnOff = studyEntity.isStudyOnOff();
         this.studyMember = studyEntity.getStudyMember();
         this.studyEnd = studyEntity.getStudyEnd();
         this.studyStart =studyEntity.getStudyStart();

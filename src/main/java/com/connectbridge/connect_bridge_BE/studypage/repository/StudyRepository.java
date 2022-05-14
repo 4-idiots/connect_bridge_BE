@@ -8,5 +8,5 @@ import java.util.List;
 public interface StudyRepository extends JpaRepository<StudyEntity, Long> {
 
     List<StudyEntity> findTop4ByOrderByIdDesc(); // id 큰 순으로 4개 select
-    StudyEntity findByid(Long projectID);
+    StudyEntity findByid(Long studyID);
 }

@@ -48,7 +48,7 @@ public class ProjectManageController {
             Long userID = jwtProvider.getTokenID(tokenResDto.getAccessToken());
             boolean input = true;
             // service run
-            System.out.println("proID : "+projectID+" subID: "+submitID+" userID: "+userID);
+            System.out.println("proID : " + projectID + " subID: " + submitID + " userID: " + userID);
             boolean result = projectManageService.manageSub(projectID, submitID, userID, input);
 
             return new ResponseEntity<>(result, HttpStatus.OK);
@@ -68,7 +68,7 @@ public class ProjectManageController {
             Long userID = jwtProvider.getTokenID(tokenResDto.getAccessToken());
             boolean input = false;
             // service run
-            boolean result = projectManageService.manageSub(projectID, submitID, userID,input);
+            boolean result = projectManageService.manageSub(projectID, submitID, userID, input);
 
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception e) {
@@ -77,6 +77,38 @@ public class ProjectManageController {
             return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
         }
 
+    }
+
+    @PatchMapping("/project/{projectID}/manage/end")
+    ResponseEntity<?> projectEnd(@RequestHeader("Authorization") String token,
+                                 @PathVariable("projectID") Long projectID) {
+        try {
+
+            TokenResDto tokenResDto = jwtProvider.tokenManager(token);
+            Long userID = jwtProvider.getTokenID(tokenResDto.getAccessToken());
+            projectManageService.endProject(userID, projectID);
+            return new ResponseEntity<>(new Message("ok"), HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println(e);
+            return new ResponseEntity<>(new Message("no"), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/project/{projectID}/manage/fire/{memberID}")
+    ResponseEntity<?> memberFire(@RequestHeader("Authorization") String token,
+                                 @PathVariable("projectID") Long projectID, @PathVariable("memberID") Long memberID) {
+        try {
+            TokenResDto tokenResDto = jwtProvider.tokenManager(token);
+            Long userID = jwtProvider.getTokenID(tokenResDto.getAccessToken());
+            if(projectManageService.fireMember(userID, projectID, memberID)){
+                return new ResponseEntity<>(new Message("ok"), HttpStatus.OK);
+            }
+                return new ResponseEntity<>(new Message("no"), HttpStatus.BAD_REQUEST);
+
+        } catch (Exception e) {
+            System.out.println(e);
+            return new ResponseEntity<>(new Message("no"), HttpStatus.BAD_REQUEST);
+        }
     }
 }
 

@@ -63,6 +63,7 @@ public class ProjectService {
 
         LeaderMapping user = userRepository.findByid(project.getUserID());
 
+
         detailDto.setLeaderInfo(leaderMap(user)); // leader Info add
 
         detailDto.setProjectSub(likeMap(projectID,userID)); //no hashMap
@@ -95,8 +96,11 @@ public class ProjectService {
         for(int i =0; i< memberID.size();i++){
 
             LeaderMapping user = userRepository.findByid((long) memberID.get(i).getUserID());
+            SubmitEntity member = submitRepository.findByUserIDAndProjectID((long) memberID.get(i).getUserID(),projectID);
+
             HashMap<String,Object> memberInfo = new HashMap<>();
             memberInfo.put("memberID",user.getId());
+            memberInfo.put("memberField",member.getField()); //no unique 발생해서 projectID 추가함.
             memberInfo.put("memberName",user.getUserNickName());
             memberInfo.put("memberImg",user.getPicture());
             memberInfo.put("memberIntroduce",user.getIntroduce());
