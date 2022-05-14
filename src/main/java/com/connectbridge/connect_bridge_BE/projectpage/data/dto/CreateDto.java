@@ -26,6 +26,7 @@ public class CreateDto {
     private String projectEnd;
     private List<String> projectPlatform;
     private String projectSkill;
+    private String projectOnline;
 
     private int uiuxPlan;
     private int gamePlan;

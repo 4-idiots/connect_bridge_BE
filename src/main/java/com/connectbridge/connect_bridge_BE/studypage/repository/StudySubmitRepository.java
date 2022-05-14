@@ -14,6 +14,7 @@ public interface StudySubmitRepository extends JpaRepository<StudySubmitEntity, 
     List<SubmitMapping> findBystudyIDAndAccept(Long studyID, boolean accept);
     List<MemberMapping> findByStudyIDAndAccept(Long studyDI, boolean accept);
     StudySubmitEntity findByStudyIDAndUserIDAndAccept(Long studyID, Long memberID, boolean accept);
+    StudySubmitEntity findByUserIDAndStudyID(Long userID, Long studyID);
 
     StudySubmitEntity findByid(Long submitID);
 }

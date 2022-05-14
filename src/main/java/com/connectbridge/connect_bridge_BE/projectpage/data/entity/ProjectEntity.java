@@ -67,6 +67,10 @@ public class ProjectEntity extends BaseTimeEntity {
     @Column(name = "project_view")
     private int projectView;
 
+    @Column(name = "project_online")
+    private String projectOnline;
+
+
     @Column(name = "uiux_plan")
     private int uiuxPlan;
     @Column(name = "game_plan")
@@ -212,6 +216,7 @@ public class ProjectEntity extends BaseTimeEntity {
         this.projectEnd = createDto.getProjectEnd();
         this.projectPlatform = listToStr(createDto.getProjectPlatform());
         this.projectSkill = createDto.getProjectSkill();
+        this.projectOnline = createDto.getProjectOnline();
 
         this.uiuxPlan = createDto.getUiuxPlan();
         this.gamePlan = createDto.getGamePlan();
@@ -294,6 +299,7 @@ public class ProjectEntity extends BaseTimeEntity {
                 .projectEnd(createDto.getProjectEnd())
                 .projectPlatform(listToStr(createDto.getProjectPlatform()))
                 .projectSkill(createDto.getProjectSkill())
+                .projectOnline(createDto.getProjectOnline())
 
                 .uiuxPlan(createDto.getUiuxPlan())
                 .gamePlan(createDto.getGamePlan())

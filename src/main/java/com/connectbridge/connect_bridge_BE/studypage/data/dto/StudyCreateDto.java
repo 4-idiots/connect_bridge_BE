@@ -20,4 +20,5 @@ public class StudyCreateDto {
     private String content;
     private String studyImg; //s3업로드 x
     private int studyMemberNow;
+    private String studyOnline;
 }

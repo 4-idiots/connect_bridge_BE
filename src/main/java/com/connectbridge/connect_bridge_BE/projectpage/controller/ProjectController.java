@@ -64,7 +64,7 @@ public class ProjectController {
     @PostMapping("/project")
     public ResponseEntity<Message> projectCreate(
             @RequestParam("projectImg") MultipartFile img,
-            CreateDto createDto,@RequestHeader("Authorization")String token) throws IOException {
+            CreateDto createDto, @RequestHeader("Authorization") String token) throws IOException {
 
         try {
 
@@ -73,7 +73,7 @@ public class ProjectController {
 
             String url = "https://cdn.discordapp.com/attachments/885739536301318169/974292656920363048/hama.jpeg";
 
-            if(!img.isEmpty()) {
+            if (!img.isEmpty()) {
                 url = s3Service.upload(img, "project");
             }
             createDto.setProjectStrImg(url);
@@ -120,7 +120,7 @@ public class ProjectController {
     // 삭제
     @DeleteMapping("/project/{projectID}")
     public ResponseEntity<?> projectDelete(@PathVariable("projectID") Long projectID,
-                                           @RequestHeader("Authorization")String token) {
+                                           @RequestHeader("Authorization") String token) {
         if (projectService.deleteProject(projectID)) {
             return new ResponseEntity<>(new Message("ok"), HttpStatus.OK);
         }
@@ -140,11 +140,14 @@ public class ProjectController {
     //좋아요 통신
     @GetMapping("/project/like")
     public ResponseEntity<?> projectLike(@RequestParam(value = "projectID") Long projectID,
-                                         @RequestHeader("Authorization") String token) {
+                                         @RequestHeader(value = "Authorization",required = false) String token) {
 
         try {
-            TokenResDto tokenResDto = jwtProvider.tokenManager(token);
-            Long userID = jwtProvider.getTokenID(tokenResDto.getAccessToken());
+            Long userID = Long.valueOf(0);
+            if (!jwtProvider.extractToken(token).equals("null")) {
+                TokenResDto tokenResDto = jwtProvider.tokenManager(token);
+                userID = jwtProvider.getTokenID(tokenResDto.getAccessToken());
+            }
 
             if (projectLikeService.likeChk(userID, projectID)) {
                 projectLikeService.likeOn(userID, projectID);
@@ -161,7 +164,7 @@ public class ProjectController {
     //좋아요 구분 통신
     @GetMapping("/project/islike/{projectID}")
     public Boolean projectIsLike(@RequestHeader(value = "Authorization") String token,
-                               @PathVariable(value = "projectID") Long projectID) {
+                                 @PathVariable(value = "projectID") Long projectID) {
         try {
             TokenResDto tokenResDto = jwtProvider.tokenManager(token);
             Long userID = jwtProvider.getTokenID(tokenResDto.getAccessToken());

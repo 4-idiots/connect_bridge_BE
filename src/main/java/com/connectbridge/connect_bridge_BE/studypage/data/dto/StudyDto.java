@@ -20,6 +20,7 @@ public class StudyDto {
     String studyArea;
     boolean studyOnOff;
     int studyMember;
+    int studyMemberNow;
     String studyEnd;
     String studyStart;
     List content;
@@ -27,6 +28,7 @@ public class StudyDto {
     int studyView;
     LocalDateTime createDate;
 
+    String studyOnline;
     String studyImg;
 
     public List jacksonMap(String json) {
@@ -49,6 +51,7 @@ public class StudyDto {
         this.studyField = studyEntity.getStudyField();
         this.studyArea = studyEntity.getStudyArea();
         this.studyMember = studyEntity.getStudyMember();
+        this.studyMemberNow = studyEntity.getStudyMemberNow();
         this.studyEnd = studyEntity.getStudyEnd();
         this.studyStart = studyEntity.getStudyEnd();
         this.content = jacksonMap(studyEntity.getContent());
@@ -56,6 +59,7 @@ public class StudyDto {
         this.studyView = studyEntity.getStudyView();
         this.createDate = studyEntity.getCreateDate();
         this.studyImg = studyEntity.getStudyImg();
+        this.studyOnline = studyEntity.getStudyOnline();
     }
 
 }

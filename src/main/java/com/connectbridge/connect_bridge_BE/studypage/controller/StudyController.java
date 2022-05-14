@@ -37,12 +37,12 @@ public class StudyController {
     // mainPage infi
     @GetMapping("/study/page/{page}")
     public ResponseEntity<List<StudyDto>> studyPage(@PathVariable("page") int page, Pageable pageable) {
-        try{
-        List<StudyDto> list = studyService.studyGetPage(pageable, page);
-        return new ResponseEntity<>(list, HttpStatus.OK);
-        }catch(Exception e){
+        try {
+            List<StudyDto> list = studyService.studyGetPage(pageable, page);
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        } catch (Exception e) {
             System.out.println(e);
-            return new ResponseEntity(new Message("no"),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message("no"), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -67,10 +67,10 @@ public class StudyController {
             StudyCreateDto studyCreateDto,
             @RequestHeader("Authorization") String token) {
         try {
-                TokenResDto dto = jwtProvider.tokenManager(token);
-                studyCreateDto.setUserID(jwtProvider.getTokenID(dto.getAccessToken()));
+            TokenResDto dto = jwtProvider.tokenManager(token);
+            studyCreateDto.setUserID(jwtProvider.getTokenID(dto.getAccessToken()));
 
-                studyService.createStudy(studyCreateDto);
+            studyService.createStudy(studyCreateDto);
             return new ResponseEntity<>(new Message("ok"), HttpStatus.OK);
         } catch (Exception e) {
             System.out.println(e);
@@ -122,11 +122,13 @@ public class StudyController {
 
     // like onoff
     @GetMapping("/study/like")
-    public ResponseEntity<?> studyLike(@RequestHeader("Authorization") String token, @RequestParam(value = "studyID") Long studyID) {
+    public ResponseEntity<?> studyLike(@RequestHeader(value = "Authorization", required = false) String token, @RequestParam(value = "studyID") Long studyID) {
         try {
-            TokenResDto tokenResDto = jwtProvider.tokenManager(token);
-            Long userID = jwtProvider.getTokenID(tokenResDto.getAccessToken());
-
+            Long userID = Long.valueOf(0);
+            if (!jwtProvider.extractToken(token).equals("null")) {
+                TokenResDto tokenResDto = jwtProvider.tokenManager(token);
+                userID = jwtProvider.getTokenID(tokenResDto.getAccessToken());
+            }
             if (studyLikeService.likeChk(userID, studyID)) {
                 studyLikeService.likeOn(userID, studyID);
             } else {
@@ -148,29 +150,29 @@ public class StudyController {
             TokenResDto tokenResDto = jwtProvider.tokenManager(token);
             Long userID = jwtProvider.getTokenID(tokenResDto.getAccessToken());
 
-            return new ResponseEntity<>(studyLikeService.isLike(userID, studyID),HttpStatus.OK);
+            return new ResponseEntity<>(studyLikeService.isLike(userID, studyID), HttpStatus.OK);
         } catch (Exception e) {
             System.out.println(e);
-            return new ResponseEntity(new Message("no"),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message("no"), HttpStatus.BAD_REQUEST);
         }
     }
 
     // study apply
     @GetMapping("/study/apply")
     public ResponseEntity<?> studySubmit(@RequestBody StudySubmitDto submitDto,
-        @RequestHeader("Authorization") String token){
+                                         @RequestHeader("Authorization") String token) {
         try {
             TokenResDto tokenResDto = jwtProvider.tokenManager(token);
             Long userID = jwtProvider.getTokenID(tokenResDto.getAccessToken());
             submitDto.setUserID(userID);
 
-            if(studyService.submitStudy(submitDto)){
+            if (studyService.submitStudy(submitDto)) {
                 return new ResponseEntity<>(new Message("ok"), HttpStatus.OK);
             }
-            return new ResponseEntity<>(new Message("no"),HttpStatus.BAD_REQUEST);
-        }catch (Exception e){
+            return new ResponseEntity<>(new Message("no"), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
             System.out.println(e);
-            return new ResponseEntity<>(new Message("no"),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new Message("no"), HttpStatus.BAD_REQUEST);
         }
     }
 }
