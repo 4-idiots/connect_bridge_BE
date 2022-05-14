@@ -45,7 +45,7 @@ public class RegisterImpl implements RegisterService{
     public Long postRegister(RegisterDto registerDto) throws Exception{
         String encodePassword = passwordEncoder.encode(registerDto.getUserPW());
         registerDto.setUserPW(encodePassword);
-        registerDto.setUserPicture("https://cnbimg.s3.ap-northeast-2.amazonaws.com/etc/cnb%ED%8C%80%EB%A1%9C%EA%B3%A0.svg");
+        registerDto.setUserPicture("https://cnbimg.s3.ap-northeast-2.amazonaws.com/etc/cnb+team+logo.svg");
         return registerRepository.save(registerDto.toregisterEntity()).getId();
     }
 
