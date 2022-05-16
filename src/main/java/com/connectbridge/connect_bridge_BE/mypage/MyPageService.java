@@ -12,6 +12,7 @@ import com.connectbridge.connect_bridge_BE.loginpage.register.data.dto.UpdateReg
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.entity.RegisterEntity;
 import com.connectbridge.connect_bridge_BE.loginpage.register.repository.RegisterRepository;
 import com.connectbridge.connect_bridge_BE.outactpage.data.dto.OutActDto;
+import com.connectbridge.connect_bridge_BE.projectpage.data.dto.MyProSubmitDto;
 import com.connectbridge.connect_bridge_BE.projectpage.data.dto.ProjectDto;
 import com.connectbridge.connect_bridge_BE.studypage.data.dto.StudyDto;
 import com.connectbridge.connect_bridge_BE.projectpage.data.entity.ProjectEntity;
@@ -20,6 +21,7 @@ import com.connectbridge.connect_bridge_BE.projectpage.repository.ProjectReposit
 import com.connectbridge.connect_bridge_BE.projectpage.repository.SubmitRepository;
 import com.connectbridge.connect_bridge_BE.studypage.data.Entity.StudyEntity;
 import com.connectbridge.connect_bridge_BE.studypage.data.Entity.StudySubmitEntity;
+import com.connectbridge.connect_bridge_BE.studypage.data.dto.MyStuSubmitDto;
 import com.connectbridge.connect_bridge_BE.studypage.data.dto.StudyDto;
 import com.connectbridge.connect_bridge_BE.studypage.repository.StudyRepository;
 import com.connectbridge.connect_bridge_BE.studypage.repository.StudySubmitRepository;
@@ -35,7 +37,6 @@ import javax.persistence.Query;
 import java.io.IOException;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -231,27 +232,23 @@ public class MyPageService {
         return checkCommunity;
     }
 
-    public HashMap<String, List<ProjectDto>> getProjectInfo(Long userID) {
-        HashMap<String, List<ProjectDto>> projectList = new HashMap();
+    public HashMap<String, List> getProjectInfo(Long userID) {
+        HashMap<String, List> projectList = new HashMap();
         //지원된 프로젝트 List put
-        List<ProjectDto> subList = subedPro(userID).stream().map(ProjectDto::new).collect(Collectors.toList());
-        System.out.println("정상 작동4");
+        List<MyProSubmitDto> subList = subedPro(userID).stream().map(MyProSubmitDto::new).collect(Collectors.toList());
+        for(int i =0; i<subList.size();i++){
+            IdMapping test = projectSubmitRepository.findByProjectIDAndUserID(subList.get(i).getProjectID(),userID);
+            subList.get(i).setSubmitID(test.getId());
+        }
 
         List<ProjectDto> partList = partInPro(userID).stream().map(ProjectDto::new).collect(Collectors.toList());
-        System.out.println("정상 작동5");
 
         List<ProjectDto> completeList = completePro(userID).stream().map(ProjectDto::new).collect(Collectors.toList());
-        System.out.println("정상 작동6");
 
         projectList.put("submitPro", subList);
         projectList.put("partInPro",partList);
         projectList.put("completePro", completeList);
 
-        // project.findByUserIDAndOnOff(userID,true) -> 자신이 리더인 프로젝트
-        // 완료현황 체크를 어떻게 할 것인가?
-        // 조건 : onoff=1(종료)
-        // 1안. findByOnOff(true).getID ->
-        //-> 완료된 프로젝트 목록 챙김.
         return projectList;
     }
 
@@ -265,7 +262,6 @@ public class MyPageService {
                 proList.add(target);
             }
         }
-        System.out.println("정상 작동1");
         return proList;
     }
 
@@ -314,27 +310,24 @@ public class MyPageService {
         return proList;
     }
 
-    public HashMap<String, List<StudyDto>> getStudyInfo(Long userID) {
-        HashMap<String, List<StudyDto>> studyList = new HashMap();
+    public HashMap<String, List> getStudyInfo(Long userID) {
+        HashMap<String, List> studyList = new HashMap();
         //지원된 프로젝트 List put
-        List<StudyDto> subList = subedStu(userID).stream().map(StudyDto::new).collect(Collectors.toList());
-        System.out.println("정상 작동4");
+        List<MyStuSubmitDto> subList = subedStu(userID).stream().map(MyStuSubmitDto::new).collect(Collectors.toList());
+
+        for(int i =0; i<subList.size();i++){
+            IdMapping test = studySubmitRepository.findByStudyIDAndUserID(subList.get(i).getStudyID(),userID);
+            subList.get(i).setSubmitID(test.getId());
+        }
 
         List<StudyDto> partList = partInStu(userID).stream().map(StudyDto::new).collect(Collectors.toList());
-        System.out.println("정상 작동5");
 
         List<StudyDto> completeList = completeStu(userID).stream().map(StudyDto::new).collect(Collectors.toList());
-        System.out.println("정상 작동6");
 
         studyList.put("submitStu", subList);
         studyList.put("partInStu",partList);
         studyList.put("completeStu", completeList);
 
-        // project.findByUserIDAndOnOff(userID,true) -> 자신이 리더인 프로젝트
-        // 완료현황 체크를 어떻게 할 것인가?
-        // 조건 : onoff=1(종료)
-        // 1안. findByOnOff(true).getID ->
-        //-> 완료된 프로젝트 목록 챙김.
         return studyList;
     }
 
@@ -348,7 +341,6 @@ public class MyPageService {
                 stuList.add(target);
             }
         }
-        System.out.println("정상 작동1");
         return stuList;
     }
 

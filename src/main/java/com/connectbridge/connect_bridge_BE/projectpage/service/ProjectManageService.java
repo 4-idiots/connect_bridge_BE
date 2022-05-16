@@ -60,7 +60,6 @@ public class ProjectManageService {
         // input apply = true, input reject = false
         //project leader가 token user와 같은가?
         if (userID.equals(projectEntity.getUserID())) {
-            System.out.println("in the if userID: " + userID + " proUID: " + projectEntity.getUserID());
             System.out.println("이 사람은 리더가 맞습니다.");
 
             SubmitEntity submitEntity = submitRepository.findByid(submitID);
@@ -68,7 +67,6 @@ public class ProjectManageService {
             if (input) {
 
                 String target = submitEntity.getField();
-                System.out.println("Field: " + target);
                 controll(target, projectEntity);
                 submitEntity.updateAccept(true);
                 submitRepository.save(submitEntity);
