@@ -13,9 +13,7 @@ import com.connectbridge.connect_bridge_BE.loginpage.register.data.entity.Regist
 import com.connectbridge.connect_bridge_BE.loginpage.register.repository.RegisterRepository;
 import com.connectbridge.connect_bridge_BE.outactpage.data.dto.OutActDto;
 import com.connectbridge.connect_bridge_BE.projectpage.data.dto.ProjectDto;
-<<<<<<< HEAD
 import com.connectbridge.connect_bridge_BE.studypage.data.dto.StudyDto;
-=======
 import com.connectbridge.connect_bridge_BE.projectpage.data.entity.ProjectEntity;
 import com.connectbridge.connect_bridge_BE.projectpage.data.entity.SubmitEntity;
 import com.connectbridge.connect_bridge_BE.projectpage.repository.ProjectRepository;
@@ -25,7 +23,6 @@ import com.connectbridge.connect_bridge_BE.studypage.data.Entity.StudySubmitEnti
 import com.connectbridge.connect_bridge_BE.studypage.data.dto.StudyDto;
 import com.connectbridge.connect_bridge_BE.studypage.repository.StudyRepository;
 import com.connectbridge.connect_bridge_BE.studypage.repository.StudySubmitRepository;
->>>>>>> main
 import com.connectbridge.connect_bridge_BE.teampage.TeamMainDto;
 import lombok.RequiredArgsConstructor;
 import org.qlrm.mapper.JpaResultMapper;
@@ -137,23 +134,12 @@ public class MyPageService {
     }
 
     //구독 페이지
-<<<<<<< HEAD
     public HashMap myPageSub(long fromUserId){
         HashMap<String,List> page = new HashMap<>();
         page.put("outact",getOutActLike(fromUserId));
         page.put("team",getFollowing(fromUserId));
         page.put("community",getCommunityLike(fromUserId));
         page.put("study", getStudyLike(fromUserId));
-=======
-    public HashMap myPageSub(long fromUserId) {
-        //List<StudyEntity> likeStudy = studyRepository.findIdByUserIDOrderByIdDesc(fromUserId);
-
-        HashMap<String, List> page = new HashMap<>();
-        page.put("outact", getOutActLike(fromUserId));
-        page.put("team", getFollowing(fromUserId));
-        page.put("community", getCommunityLike(fromUserId));
-        //page.put("study", likeStudy);
->>>>>>> main
         page.put("project", getpProjectLike(fromUserId));
 
         return page;
@@ -220,7 +206,7 @@ public class MyPageService {
     }
 
     @Transactional
-<<<<<<< HEAD
+
     public List<StudyDto> getStudyLike(long profildId){
         StringBuffer sb = new StringBuffer();
         sb.append("SELECT s.* ");
@@ -234,11 +220,7 @@ public class MyPageService {
         return studyDtoList;
     }
 
-    @Transactional
-    public Boolean checkTeamLike(long fromUserId, long teamID){
-=======
     public Boolean checkTeamLike(long fromUserId, long teamID) {
->>>>>>> main
         Boolean checkTeam = followRepository.existsByFromUserIdAndToUserId(fromUserId, teamID);
         return checkTeam;
     }
