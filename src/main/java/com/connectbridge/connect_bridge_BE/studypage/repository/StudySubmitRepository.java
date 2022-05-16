@@ -1,5 +1,6 @@
 package com.connectbridge.connect_bridge_BE.studypage.repository;
 
+import com.connectbridge.connect_bridge_BE.mypage.IdMapping;
 import com.connectbridge.connect_bridge_BE.projectpage.repository.MemberMapping;
 import com.connectbridge.connect_bridge_BE.projectpage.repository.SubmitMapping;
 import com.connectbridge.connect_bridge_BE.studypage.data.Entity.StudySubmitEntity;
@@ -15,6 +16,7 @@ public interface StudySubmitRepository extends JpaRepository<StudySubmitEntity, 
     List<MemberMapping> findByStudyIDAndAccept(Long studyDI, boolean accept);
     StudySubmitEntity findByStudyIDAndUserIDAndAccept(Long studyID, Long memberID, boolean accept);
     StudySubmitEntity findByUserIDAndStudyID(Long userID, Long studyID);
-
     StudySubmitEntity findByid(Long submitID);
+
+    List<StudySubmitEntity> findByUserIDAndAccept(Long userID, boolean accept);
 }

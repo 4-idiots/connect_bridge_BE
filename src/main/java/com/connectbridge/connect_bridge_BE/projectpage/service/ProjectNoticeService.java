@@ -3,17 +3,13 @@ package com.connectbridge.connect_bridge_BE.projectpage.service;
 import com.connectbridge.connect_bridge_BE.projectpage.data.dto.NoticeDto;
 import com.connectbridge.connect_bridge_BE.projectpage.data.entity.ProjectEntity;
 import com.connectbridge.connect_bridge_BE.projectpage.data.entity.ProjectNoticeEntity;
-import com.connectbridge.connect_bridge_BE.projectpage.repository.MemberMapping;
-import com.connectbridge.connect_bridge_BE.projectpage.repository.NoticeMapping;
 import com.connectbridge.connect_bridge_BE.projectpage.repository.ProjectNoticeRepository;
 import com.connectbridge.connect_bridge_BE.projectpage.repository.ProjectRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,9 +38,6 @@ public class ProjectNoticeService {
     }
 
     public List<NoticeDto> mainNotice(Long projectID){
-        // project_id로 db에서 찾아서 List로 넣고
-        // List에서 id 순으로 정렬한 다음에
-        // List에 순서대로 넣는다.
         List<ProjectNoticeEntity> entityList = projectNoticeRepository.findByProjectID(projectID,Sort.by(Sort.Direction.DESC,"id"));
         List<NoticeDto> dtoList = entityList.stream().map(NoticeDto::toEntity).collect(Collectors.toList());
 

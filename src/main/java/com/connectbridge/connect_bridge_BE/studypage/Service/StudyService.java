@@ -155,7 +155,6 @@ public class StudyService {
         return memList;
     }
 
-
     private List memberList(Long studyID){
         List<MemberMapping> memberID = submitRepository.findByStudyIDAndAccept(studyID,true);
         List memList = new ArrayList();

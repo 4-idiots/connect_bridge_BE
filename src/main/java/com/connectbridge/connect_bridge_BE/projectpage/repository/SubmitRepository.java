@@ -12,6 +12,7 @@ public interface SubmitRepository extends JpaRepository<SubmitEntity, Long> {
     SubmitEntity findByUserID(Long userID);
     List<MemberMapping> findByProjectIDAndAccept(Long projectID, boolean accept);
     List<SubmitMapping> findByprojectIDAndAccept(Long projectID,boolean accept);
+    List<SubmitEntity> findByUserIDAndAccept(Long userID, boolean accept);
     SubmitEntity findByid(Long id);
     SubmitEntity findByProjectIDAndUserIDAndAccept(Long projectID,Long memberID, boolean accept);
     SubmitEntity findByUserIDAndProjectID(Long userID, Long projectID);

@@ -2,12 +2,15 @@ package com.connectbridge.connect_bridge_BE.studypage.data.Entity;
 
 import com.connectbridge.connect_bridge_BE.outactpage.data.entity.BaseTimeEntity;
 import com.connectbridge.connect_bridge_BE.studypage.data.dto.StudyCreateDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -96,6 +99,17 @@ public class StudyEntity extends BaseTimeEntity {
         this.studyOnline =createDto.getStudyOnline();
     }
 
+    public List jacksonMap(String json) {
+        ObjectMapper mapper = new ObjectMapper();
+        //List<Map<Object, Object>> map = mapper.readValue(json, List.class);
+        List map = null;
+        try {
+            map = mapper.readValue(json, List.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return map;
+    }
 
     public void updateLike(int studyLike){
         this.studyLike = studyLike;
