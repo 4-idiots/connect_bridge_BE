@@ -87,6 +87,7 @@ public class DetailDto {
     private int compEtcNow;
 
 
+    Long userID; // 4.18 추가
     String projectName;
     String projectImg;
     List content;
@@ -101,7 +102,6 @@ public class DetailDto {
     String projectSkill;
     int projectView;
     int projectLike;
-    Long userID; // 4.18 추가
     String projectOnline;
 
 
