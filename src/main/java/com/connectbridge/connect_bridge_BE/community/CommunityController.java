@@ -57,9 +57,8 @@ public class CommunityController {
         return ResponseEntity.ok(getcommunitypage);
     }
     @PatchMapping("/community/write") //커뮤니티 수정 patch
-    public ResponseEntity<?> communityPatch(@RequestBody CommunityCreateDto communityCreateDto) throws Exception{
-        System.out.println(communityCreateDto.getContents() + communityCreateDto.getTitle() + communityCreateDto.getPostID());
-        communityService.updateCommunity(communityCreateDto);
+    public ResponseEntity<?> communityPatch(@RequestBody CommunityPatchDto communityPatchDto) throws Exception{
+        communityService.updateCommunity(communityPatchDto);
         Message message = Message.builder()
                 .message("ok")
                 .build();

@@ -90,7 +90,7 @@ public class CommunityService {
         CommunityEntity communityEntity = communityRepository.getById(communityID);
         communityChangeDto.setTitle(communityEntity.getTitle());
         communityChangeDto.setHashtag(communityChangeDto.convertList(communityEntity.getHashtag()));
-        communityChangeDto.setContents(jacksonMap(communityEntity.getContents()));
+        communityChangeDto.setContent(jacksonMap(communityEntity.getContents()));
         return communityChangeDto;
     }
 
@@ -153,11 +153,11 @@ public class CommunityService {
     }
 
     //커뮤니티 수정
-    public void updateCommunity(CommunityCreateDto communityCreateDto) throws Exception{
-        CommunityEntity community = communityRepository.findByid(communityCreateDto.getPostID());
-        RegisterEntity registerEntity = registerRepository.findByid(community.getUserID());
-        community.updateCommunity(communityCreateDto.getPostID(), communityCreateDto.getTitle(),
-                communityCreateDto.getContents(), communityCreateDto.convertStr(communityCreateDto.getHashtag()),
+    public void updateCommunity(CommunityPatchDto communityPatchDto) throws Exception{
+        CommunityEntity community = communityRepository.findById(communityPatchDto.getPostID()).get();
+        RegisterEntity registerEntity = registerRepository.findById(community.getUserID()).get();
+        community.updateCommunity(communityPatchDto.getPostID(), communityPatchDto.getTitle(),
+                communityPatchDto.getContent(), communityPatchDto.convertStr(communityPatchDto.getHashtag()),
                 registerEntity.getUserNickname());
         communityRepository.save(community);
     }

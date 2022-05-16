@@ -4,6 +4,7 @@ import lombok.*;
 
 import java.util.Arrays;
 import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -11,11 +12,11 @@ import java.util.List;
 @Builder
 @Getter
 @Setter
-public class CommunityChangeDto {
+public class CommunityPatchDto {
     private long postID;
     private String title;
     private List<String> hashtag;
-    private List content;
+    private String content;
 
     public String convertStr(List<String> hashtag) { //DB에 저장
         String str = String.join(",", hashtag);
