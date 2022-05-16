@@ -100,12 +100,20 @@ public class StudyController {
     //study update
     @PatchMapping("/study")
     public ResponseEntity<?> studyUpdate(@RequestParam("studyID") Long studyID,
-                                         StudyCreateDto createDto) throws IOException {
-
-        if (studyService.updateStudy(studyID, createDto)) {
-            return new ResponseEntity<>(new Message("ok"), HttpStatus.OK);
+                                         @RequestBody StudyCreateDto createDto,
+                                         @RequestHeader("Authorization") String token) throws IOException {
+        try {
+            TokenResDto dto = jwtProvider.tokenManager(token);
+            Long userID = jwtProvider.getTokenID(dto.getAccessToken());
+            createDto.setUserID(userID);
+            if (studyService.updateStudy(studyID, createDto)) {
+                return new ResponseEntity<>(new Message("ok"), HttpStatus.OK);
+            }
+            return new ResponseEntity<>(new Message("no"), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            System.out.println(e);
+            return new ResponseEntity<>(new Message("no"), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(new Message("no"), HttpStatus.BAD_REQUEST);
     }
 
     // study delete

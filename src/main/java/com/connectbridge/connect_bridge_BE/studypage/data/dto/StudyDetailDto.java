@@ -32,14 +32,12 @@ public class StudyDetailDto {
     boolean studySub;
     String studyOnline;
 
-
     List memberID;
     HashMap leaderInfo;
     List memberList;
 
     public List jacksonMap(String json) {
         ObjectMapper mapper = new ObjectMapper();
-        //List<Map<Object, Object>> map = mapper.readValue(json, List.class);
         List map = null;
         try {
             map = mapper.readValue(json, List.class);

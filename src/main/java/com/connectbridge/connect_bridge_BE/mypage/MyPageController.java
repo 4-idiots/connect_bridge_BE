@@ -62,13 +62,30 @@ public class MyPageController {
     }
 
     @GetMapping("/myproject")
-    public void mypage(){
+    public ResponseEntity<?> myProject(@RequestHeader(value = "Authorization", required = false) String token){
+        try{
 
-        myPageService.getProStu();
-        // 유저가 지원한 projet & study.
-        // 참여해서 진행 중인 project & study.
-        // 완료된 프로젝트, 스터디.
+        TokenResDto tokenResDto = jwtProvider.tokenManager(token);
+        Long userID = jwtProvider.getTokenID(tokenResDto.getAccessToken());
+        return new ResponseEntity<>(myPageService.getProjectInfo(userID),HttpStatus.OK);
+        }catch (Exception e){
+            System.out.println(e);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
+
+    @GetMapping("/mystudy")
+    public ResponseEntity<?> myStudy(@RequestHeader(value = "Authorization", required = false) String token){
+        try{
+            TokenResDto tokenResDto = jwtProvider.tokenManager(token);
+            Long userID = jwtProvider.getTokenID(tokenResDto.getAccessToken());
+            return new ResponseEntity<>(myPageService.getStudyInfo(userID),HttpStatus.OK);
+        }catch (Exception e){
+            System.out.println(e);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @GetMapping("/myfollow")
     public ResponseEntity<?> myFollow(@RequestHeader (value = "Authorization", required = false)String token) throws Exception{
         TokenResDto tokenResDto = jwtProvider.tokenManager(token);
