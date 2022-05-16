@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigInteger;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,6 +32,26 @@ public class StudyDto {
 
     String studyOnline;
     String studyImg;
+
+    public StudyDto(BigInteger studyID, BigInteger userID, String studyName, String studyKeyward, String studyField, String studyArea, boolean studyOnOff, int studyMember, int studyMemberNow, String studyEnd, String studyStart, String content, int studyLike, int studyView, Timestamp createDate, String studyOnline, String studyImg) {
+        this.studyID = studyID.longValue();
+        this.userID = userID.longValue();
+        this.studyName = studyName;
+        this.studyKeyward = studyKeyward;
+        this.studyField = studyField;
+        this.studyArea = studyArea;
+        this.studyOnOff = studyOnOff;
+        this.studyMember = studyMember;
+        this.studyMemberNow = studyMemberNow;
+        this.studyEnd = studyEnd;
+        this.studyStart = studyStart;
+        this.content = jacksonMap(String.valueOf(content));
+        this.studyLike = studyLike;
+        this.studyView = studyView;
+        this.createDate = createDate.toLocalDateTime();
+        this.studyOnline = studyOnline;
+        this.studyImg = studyImg;
+    }
 
     public List jacksonMap(String json) {
         ObjectMapper mapper = new ObjectMapper();

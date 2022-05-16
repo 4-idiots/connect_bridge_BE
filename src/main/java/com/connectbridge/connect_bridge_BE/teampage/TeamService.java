@@ -41,6 +41,7 @@ public class TeamService {
         teamProfileDto.setUserPicture(registerEntity.getUserPicture());
         teamProfileDto.setUserIntroduce(registerEntity.getUserIntroduce());
         teamProfileDto.setUserTime(registerEntity.getUserTime());
+        teamProfileDto.setUserPortfolio(registerEntity.getUserPortfolio());
         if (fromUserId != 0){
             if (followRepository.findByFromUserIdAndToUserId(fromUserId, toUserId) != null){
                 teamProfileDto.setFollow(Long.valueOf(2));

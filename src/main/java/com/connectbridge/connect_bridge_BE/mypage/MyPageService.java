@@ -13,6 +13,7 @@ import com.connectbridge.connect_bridge_BE.loginpage.register.data.entity.Regist
 import com.connectbridge.connect_bridge_BE.loginpage.register.repository.RegisterRepository;
 import com.connectbridge.connect_bridge_BE.outactpage.data.dto.OutActDto;
 import com.connectbridge.connect_bridge_BE.projectpage.data.dto.ProjectDto;
+import com.connectbridge.connect_bridge_BE.studypage.data.dto.StudyDto;
 import com.connectbridge.connect_bridge_BE.teampage.TeamMainDto;
 import lombok.RequiredArgsConstructor;
 import org.qlrm.mapper.JpaResultMapper;
@@ -118,16 +119,16 @@ public class MyPageService {
 
     //구독 페이지
     public HashMap myPageSub(long fromUserId){
-        //List<StudyEntity> likeStudy = studyRepository.findIdByUserIDOrderByIdDesc(fromUserId);
-
         HashMap<String,List> page = new HashMap<>();
         page.put("outact",getOutActLike(fromUserId));
         page.put("team",getFollowing(fromUserId));
         page.put("community",getCommunityLike(fromUserId));
-        //page.put("study", likeStudy);
+        page.put("study", getStudyLike(fromUserId));
         page.put("project", getpProjectLike(fromUserId));
+
         return page;
     }
+
     @Transactional //구독페이지 사람 팔로우
     public List<TeamMainDto> getFollowing(long profileId) {
         StringBuffer sb = new StringBuffer();
@@ -186,6 +187,20 @@ public class MyPageService {
         JpaResultMapper result = new JpaResultMapper();
         List<ProjectDto> projectDtoList = result.list(query, ProjectDto.class);
         return projectDtoList;
+    }
+
+    @Transactional
+    public List<StudyDto> getStudyLike(long profildId){
+        StringBuffer sb = new StringBuffer();
+        sb.append("SELECT s.* ");
+        sb.append("FROM study s, studylike sl ");
+        sb.append("WHERE s.id = sl.study_id AND sl.user_id = ?");
+        Query query = em.createNativeQuery(sb.toString())
+                .setParameter(1, profildId);
+
+        JpaResultMapper result = new JpaResultMapper();
+        List<StudyDto> studyDtoList = result.list(query, StudyDto.class);
+        return studyDtoList;
     }
 
     @Transactional
