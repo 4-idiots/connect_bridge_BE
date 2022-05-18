@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 public class StudyCreateDto {
 
-    private Long userID; // 토큰 검증하고 set받음.
+    private Long userID;
     private String studyName;
     private String studyKeyward;
     private String studyField;

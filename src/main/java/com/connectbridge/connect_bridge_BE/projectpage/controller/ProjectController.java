@@ -112,7 +112,7 @@ public class ProjectController {
         boolean valid = projectService.updateProject(projectID, projectImg, createDto);
 
         if (valid) {
-            return new ResponseEntity<>(new Message("ok"), HttpStatus.OK);
+            return new ResponseEntity<>(createDto, HttpStatus.OK);
         }
         return new ResponseEntity<>(new Message("no"), HttpStatus.BAD_REQUEST);
     }

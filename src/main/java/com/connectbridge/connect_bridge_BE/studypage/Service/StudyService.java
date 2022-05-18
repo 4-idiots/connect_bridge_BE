@@ -121,7 +121,6 @@ public class StudyService {
         }
     }
 
-
     private boolean likeMap(Long studyID, Long userID){
 
         if(userID !=0){
