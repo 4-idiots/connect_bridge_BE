@@ -91,6 +91,7 @@ public class CommunityService {
         communityChangeDto.setTitle(communityEntity.getTitle());
         communityChangeDto.setHashtag(communityChangeDto.convertList(communityEntity.getHashtag()));
         communityChangeDto.setContent(jacksonMap(communityEntity.getContents()));
+        communityChangeDto.setUserID(communityEntity.getUserID());
         return communityChangeDto;
     }
 

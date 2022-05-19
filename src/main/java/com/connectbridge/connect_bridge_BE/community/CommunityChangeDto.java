@@ -16,6 +16,7 @@ public class CommunityChangeDto {
     private String title;
     private List<String> hashtag;
     private List content;
+    private long userID;
 
     public String convertStr(List<String> hashtag) { //DB에 저장
         String str = String.join(",", hashtag);

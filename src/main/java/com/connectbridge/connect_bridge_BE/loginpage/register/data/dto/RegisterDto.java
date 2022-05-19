@@ -61,6 +61,7 @@ public class RegisterDto {
                 .userIntroduce(userIntroduce)
                 .userPicture(userPicture)
                 .createDate(registerDate)
+                .userPortfolio(userPortfolio)
                 .build();
     }
 }
