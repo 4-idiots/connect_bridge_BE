@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 @Getter
 @Setter
-public class CommunityCreateDto {
+public class  CommunityCreateDto {
 
     private long postID;
     private String title;
