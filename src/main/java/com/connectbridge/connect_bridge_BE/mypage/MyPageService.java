@@ -26,6 +26,8 @@ import com.connectbridge.connect_bridge_BE.studypage.data.dto.StudyDto;
 import com.connectbridge.connect_bridge_BE.studypage.repository.StudyRepository;
 import com.connectbridge.connect_bridge_BE.studypage.repository.StudySubmitRepository;
 import com.connectbridge.connect_bridge_BE.teampage.TeamMainDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.qlrm.mapper.JpaResultMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -56,6 +58,17 @@ public class MyPageService {
     private final PasswordEncoder passwordEncoder;
     private final EntityManager em;
 
+    public List jacksonMap(String json) {
+        ObjectMapper mapper = new ObjectMapper();
+        //List<Map<Object, Object>> map = mapper.readValue(json, List.class);
+        List map = null;
+        try {
+            map = mapper.readValue(json, List.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return map;
+    }
     //내 정보 get 불러오기
     @Transactional
     public RegisterDto getMyPage(long fromUserId) {

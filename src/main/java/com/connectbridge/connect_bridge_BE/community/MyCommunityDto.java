@@ -19,13 +19,13 @@ public class MyCommunityDto {
     private long postID;
     private String title;
     private List<String> hashtag;
-    private String contents;
+    private List contents;
     private String userNickname;
     private long viewCount;
     private long likeCount;
     private long commentCount;
 
-    public List jacksonMap(String json) {
+    public static List jacksonMap(String json) {
         ObjectMapper mapper = new ObjectMapper();
         //List<Map<Object, Object>> map = mapper.readValue(json, List.class);
         List map = null;
@@ -42,23 +42,13 @@ public class MyCommunityDto {
         return Arrays.asList((str.split(",")));
     } //DB에서 빼냄
 
-    public MyCommunityDto(BigInteger postID, String title, String hashtag, String contents, String userNickname, BigInteger viewCount, BigInteger likeCount, BigInteger commentCount) {
-        this.postID = postID.longValue();
-        this.title = title;
-        this.hashtag = convertList(String.valueOf(hashtag));
-        this.contents = contents;
-        this.userNickname = userNickname;
-        this.viewCount = viewCount.longValue();
-        this.likeCount = likeCount.longValue();
-        this.commentCount = commentCount.longValue();
-    }
 
     public static MyCommunityDto fromEntity2(CommunityEntity communityEntity){
         return MyCommunityDto.builder()
                 .postID(communityEntity.getId())
                 .title(communityEntity.getTitle())
                 .hashtag(convertList(communityEntity.getHashtag()))
-                .contents(communityEntity.getContents())
+                .contents(jacksonMap(communityEntity.getContents()))
                 .userNickname(communityEntity.getUserNickname())
                 .viewCount(communityEntity.getViewCount())
                 .likeCount(communityEntity.getLikeCount())

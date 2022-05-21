@@ -3,7 +3,9 @@ package com.connectbridge.connect_bridge_BE.teampage;
 import com.connectbridge.connect_bridge_BE.follow.FollowRepository;
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.entity.RegisterEntity;
 import com.connectbridge.connect_bridge_BE.loginpage.register.repository.RegisterRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.qlrm.mapper.JpaResultMapper;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
@@ -12,18 +14,16 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+@RequiredArgsConstructor
 @Slf4j
 @Service
 public class TeamService {
     private final TeamRepository teamRepository;
     private final RegisterRepository registerRepository;
     private final FollowRepository followRepository;
-
-    public TeamService(TeamRepository teamRepository, RegisterRepository registerRepository, FollowRepository followRepository) {
-        this.teamRepository = teamRepository;
-        this.registerRepository = registerRepository;
-        this.followRepository = followRepository;
-    }
+    private final EntityManager em;
 
     @Transactional
     public TeamProfileDto getTeamProfile(long fromUserId, long toUserId) {
@@ -63,9 +63,27 @@ public class TeamService {
 
         Page<RegisterEntity> page = teamRepository.findAll(pageable); // DB값 불러옴.
 
-        List<TeamMainDto> pageDto = page.map(TeamMainDto::new).getContent(); // List로 받게 바꿔봄 ㅋ
+        List<TeamMainDto> pageDto = page.map(TeamMainDto::new).getContent();
 
         return pageDto;
+    }
+
+    public List<TeamMainDto> getArea(String area, String time, String interest){
+        StringBuffer sb = new StringBuffer();
+        sb.append("SELECT u.id, u.user_nickname, u.user_ability, u.user_interest_main, u.user_interest_sub, u.user_introduce,u.user_picture ");
+        sb.append("FROM users u ");
+        sb.append("WHERE u.user_area = ? AND u.user_time = ? AND u.user_interest_main = ?");
+
+        // 쿼리 완성
+        Query query = em.createNativeQuery(sb.toString())
+                .setParameter(1, area)
+                .setParameter(2, time)
+                .setParameter(3, interest);
+
+        //JPA 쿼리 매핑 - DTO에 매핑
+        JpaResultMapper result = new JpaResultMapper();
+        List<TeamMainDto> AreaFilter = result.list(query, TeamMainDto.class);
+        return AreaFilter;
     }
 
 

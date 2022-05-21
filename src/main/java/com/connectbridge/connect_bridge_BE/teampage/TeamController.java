@@ -39,4 +39,13 @@ public class TeamController {
         }
         return ResponseEntity.ok(list);
     }
+
+    @GetMapping("/team/{area}/{time}/{interest}")
+    public ResponseEntity<List<TeamMainDto>> getAreaPage(@PathVariable("area") String area, @PathVariable("time") String time, @PathVariable("interest") String interest) {
+        List<TeamMainDto> list = teamService.getArea(area, time, interest);
+        if(list.isEmpty()){
+            return new ResponseEntity<>(list,HttpStatus.OK);
+        }
+        return ResponseEntity.ok(list);
+    }
 }
