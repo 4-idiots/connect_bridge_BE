@@ -2,6 +2,7 @@ package com.connectbridge.connect_bridge_BE.studypage.data.Entity;
 
 import com.connectbridge.connect_bridge_BE.outactpage.data.entity.BaseTimeEntity;
 import com.connectbridge.connect_bridge_BE.studypage.data.dto.StudyCreateDto;
+import com.connectbridge.connect_bridge_BE.studypage.data.dto.UpdateDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;

@@ -105,10 +105,11 @@ public class ProjectController {
 
     // 업데이트
     @PatchMapping("/project")
-    public ResponseEntity<?> projectUpdate(@RequestParam("projectID") Long projectID,
+    public ResponseEntity<?> projectUpdate(@RequestParam Long projectID,
                                            @RequestParam("projectImg") MultipartFile projectImg,
                                            CreateDto createDto) throws IOException {
 
+        //System.out.println(createDto.getContent().getClass().getName());
         boolean valid = projectService.updateProject(projectID, projectImg, createDto);
 
         if (valid) {
