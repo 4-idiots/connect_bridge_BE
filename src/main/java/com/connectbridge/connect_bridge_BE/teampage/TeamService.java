@@ -68,17 +68,16 @@ public class TeamService {
         return pageDto;
     }
 
-    public List<TeamMainDto> getArea(String area, String time, String interest){
+    public List<TeamMainDto> getArea(String area, String interest){
         StringBuffer sb = new StringBuffer();
         sb.append("SELECT u.id, u.user_nickname, u.user_ability, u.user_interest_main, u.user_interest_sub, u.user_introduce,u.user_picture ");
         sb.append("FROM users u ");
-        sb.append("WHERE u.user_area = ? AND u.user_time = ? AND u.user_interest_main = ?");
+        sb.append("WHERE u.user_area = ? AND u.user_interest_main = ?");
 
         // 쿼리 완성
         Query query = em.createNativeQuery(sb.toString())
                 .setParameter(1, area)
-                .setParameter(2, time)
-                .setParameter(3, interest);
+                .setParameter(2, interest);
 
         //JPA 쿼리 매핑 - DTO에 매핑
         JpaResultMapper result = new JpaResultMapper();
