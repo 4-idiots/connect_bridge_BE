@@ -41,7 +41,7 @@ public class JwtProvider {
         Date now = new Date();
 
         // 2h
-        long ACCESS_TOKEN_VALID_TIME = 10 * 60 * 60 * 1000L;
+        long ACCESS_TOKEN_VALID_TIME = 10 * 60 * 1000L;
         //long ACCESS_TOKEN_VALID_TIME = 1000L*20;
 
         JwtBuilder builder = Jwts.builder()
@@ -60,7 +60,7 @@ public class JwtProvider {
         Date now = new Date();
 
         // 2주
-        long REFRESH_TOKEN_VALID_TIME = 60 * 60 * 24 * 7 * 1000L;
+        long REFRESH_TOKEN_VALID_TIME = 60 * 60 * 24 * 1000L;
         //long REFRESH_TOKEN_VALID_TIME =1000L*100;
 
 

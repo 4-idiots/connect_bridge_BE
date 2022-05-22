@@ -1,12 +1,9 @@
 
 package com.connectbridge.connect_bridge_BE.projectpage.data.dto;
 
-import com.connectbridge.connect_bridge_BE.projectpage.data.entity.ProjectEntity;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -27,6 +24,7 @@ public class CreateDto {
     private List<String> projectPlatform;
     private String projectSkill;
     private String projectOnline;
+    private boolean projectOnOff = true;
 
     private int uiuxPlan;
     private int gamePlan;

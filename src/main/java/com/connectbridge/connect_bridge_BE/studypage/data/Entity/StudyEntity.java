@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
@@ -83,6 +84,9 @@ public class StudyEntity extends BaseTimeEntity {
                 .content(createDto.getContent())
                 .studyImg(createDto.getStudyImg())
                 .studyOnline(createDto.getStudyOnline())
+                .studyOnOff(createDto.isStudyOnOff())
+                .studyStart(createDto.getStudyStart())
+                .studyEnd(createDto.getStudyEnd())
                 .build();
     }
 

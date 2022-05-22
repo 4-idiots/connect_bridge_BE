@@ -25,9 +25,10 @@ public class UserController {
     @PostMapping("user/login")
     public ResponseEntity<TokenResDto> login(@RequestBody LoginReqDto reqDto){
         try {
-
             TokenResDto loginResDto = userService.login(reqDto);
-
+            if(loginResDto.getAccessToken() == null){
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
             return new ResponseEntity<>(loginResDto, HttpStatus.OK);
 
         } catch (Exception e){

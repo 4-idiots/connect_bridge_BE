@@ -67,6 +67,7 @@ public class ProjectController {
             CreateDto createDto, @RequestHeader("Authorization") String token) throws IOException {
 
         try {
+            System.out.println("content : "+ createDto.getContent());
 
             TokenResDto dto = jwtProvider.tokenManager(token);
             createDto.setUserID(jwtProvider.getTokenID(dto.getAccessToken()));
@@ -109,7 +110,6 @@ public class ProjectController {
                                            @RequestParam("projectImg") MultipartFile projectImg,
                                            CreateDto createDto) throws IOException {
 
-        //System.out.println(createDto.getContent().getClass().getName());
         boolean valid = projectService.updateProject(projectID, projectImg, createDto);
 
         if (valid) {
