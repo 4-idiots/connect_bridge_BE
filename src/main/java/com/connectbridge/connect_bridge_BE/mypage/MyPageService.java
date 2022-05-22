@@ -12,6 +12,7 @@ import com.connectbridge.connect_bridge_BE.loginpage.register.data.dto.UpdateReg
 import com.connectbridge.connect_bridge_BE.loginpage.register.data.entity.RegisterEntity;
 import com.connectbridge.connect_bridge_BE.loginpage.register.repository.RegisterRepository;
 import com.connectbridge.connect_bridge_BE.outactpage.data.dto.OutActDto;
+import com.connectbridge.connect_bridge_BE.projectpage.data.dto.MyProPartInDto;
 import com.connectbridge.connect_bridge_BE.projectpage.data.dto.MyProSubmitDto;
 import com.connectbridge.connect_bridge_BE.projectpage.data.dto.ProjectDto;
 import com.connectbridge.connect_bridge_BE.studypage.data.dto.StudyDto;
@@ -23,6 +24,7 @@ import com.connectbridge.connect_bridge_BE.studypage.data.Entity.StudyEntity;
 import com.connectbridge.connect_bridge_BE.studypage.data.Entity.StudySubmitEntity;
 import com.connectbridge.connect_bridge_BE.studypage.data.dto.MyStuSubmitDto;
 import com.connectbridge.connect_bridge_BE.studypage.data.dto.StudyDto;
+import com.connectbridge.connect_bridge_BE.studypage.data.dto.StudyPartInDto;
 import com.connectbridge.connect_bridge_BE.studypage.repository.StudyRepository;
 import com.connectbridge.connect_bridge_BE.studypage.repository.StudySubmitRepository;
 import com.connectbridge.connect_bridge_BE.teampage.TeamMainDto;
@@ -254,7 +256,16 @@ public class MyPageService {
             subList.get(i).setSubmitID(test.getId());
         }
 
-        List<ProjectDto> partList = partInPro(userID).stream().map(ProjectDto::new).collect(Collectors.toList());
+        List<MyProPartInDto> partList = partInPro(userID).stream().map(MyProPartInDto::new).collect(Collectors.toList());
+        for(int i =0; i<partList.size();i++){
+            boolean chk = projectSubmitRepository.existsByUserIDAndProjectID(userID,partList.get(i).getProjectID());
+            if(chk){
+                IdMapping test = projectSubmitRepository.findByProjectIDAndUserID(partList.get(i).getProjectID(),userID);
+                partList.get(i).setSubmitID(test.getId());
+            }else{
+                partList.get(i).setSubmitID(0L);
+            }
+        }
 
         List<ProjectDto> completeList = completePro(userID).stream().map(ProjectDto::new).collect(Collectors.toList());
 
@@ -333,7 +344,16 @@ public class MyPageService {
             subList.get(i).setSubmitID(test.getId());
         }
 
-        List<StudyDto> partList = partInStu(userID).stream().map(StudyDto::new).collect(Collectors.toList());
+        List<StudyPartInDto> partList = partInStu(userID).stream().map(StudyPartInDto::new).collect(Collectors.toList());
+        for(int i =0; i<partList.size();i++){
+            boolean chk = studySubmitRepository.existsByUserIDAndStudyID(userID,partList.get(i).getStudyID());
+            if(chk){
+                IdMapping test = studySubmitRepository.findByStudyIDAndUserID(partList.get(i).getStudyID(),userID);
+                partList.get(i).setSubmitID(test.getId());
+            }else{
+                partList.get(i).setSubmitID(0L);
+            }
+        }
 
         List<StudyDto> completeList = completeStu(userID).stream().map(StudyDto::new).collect(Collectors.toList());
 

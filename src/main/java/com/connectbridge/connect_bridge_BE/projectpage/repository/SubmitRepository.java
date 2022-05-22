@@ -10,6 +10,7 @@ import java.util.List;
 @Repository
 public interface SubmitRepository extends JpaRepository<SubmitEntity, Long> {
     Boolean existsByUserIDAndProjectID(Long userID, Long projectID);
+
     List<MemberMapping> findByProjectIDAndAccept(Long projectID, boolean accept);
     List<SubmitMapping> findByprojectIDAndAccept(Long projectID,boolean accept);
     List<SubmitEntity> findByUserIDAndAccept(Long userID, boolean accept);

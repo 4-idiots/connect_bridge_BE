@@ -18,6 +18,7 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
     List<ProjectEntity> findTop4ByOrderById();
     ProjectEntity findByidAndProjectOnOff(Long id, boolean onOff);
 
+    boolean existsByIdAndUserID(Long id, Long userID);
     //MemberMapping findByID(Long id); // noticeService
 
 }
