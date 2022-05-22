@@ -44,13 +44,9 @@ public class TeamService {
         teamProfileDto.setUserPortfolio(registerEntity.getUserPortfolio());
         if (fromUserId != 0){
             if (followRepository.findByFromUserIdAndToUserId(fromUserId, toUserId) != null){
-                teamProfileDto.setFollow(Long.valueOf(2));
-                teamProfileDto.setColor("danger");//팔로우 함
-            }else {teamProfileDto.setFollow(Long.valueOf(1));
-                teamProfileDto.setColor("black");
-            ;} //팔로우 안함
-        }else{
-            teamProfileDto.setFollow(Long.valueOf(3)); //로그인 안한 사람
+                teamProfileDto.setFollow(true);//팔로우 함
+            }else {teamProfileDto.setFollow(false);
+            } //팔로우 안함
         }
         return teamProfileDto;
 
@@ -69,21 +65,49 @@ public class TeamService {
     }
 
     public List<TeamMainDto> getArea(String area, String interest){
-        StringBuffer sb = new StringBuffer();
-        sb.append("SELECT u.id, u.user_nickname, u.user_ability, u.user_interest_main, u.user_interest_sub, u.user_introduce,u.user_picture ");
-        sb.append("FROM users u ");
-        sb.append("WHERE u.user_area = ? AND u.user_interest_main = ?");
+        if(area == "상관없음"){
+            StringBuffer sb = new StringBuffer();
+            sb.append("SELECT u.id, u.user_nickname, u.user_ability, u.user_interest_main, u.user_interest_sub, u.user_introduce,u.user_picture ");
+            sb.append("FROM users u ");
+            sb.append("WHERE u.user_interest_main = ?");
 
-        // 쿼리 완성
-        Query query = em.createNativeQuery(sb.toString())
-                .setParameter(1, area)
-                .setParameter(2, interest);
+            // 쿼리 완성
+            Query query = em.createNativeQuery(sb.toString())
+                    .setParameter(1, interest);
 
-        //JPA 쿼리 매핑 - DTO에 매핑
-        JpaResultMapper result = new JpaResultMapper();
-        List<TeamMainDto> AreaFilter = result.list(query, TeamMainDto.class);
-        return AreaFilter;
+            //JPA 쿼리 매핑 - DTO에 매핑
+            JpaResultMapper result = new JpaResultMapper();
+            List<TeamMainDto> NoAreaFilter = result.list(query, TeamMainDto.class);
+            return NoAreaFilter;
+        }else if (interest == "상관없음"){
+            StringBuffer sb = new StringBuffer();
+            sb.append("SELECT u.id, u.user_nickname, u.user_ability, u.user_interest_main, u.user_interest_sub, u.user_introduce,u.user_picture ");
+            sb.append("FROM users u ");
+            sb.append("WHERE u.user_area = ?");
+
+            // 쿼리 완성
+            Query query = em.createNativeQuery(sb.toString())
+                    .setParameter(1, area);
+
+            //JPA 쿼리 매핑 - DTO에 매핑
+            JpaResultMapper result = new JpaResultMapper();
+            List<TeamMainDto> NoInterestFilter = result.list(query, TeamMainDto.class);
+            return NoInterestFilter;
+        }else{
+            StringBuffer sb = new StringBuffer();
+            sb.append("SELECT u.id, u.user_nickname, u.user_ability, u.user_interest_main, u.user_interest_sub, u.user_introduce,u.user_picture ");
+            sb.append("FROM users u ");
+            sb.append("WHERE u.user_area = ? AND u.user_interest_main = ?");
+
+            // 쿼리 완성
+            Query query = em.createNativeQuery(sb.toString())
+                    .setParameter(1, area)
+                    .setParameter(2, interest);
+
+            //JPA 쿼리 매핑 - DTO에 매핑
+            JpaResultMapper result = new JpaResultMapper();
+            List<TeamMainDto> AreaInterestFilter = result.list(query, TeamMainDto.class);
+            return AreaInterestFilter;
+        }
     }
-
-
 }

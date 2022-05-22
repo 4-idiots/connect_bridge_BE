@@ -25,8 +25,7 @@ public class TeamProfileDto  {
     private String userIntroduce;
     private String userPortfolio;
     private String userPicture;
-    private Long follow;
-    private String color;
+    private boolean follow;
 
     public TeamProfileDto(RegisterEntity registerEntity) {
         this.myid = registerEntity.getId();

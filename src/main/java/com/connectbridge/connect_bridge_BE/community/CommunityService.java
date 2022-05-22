@@ -141,15 +141,10 @@ public class CommunityService {
         }
         if (fromUserId != 0){
             if (communityLikeRepository.findByFromUserIdAndToPostId(fromUserId, communityID) != null){
-                communityDto.setState(Long.valueOf(2));
-                communityDto.setColor("danger"); //좋아요함
-            }else {communityDto.setState(Long.valueOf(1));
-                communityDto.setColor("black");
+                communityDto.setState(true); //좋아요함
+            }else {communityDto.setState(false);
                 } //좋아요 안함
-        }else{
-            communityDto.setState(Long.valueOf(3)); //로그인 안한 사람
         }
-
         return communityDto;
     }
 

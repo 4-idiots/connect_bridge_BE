@@ -35,8 +35,7 @@ public class CommunityDto {
     private String userInterestMain;
     private String userInterestSub;
     private String userPicuture;
-    private long state;
-    private String color;
+    private Boolean state;
     private List<CommentEntity> commentList;
     private LocalDateTime createDate;
 

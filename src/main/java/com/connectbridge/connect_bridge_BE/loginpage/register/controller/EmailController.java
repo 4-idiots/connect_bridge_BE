@@ -48,7 +48,7 @@ public class EmailController {
             Message message = Message.builder()
                     .message("no")
                     .build();
-            return new ResponseEntity(message, HttpStatus.OK);
+            return new ResponseEntity(message, HttpStatus.BAD_REQUEST);
         }
     }
 }
