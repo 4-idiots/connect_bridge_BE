@@ -300,6 +300,7 @@ public class ProjectEntity extends BaseTimeEntity {
                 .projectPlatform(listToStr(createDto.getProjectPlatform()))
                 .projectSkill(createDto.getProjectSkill())
                 .projectOnline(createDto.getProjectOnline())
+                .projectOnOff(createDto.isProjectOnOff())
 
                 .uiuxPlan(createDto.getUiuxPlan())
                 .gamePlan(createDto.getGamePlan())

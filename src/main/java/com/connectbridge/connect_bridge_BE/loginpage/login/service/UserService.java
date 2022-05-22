@@ -29,9 +29,8 @@ public class UserService {
     // 로그인
     public TokenResDto login(LoginReqDto reqDto){
         User user = userRepository.findByUserID(reqDto.getUserID());
-        log.info("userID : {}, userPW : {} ", user.getUserID(),user.getUserPW());
         String pw = user.getUserPW();
-        // user.getUserPW().equals(reqDto.getUserPW())
+
         if(passwordEncoder.matches(reqDto.getUserPW(),pw)){
             Long id = user.getId();
             String uID = user.getUserID();

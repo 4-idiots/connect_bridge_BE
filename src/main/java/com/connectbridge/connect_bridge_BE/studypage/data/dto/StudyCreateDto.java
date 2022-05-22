@@ -22,6 +22,7 @@ public class StudyCreateDto {
     private String content;
     private String studyImg; //s3업로드 x
     private String studyOnline;
+    private boolean studyOnOff = true;
 
     public void createDto(UpdateDto dto){
         setUserID(dto.getUserID());
