@@ -10,12 +10,14 @@ import com.connectbridge.connect_bridge_BE.studypage.data.dto.*;
 import com.connectbridge.connect_bridge_BE.studypage.repository.StudyLikeRepository;
 import com.connectbridge.connect_bridge_BE.studypage.repository.StudyRepository;
 import com.connectbridge.connect_bridge_BE.studypage.repository.StudySubmitRepository;
+import org.qlrm.mapper.JpaResultMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.Query;
 import java.io.IOException;
 import java.lang.reflect.Member;
 import java.util.ArrayList;
@@ -78,16 +80,16 @@ public class StudyService {
     }
 
 
-        // study update
-        public Boolean updateStudy(Long studyID, StudyCreateDto createDto) throws IOException {
-            StudyEntity studyEntity = studyRepository.findByid(studyID);
-            if(studyEntity != null){
-                studyEntity.stuEntUpdate(createDto);
-                studyRepository.save(studyEntity);
-                return true;
-            }
-            return null;
+    // study update
+    public Boolean updateStudy(Long studyID, StudyCreateDto createDto) throws IOException {
+        StudyEntity studyEntity = studyRepository.findByid(studyID);
+        if (studyEntity != null) {
+            studyEntity.stuEntUpdate(createDto);
+            studyRepository.save(studyEntity);
+            return true;
         }
+        return null;
+    }
 
 
     // study delete
@@ -182,4 +184,5 @@ public class StudyService {
         study.updateView(stuView);
         studyRepository.save(study);
     }
+
 }

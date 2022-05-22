@@ -10,6 +10,7 @@ import com.connectbridge.connect_bridge_BE.studypage.data.dto.StudyCreateDto;
 import com.connectbridge.connect_bridge_BE.studypage.data.dto.StudyDto;
 import com.connectbridge.connect_bridge_BE.studypage.data.dto.StudySubmitDto;
 import com.connectbridge.connect_bridge_BE.studypage.data.dto.UpdateDto;
+import org.hibernate.sql.Update;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -99,16 +100,15 @@ public class StudyController {
 
     //study update
     @PatchMapping("/study")
-    public ResponseEntity<?> studyUpdate(@RequestParam("studyID") Long studyID,
-                                         @RequestBody StudyCreateDto createDto,
+    public ResponseEntity<?> studyUpdate(@RequestBody UpdateDto upDto,
                                          @RequestHeader("Authorization") String token) throws IOException {
-        System.out.println(createDto.getContent().getClass().getName());
         try {
-            System.out.println("createDto : "+createDto);
+            StudyCreateDto createDto = new StudyCreateDto();
+            createDto.createDto(upDto);
             TokenResDto dto = jwtProvider.tokenManager(token);
             createDto.setUserID(jwtProvider.getTokenID(dto.getAccessToken()));
 
-            if (studyService.updateStudy(studyID, createDto)) {
+            if (studyService.updateStudy(upDto.getStudyID(), createDto)) {
                 return new ResponseEntity<>(new Message("ok"), HttpStatus.OK);
             }
             return new ResponseEntity<>(createDto, HttpStatus.BAD_REQUEST);
@@ -187,4 +187,5 @@ public class StudyController {
             return new ResponseEntity<>(new Message("no"), HttpStatus.BAD_REQUEST);
         }
     }
+
 }

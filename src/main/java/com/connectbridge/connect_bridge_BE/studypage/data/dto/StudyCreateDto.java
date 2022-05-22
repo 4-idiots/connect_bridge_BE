@@ -1,12 +1,9 @@
 package com.connectbridge.connect_bridge_BE.studypage.data.dto;
 
-import com.connectbridge.connect_bridge_BE.community.CommunityEntity;
-import com.connectbridge.connect_bridge_BE.studypage.data.Entity.StudyEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
 
 @Getter
 @Setter
@@ -26,19 +23,18 @@ public class StudyCreateDto {
     private String studyImg; //s3업로드 x
     private String studyOnline;
 
-    public StudyEntity studyEntity() {
-        return StudyEntity.builder()
-                .studyName(studyName)
-                .studyKeyward(studyKeyward)
-                .studyField(studyField)
-                .studyArea(studyArea)
-                .studyMember(studyMember)
-                .studyMemberNow(studyMemberNow)
-                .studyStart(studyStart)
-                .studyEnd(studyEnd)
-                .content(content)
-                .studyImg(studyImg)
-                .studyOnline(studyOnline)
-                .build();
+    public void createDto(UpdateDto dto){
+        setUserID(dto.getUserID());
+        setStudyName(dto.getStudyName());
+        setStudyKeyward(dto.getStudyKeyward());
+        setStudyField(dto.getStudyField());
+        setStudyArea(dto.getStudyArea());
+        setStudyMember(dto.getStudyMember());
+        setStudyMemberNow(dto.getStudyMemberNow());
+        setStudyStart(dto.getStudyStart());
+        setStudyEnd(dto.getStudyEnd());
+        setContent(dto.getContent());
+        setStudyImg(dto.getStudyImg());
+        setStudyOnline(dto.getStudyOnline());
     }
 }
