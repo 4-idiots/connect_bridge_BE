@@ -193,7 +193,7 @@ public class StudyController {
     public ResponseEntity<?> studyFilter(@PathVariable("studyArea") String area, @PathVariable("studyField") String field){
         List<StudyDto> list = studyService.studyFilter(area,field);
         if(list.isEmpty()){
-            return new ResponseEntity<>(list, HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return ResponseEntity.ok(list);
     }
