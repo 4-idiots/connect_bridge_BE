@@ -17,12 +17,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.io.IOException;
-import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,13 +33,15 @@ public class StudyService {
     private final StudyLikeRepository studyLikeRepository;
     private final UserRepository userRepository;
     private final StudySubmitRepository submitRepository;
+    private final EntityManager em;
 
-    public StudyService(S3Service s3Service, StudyRepository studyRepository, StudyLikeRepository studyLikeRepository, UserRepository userRepository, StudySubmitRepository submitRepository) {
+    public StudyService(S3Service s3Service, StudyRepository studyRepository, StudyLikeRepository studyLikeRepository, UserRepository userRepository, StudySubmitRepository submitRepository, EntityManager em) {
         this.s3Service = s3Service;
         this.studyRepository = studyRepository;
         this.studyLikeRepository = studyLikeRepository;
         this.userRepository = userRepository;
         this.submitRepository = submitRepository;
+        this.em = em;
     }
 
     // 페이징
@@ -79,7 +82,6 @@ public class StudyService {
         return detailDto;
     }
 
-
     // study update
     public Boolean updateStudy(Long studyID, StudyCreateDto createDto) throws IOException {
         StudyEntity studyEntity = studyRepository.findByid(studyID);
@@ -90,7 +92,6 @@ public class StudyService {
         }
         return null;
     }
-
 
     // study delete
     public boolean deleteStudy(Long studyID, Long userID) {
@@ -185,4 +186,46 @@ public class StudyService {
         studyRepository.save(study);
     }
 
+    // 조건이 없다.
+    private List<StudyDto> filterManger() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("SELECT * FROM study ");
+        Query query = em.createNativeQuery(sb.toString());
+        JpaResultMapper result = new JpaResultMapper();
+        return result.list(query, StudyDto.class);
+    }
+
+    // filter 조건이 두개
+    private List<StudyDto> filterManager(String one, String two, String attribute1, String attribute2) {
+        StringBuffer sb = new StringBuffer();
+        sb.append("SELECT * FROM study ");
+        sb.append("WHERE study_" + attribute1 + " = ? AND study_" + attribute2 + " = ?");
+        Query query = em.createNativeQuery(sb.toString()).setParameter(1, one).setParameter(2, two);
+        JpaResultMapper result = new JpaResultMapper();
+        return result.list(query, StudyDto.class);
+    }
+
+    // filter 조건이 한개
+    private List<StudyDto> filterManager(String one, String attribute) {
+        StringBuffer sb = new StringBuffer();
+        sb.append("SELECT * FROM study ");
+        sb.append("WHERE study_" + attribute + " = ?");
+        Query query = em.createNativeQuery(sb.toString()).setParameter(1, one);
+        JpaResultMapper result = new JpaResultMapper();
+        return result.list(query, StudyDto.class);
+    }
+
+    // study Filter
+    public List<StudyDto> studyFilter(String area, String field) {
+        if (Objects.equals(area, "상관없음") && Objects.equals(field, "상관없음")) {
+           return filterManger();
+        } else if (Objects.equals(area, "상관없음") && !Objects.equals(field, "상관없음")) {
+            return filterManager(field, "field");
+        } else if (!Objects.equals(area, "상관없음") && Objects.equals(field, "상관없음")) {
+            return filterManager(area, "area");
+        } else {
+            return filterManager(area, field, "area", "field");
+
+        }
+    }
 }

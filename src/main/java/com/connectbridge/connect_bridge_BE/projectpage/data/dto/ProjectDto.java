@@ -274,7 +274,7 @@ public class ProjectDto {
         this.projectView = projectEntity.getProjectView();
         this.projectID = projectEntity.getId();
         this.userID = projectEntity.getUserID();
-        this.createDate = projectEntity.getCreateDate();
         this.projectOnline = projectEntity.getProjectOnline();
+        this.createDate = projectEntity.getCreateDate();
     }
 }

@@ -188,4 +188,13 @@ public class StudyController {
             return new ResponseEntity<>(new Message("no"), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("/study/{studyArea}/{studyField}")
+    public ResponseEntity<?> studyFilter(@PathVariable("studyArea") String area, @PathVariable("studyField") String field){
+        List<StudyDto> list = studyService.studyFilter(area,field);
+        if(list.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return ResponseEntity.ok(list);
+    }
 }

@@ -55,29 +55,29 @@ public class StudyManageService {
     }
 
     // study complete
-    public void endStudy(Long userID, Long studyID){
-        StudyEntity study = studyRepository.findByidAndUserID(studyID,userID);
+    public void endStudy(Long userID, Long studyID) {
+        StudyEntity study = studyRepository.findByidAndUserID(studyID, userID);
         boolean status = study.isStudyOnOff();
-        System.out.println("status: "+ status);
-        if(status){
+        System.out.println("status: " + status);
+        if (status) {
             study.updateOnOff(false);
-        }else{
-        study.updateOnOff(true);
+        } else {
+            study.updateOnOff(true);
         }
         studyRepository.save(study);
     }
 
     // study submit manage
-    public boolean manageSub(Long studyID, Long submitID, Long userID, boolean input){
+    public boolean manageSub(Long studyID, Long submitID, Long userID, boolean input) {
         StudyEntity studyEntity = studyRepository.findByid(studyID);
 
-        if(userID.equals(studyEntity.getUserID())){
+        if (userID.equals(studyEntity.getUserID())) {
             StudySubmitEntity submitEntity = submitRepository.findByid(submitID);
-            if(input){
+            if (input) {
                 int max = studyEntity.getStudyMember();
                 int now = studyEntity.getStudyMemberNow();
-                if(now<max){
-                    now+=1;
+                if (now < max) {
+                    now += 1;
                     studyEntity.updateMemNow(now);
                     studyRepository.save(studyEntity);
                 }
@@ -88,27 +88,32 @@ public class StudyManageService {
             submitRepository.deleteById(submitID);
             return false;
         }
-        return  false;
+        return false;
     }
 
     // fire Study member
-    public boolean fireStudyMember(Long userID, Long studyID, Long memberID){
+    public boolean fireStudyMember(Long userID, Long studyID, Long memberID) {
+        System.out.println("어디가 널?");
         StudyEntity study = studyRepository.findByid(studyID);
+        System.out.println("어디가 널?2");
 
-        if(userID.equals(study.getUserID())){
-            StudySubmitEntity submit = submitRepository.findByStudyIDAndUserIDAndAccept(studyID,memberID, true);
+        if (study != null) {
+            System.out.println("어디가 널?3");
+
+            StudySubmitEntity submit = submitRepository.findByStudyIDAndUserIDAndAccept(studyID, memberID, true);
+            System.out.println("어디가 널?4");
 
             // 여기서 필드는 주제임.
             Long targetID = submit.getId();
-            System.out.println("getID: "+targetID);
+            System.out.println("getID: " + targetID);
             submitRepository.deleteById(targetID);
 
-            System.out.println("studynow: "+ study.getStudyMemberNow());
-            int now = study.getStudyMemberNow()-1;
-            System.out.println("now-1: "+now);
+            System.out.println("studynow: " + study.getStudyMemberNow());
+            int now = study.getStudyMemberNow() - 1;
+            System.out.println("now-1: " + now);
             study.updateMemNow(now);
             studyRepository.save(study);
-            System.out.println("final now :"+study.getStudyMemberNow());
+            System.out.println("final now :" + study.getStudyMemberNow());
             return true;
         }
         return false;
