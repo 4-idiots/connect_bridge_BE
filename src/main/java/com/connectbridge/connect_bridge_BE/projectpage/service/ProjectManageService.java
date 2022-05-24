@@ -403,7 +403,7 @@ public class ProjectManageService {
     public boolean fireMember(Long userID, Long projectID, Long memberID) {
         ProjectEntity projectEntity = projectRepository.findByid(projectID);
 
-        if (userID.equals(projectEntity.getUserID())) {
+        if (projectEntity != null) {
             SubmitEntity submit = submitRepository.findByProjectIDAndUserIDAndAccept(projectID, memberID, true); // submit에 있으면 프로젝트에 참여된 것.
 
             String field = submit.getField();

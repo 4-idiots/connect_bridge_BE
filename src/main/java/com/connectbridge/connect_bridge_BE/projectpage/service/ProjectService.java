@@ -7,6 +7,8 @@ import com.connectbridge.connect_bridge_BE.projectpage.data.dto.*;
 import com.connectbridge.connect_bridge_BE.projectpage.data.entity.ProjectEntity;
 import com.connectbridge.connect_bridge_BE.projectpage.data.entity.SubmitEntity;
 import com.connectbridge.connect_bridge_BE.projectpage.repository.*;
+import com.connectbridge.connect_bridge_BE.studypage.data.dto.StudyDto;
+import org.qlrm.mapper.JpaResultMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +16,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -26,13 +30,15 @@ public class ProjectService {
     private final SubmitRepository submitRepository;
     private final UserRepository userRepository;
     private final ProjectLikeRepository projectLikeRepository;
+    private final EntityManager em;
 
-    public ProjectService(ProjectRepository projectRepository, S3Service s3Service, SubmitRepository submitRepository, UserRepository userRepository, ProjectLikeRepository projectLikeRepository) {
+    public ProjectService(ProjectRepository projectRepository, S3Service s3Service, SubmitRepository submitRepository, UserRepository userRepository, ProjectLikeRepository projectLikeRepository, EntityManager em) {
         this.projectRepository = projectRepository;
         this.s3Service = s3Service;
         this.submitRepository = submitRepository;
         this.userRepository = userRepository;
         this.projectLikeRepository = projectLikeRepository;
+        this.em = em;
     }
 
     // 페이징
@@ -198,5 +204,47 @@ public class ProjectService {
         projectRepository.save(project);
     }
 
+    // 조건이 없다.
+    private List<ProjectDto> filterManger() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("SELECT * FROM project ");
+        Query query = em.createNativeQuery(sb.toString());
+        JpaResultMapper result = new JpaResultMapper();
+        return result.list(query, ProjectDto.class);
+    }
+
+    // filter 조건이 두개
+    private List<ProjectDto> filterManager(String one, String two, String attribute1, String attribute2) {
+        StringBuffer sb = new StringBuffer();
+        sb.append("SELECT * FROM project ");
+        sb.append("WHERE project_" + attribute1 + " = ? AND project_" + attribute2 + " = ?");
+        Query query = em.createNativeQuery(sb.toString()).setParameter(1, one).setParameter(2, two);
+        JpaResultMapper result = new JpaResultMapper();
+        return result.list(query, ProjectDto.class);
+    }
+
+    // filter 조건이 한개
+    private List<ProjectDto> filterManager(String one, String attribute) {
+        StringBuffer sb = new StringBuffer();
+        sb.append("SELECT * FROM project ");
+        sb.append("WHERE project_" + attribute + " = ?");
+        Query query = em.createNativeQuery(sb.toString()).setParameter(1, one);
+        JpaResultMapper result = new JpaResultMapper();
+        return result.list(query, ProjectDto.class);
+    }
+
+    public List<ProjectDto> projectFilter(String area, String field){
+        if(Objects.equals(area,"상관없음") && Objects.equals(field,"상관없음")){
+            return filterManger();
+        }
+        else if(Objects.equals(area, "상관없음") && !Objects.equals(field, "상관없음")){
+            return filterManager(field,"field");
+
+        }else if(!Objects.equals(area, "상관없음") && Objects.equals(field, "상관없음")){
+            return filterManager(area,"area");
+        }else{
+            return filterManager(area,field,"area","field");
+        }
+    }
 }
 

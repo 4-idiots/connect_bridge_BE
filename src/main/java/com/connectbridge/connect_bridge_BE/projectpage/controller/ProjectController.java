@@ -184,5 +184,14 @@ public class ProjectController {
         }
     }
 
+    @GetMapping("/project/{projectArea}/{projectField}")
+    public ResponseEntity<?> projectFilter(@PathVariable("projectArea") String area,@PathVariable("projectField") String field){
+
+       List<ProjectDto> list = projectService.projectFilter(area,field);
+       if(list.isEmpty()){
+           return new ResponseEntity<>(list,HttpStatus.OK);
+       }
+       return ResponseEntity.ok(list);
+    }
 }
 

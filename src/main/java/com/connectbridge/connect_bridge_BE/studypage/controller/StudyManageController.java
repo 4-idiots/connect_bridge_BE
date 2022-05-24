@@ -87,6 +87,7 @@ public class StudyManageController {
     ResponseEntity<?> memberFire(@RequestHeader("Authorization")String token,
         @PathVariable("studyID") Long studyID,@PathVariable("memberID") Long memberID){
         try{
+
             TokenResDto tokenResDto = jwtProvider.tokenManager(token);
             Long userID = jwtProvider.getTokenID(tokenResDto.getAccessToken());
             if(manageService.fireStudyMember(userID, studyID,memberID)){
