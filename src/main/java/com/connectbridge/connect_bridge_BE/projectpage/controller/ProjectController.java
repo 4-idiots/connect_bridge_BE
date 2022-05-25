@@ -185,8 +185,9 @@ public class ProjectController {
     }
 
     // project Filter
-    @GetMapping("/project/{projectArea}/{projectField}")
-    public ResponseEntity<?> projectFilter(@PathVariable("projectArea") String area,@PathVariable("projectField") String field){
+    @GetMapping("/project")
+    public ResponseEntity<?> projectFilter(@RequestParam("projectArea") String area,@RequestParam("projectField") String field){
+
 
        List<ProjectDto> list = projectService.projectFilter(area,field);
        if(list.isEmpty()){
