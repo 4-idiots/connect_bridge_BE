@@ -65,7 +65,19 @@ public class TeamService {
     }
 
     public List<TeamMainDto> getArea(String area, String interest){
-        if(area == "상관없음"){
+        if (area.equals("상관없음") && interest.equals("상관없음")){
+            StringBuffer sb = new StringBuffer();
+            sb.append("SELECT u.id, u.user_nickname, u.user_ability, u.user_interest_main, u.user_interest_sub, u.user_introduce,u.user_picture ");
+            sb.append("FROM users u ");
+
+            // 쿼리 완성
+            Query query = em.createNativeQuery(sb.toString());
+
+            //JPA 쿼리 매핑 - DTO에 매핑
+            JpaResultMapper result = new JpaResultMapper();
+            List<TeamMainDto> NoAreaInterestFilter = result.list(query, TeamMainDto.class);
+            return NoAreaInterestFilter;
+        }else if(area.equals("상관없음")){
             StringBuffer sb = new StringBuffer();
             sb.append("SELECT u.id, u.user_nickname, u.user_ability, u.user_interest_main, u.user_interest_sub, u.user_introduce,u.user_picture ");
             sb.append("FROM users u ");
@@ -79,7 +91,7 @@ public class TeamService {
             JpaResultMapper result = new JpaResultMapper();
             List<TeamMainDto> NoAreaFilter = result.list(query, TeamMainDto.class);
             return NoAreaFilter;
-        }else if (interest == "상관없음"){
+        }else if (interest.equals("상관없음")){
             StringBuffer sb = new StringBuffer();
             sb.append("SELECT u.id, u.user_nickname, u.user_ability, u.user_interest_main, u.user_interest_sub, u.user_introduce,u.user_picture ");
             sb.append("FROM users u ");
