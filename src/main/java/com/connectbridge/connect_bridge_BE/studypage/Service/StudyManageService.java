@@ -93,27 +93,20 @@ public class StudyManageService {
 
     // fire Study member
     public boolean fireStudyMember(Long userID, Long studyID, Long memberID) {
-        System.out.println("어디가 널?");
         StudyEntity study = studyRepository.findByid(studyID);
-        System.out.println("어디가 널?2");
 
         if (study != null) {
-            System.out.println("어디가 널?3");
 
             StudySubmitEntity submit = submitRepository.findByStudyIDAndUserIDAndAccept(studyID, memberID, true);
-            System.out.println("어디가 널?4");
 
             // 여기서 필드는 주제임.
             Long targetID = submit.getId();
             System.out.println("getID: " + targetID);
             submitRepository.deleteById(targetID);
 
-            System.out.println("studynow: " + study.getStudyMemberNow());
             int now = study.getStudyMemberNow() - 1;
-            System.out.println("now-1: " + now);
             study.updateMemNow(now);
             studyRepository.save(study);
-            System.out.println("final now :" + study.getStudyMemberNow());
             return true;
         }
         return false;

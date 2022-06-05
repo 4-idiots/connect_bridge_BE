@@ -48,7 +48,6 @@ public class ProjectManageController {
             Long userID = jwtProvider.getTokenID(tokenResDto.getAccessToken());
             boolean input = true;
             // service run
-            System.out.println("proID : " + projectID + " subID: " + submitID + " userID: " + userID);
             boolean result = projectManageService.manageSub(projectID, submitID, userID, input);
 
             return new ResponseEntity<>(result, HttpStatus.OK);

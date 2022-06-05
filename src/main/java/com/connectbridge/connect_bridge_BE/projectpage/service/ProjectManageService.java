@@ -60,13 +60,13 @@ public class ProjectManageService {
         // input apply = true, input reject = false
         //project leader가 token user와 같은가?
         if (userID.equals(projectEntity.getUserID())) {
-            System.out.println("이 사람은 리더가 맞습니다.");
 
             SubmitEntity submitEntity = submitRepository.findByid(submitID);
             // true => apply
             if (input) {
 
                 String target = submitEntity.getField();
+                System.out.println(target);
                 controll(target, projectEntity);
                 submitEntity.updateAccept(true);
                 submitRepository.save(submitEntity);
@@ -78,7 +78,6 @@ public class ProjectManageService {
 
             return false;
         }
-        System.out.println("리더가 아닌 유저임.");
 
         return false;
     }
@@ -149,7 +148,7 @@ public class ProjectManageService {
                     projectRepository.save(projectEntity);
                 }
                 break;
-            case "webFront_fr":
+            case "webfront_fr":
                 now = projectEntity.getWebFrontFrNow();
                 max = projectEntity.getWebFrontFr();
 
@@ -159,7 +158,7 @@ public class ProjectManageService {
                     projectRepository.save(projectEntity);
                 }
                 break;
-            case "webPublic_fr":
+            case "webpublic_fr":
                 now = projectEntity.getWebPublicFrNow();
                 max = projectEntity.getWebPublicFr();
 
